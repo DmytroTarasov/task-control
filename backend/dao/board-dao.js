@@ -17,6 +17,15 @@ export default () => ({
 
         return resolve(board);
     }),
+    getAllBoards: () => new Promise(async (resolve, reject) => {
+        let boards;
+        try {
+            boards = await Board.find().select('-__v');
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve(boards);
+    }),
     saveBoard: (board) => new Promise(async (resolve, reject) => {
         try {
             await board.save();

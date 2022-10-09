@@ -16,5 +16,15 @@ export default () => ({
         }
         return resolve();
     }),
+    getAllBoards: () => new Promise(async(resolve, reject) => {
+        let boards;
+        try {
+            boards = await boardDao().getAllBoards();
+        } catch (err) {
+            return reject(err);
+        }
+
+        return resolve(boards);
+    }),
 });
 
