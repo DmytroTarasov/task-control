@@ -1,2 +1,12 @@
 <app-header></app-header>
-<p>dashboard works!</p>
+
+<div class="container">
+  <h1>Dashboard</h1>
+  <!-- <ul>
+    <li *ngFor="let board of boards">{{board.name}}</li>
+  </ul> -->
+  <div class="new-board" (click)="openModal()">
+    <span class="new-board-title">Add new</span>
+  </div>
+</div>
+
