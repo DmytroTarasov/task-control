@@ -1,9 +1,21 @@
 <ng-container *ngIf="display$ | async as display">
-  <section [class.open]="display" (click)="close()">
-    <div class="modal-content">
+  <div class="modal-wrapper" [class.open]="display" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close" type="button" (click)="close()">X</button>
 
-      <h1>Hello World</h1>
+      <div class="modal-header">{{ modelHeader }}</div>
+      <div class="modal-body">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+          <div class="mb-3" *ngFor="let name of formInputNames">
+            <label for="{{name}}">{{ name | titlecase }}</label>
+            <input type="text" id="{{name}}" class="form-input" formControlName="{{name}}">
+          </div>
+
+          <button class="btn" type="submit" [disabled]="!form.valid">
+            {{ btnSubmitText }}
+          </button>
+        </form>
+      </div>
     </div>
-  </section>
+  </div>
 </ng-container>

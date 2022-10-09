@@ -1,4 +1,4 @@
-section {
+.modal-wrapper {
   visibility: hidden;
   opacity: 0;
   display: block;
@@ -18,14 +18,20 @@ section {
 
 .modal-content {
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
   width: 400px;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   background: #fff;
   padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
 .close {
@@ -39,4 +45,27 @@ section {
 
 .close:hover {
   cursor: pointer;
+}
+
+/* form */
+
+.form, .form * {
+  font-size: 16px;
+  width: 100%;
+}
+
+.form-input {
+  margin-top: 8px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.text-danger {
+  color: #D10D0A;
+}
+
+.btn {
+  margin-top: 20px;
+  width: 100px;
+  text-transform: uppercase;
 }
