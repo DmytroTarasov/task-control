@@ -11,6 +11,7 @@ import { LoaderComponent } from './shared/loader/loader.component';
 import { LoaderService } from './_services/loader.service';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
     AuthComponent,
     DashboardComponent,
     LoaderComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
