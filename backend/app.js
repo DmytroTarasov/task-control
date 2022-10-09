@@ -8,6 +8,7 @@ import "dotenv/config";
 
 import authRoutes from './routes/auth-routes.js';
 import usersRoutes from './routes/users-routes.js';
+import boardsRoutes from './routes/board-routes.js';
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use((req, res, next) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users/me', usersRoutes);
+app.use('/api/boards', boardsRoutes);
 
 // error handler middleware
 app.use((error, req, res, next) => {
