@@ -1,0 +1,48 @@
+.container {
+  margin-top: 100px;
+}
+
+.header {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 450px;
+  margin: 0 auto;
+}
+
+.auth-form, .auth-form * {
+  font-size: 16px;
+  width: 100%;
+}
+
+.form-input {
+  margin-top: 8px;
+  height: 30px;
+  border-radius: 5px;
+}
+
+.text-danger {
+  color: #D10D0A;
+}
+
+.text-success {
+  color: #29A21B;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  width: 100px;
+  text-transform: uppercase;
+}
