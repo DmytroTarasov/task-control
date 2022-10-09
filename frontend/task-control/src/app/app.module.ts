@@ -13,6 +13,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { HeaderComponent } from './header/header.component';
 import { ModalComponent } from './shared/modal/modal.component';
+import { TextInputComponent } from './shared/_forms/text-input/text-input.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ModalComponent } from './shared/modal/modal.component';
     LoaderComponent,
     HeaderComponent,
     ModalComponent,
+    TextInputComponent,
   ],
   imports: [
     BrowserModule,

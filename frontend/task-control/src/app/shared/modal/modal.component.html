@@ -6,10 +6,11 @@
       <div class="modal-header">{{ modelHeader }}</div>
       <div class="modal-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
-          <div class="mb-3" *ngFor="let name of formInputNames">
-            <label for="{{name}}">{{ name | titlecase }}</label>
-            <input type="text" id="{{name}}" class="form-input" formControlName="{{name}}">
-          </div>
+          <app-text-input
+            [formControl]='form.controls[name]'
+            [label]='name | titlecase'
+            *ngFor="let name of formInputNames">
+          </app-text-input>
 
           <button class="btn" type="submit" [disabled]="!form.valid">
             {{ btnSubmitText }}
