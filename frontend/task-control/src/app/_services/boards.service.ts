@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -13,12 +13,17 @@ export class BoardsService {
 
   constructor(private http: HttpClient) {}
 
-  getAllBoards() {
+  getBoards(name?: string) {
+    var params = new HttpParams();
+    if (!!name) {
+      params = params.append('name', name);
+    }
+
     return this.http
-      .get<Board[]>(`${environment.serverUrl}/boards`)
+      .get<Board[]>(`${environment.serverUrl}/boards`, { observe: 'response', params })
       .pipe(
-        tap((boards) => {
-          this.boardsSource.next(boards);
+        tap((response) => {
+          this.boardsSource.next(response.body);
         })
       )
       .subscribe();

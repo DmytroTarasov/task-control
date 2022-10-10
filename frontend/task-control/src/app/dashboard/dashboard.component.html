@@ -2,6 +2,10 @@
 
 <div class="container">
   <h1>Dashboard</h1>
+  <div class="filter">
+    <input type="text" name="name" id="name" placeholder="name" class="filter-input" #boardFilter>
+    <button class="btn" (click)="filterBoards()">Filter</button>
+  </div>
   <div class="content">
     <div class="new-board" (click)="openModal()">
       <span class="new-board-title">Add new</span>

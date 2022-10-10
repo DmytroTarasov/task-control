@@ -29,7 +29,7 @@ export default () => ({
     filterBoardsByName: (name) => new Promise(async(resolve, reject) => {
         let boards;
         try {
-            boards = await Board.find({ name }).select('-__v');
+            boards = await Board.find({ name: {$regex: `${name}`, $options: "$i"} }).select('-__v');
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }

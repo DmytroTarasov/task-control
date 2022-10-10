@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Board } from '../_models/board.model';
-import { User } from '../_models/user.model';
 import { BoardsService } from '../_services/boards.service';
 import { ModalService } from '../_services/modal.service';
 
@@ -11,6 +10,7 @@ import { ModalService } from '../_services/modal.service';
 })
 export class DashboardComponent implements OnInit {
   boards!: Board[];
+  @ViewChild('boardFilter') boardFilter: ElementRef;
 
   constructor(
     private boardsService: BoardsService,
@@ -18,12 +18,16 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.boardsService.getAllBoards();
+    this.boardsService.getBoards();
 
     this.boardsService.boardsSource.subscribe(boards => this.boards = boards);
   }
 
   openModal() {
     this.modalService.open();
+  }
+
+  filterBoards() {
+    this.boardsService.getBoards(this.boardFilter.nativeElement.value);
   }
 }
