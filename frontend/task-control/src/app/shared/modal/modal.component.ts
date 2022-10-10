@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { BoardsService } from 'src/app/_services/boards.service';
 import { ModalService } from 'src/app/_services/modal.service';
 
 @Component({
@@ -15,23 +17,30 @@ export class ModalComponent implements OnInit {
   display$!: Observable<boolean>;
   form!: FormGroup;
 
-  constructor(private modalService: ModalService) {}
+  constructor(
+    private modalService: ModalService,
+    private boardsService: BoardsService
+  ) {}
 
   ngOnInit(): void {
     this.display$ = this.modalService.display$;
 
     this.form = new FormGroup({});
 
-    this.formInputNames.forEach(name => {
-      this.form.addControl(
-        name,
-        new FormControl(null, [Validators.required])
-      );
+    this.formInputNames.forEach((name) => {
+      this.form.addControl(name, new FormControl(null, [Validators.required]));
     });
   }
 
   onSubmit() {
-    console.log(this.form);
+    const { name, description } = this.form.value;
+    this.boardsService
+      .createBoard(name, description)
+      .subscribe((board) => {
+        this.boardsService.boardsSource.pipe(take(1)).subscribe(boards =>
+          this.boardsService.boardsSource.next([...boards, board]))
+        this.close();
+      });
   }
 
   close() {

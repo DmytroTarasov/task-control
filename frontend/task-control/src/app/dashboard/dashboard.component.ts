@@ -7,25 +7,23 @@ import { ModalService } from '../_services/modal.service';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
   boards!: Board[];
 
-  constructor(private boardsService: BoardsService, private modalService: ModalService) { }
+  constructor(
+    private boardsService: BoardsService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
-    this.getAllBoards();
-  }
+    this.boardsService.getAllBoards();
 
-  getAllBoards() {
-    this.boardsService.getAllBoards().subscribe(boards => {
-      this.boards = boards
-    }, error => console.log(error)); // replace by a proper error handling
+    this.boardsService.boardsSource.subscribe(boards => this.boards = boards);
   }
 
   openModal() {
     this.modalService.open();
   }
-
 }

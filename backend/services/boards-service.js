@@ -6,7 +6,7 @@ export default () => ({
     createBoard: (board) => new Promise(async (resolve, reject) => {
         const newBoard = new Board({
             ...board,
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
         });
 
         try {
@@ -14,7 +14,7 @@ export default () => ({
         } catch (err) {
             return reject(err);
         }
-        return resolve();
+        return resolve(newBoard);
     }),
     getAllBoards: () => new Promise(async(resolve, reject) => {
         let boards;
