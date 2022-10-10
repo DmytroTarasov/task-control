@@ -14,6 +14,7 @@ import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { HeaderComponent } from './header/header.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { TextInputComponent } from './shared/_forms/text-input/text-input.component';
+import { BoardItemComponent } from './boards/board-item/board-item.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TextInputComponent } from './shared/_forms/text-input/text-input.compon
     HeaderComponent,
     ModalComponent,
     TextInputComponent,
+    BoardItemComponent,
   ],
   imports: [
     BrowserModule,
