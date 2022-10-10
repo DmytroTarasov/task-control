@@ -6,8 +6,14 @@ export const createBoard = async (req, res, next) => {
         .catch(err => next(err));
 }
 
-export const getAllBoards = async (req, res, next) => {
-    boardsService().getAllBoards()
+export const getBoards = async (req, res, next) => {
+    boardsService().getBoards(req.query.name)
         .then(boards => res.status(200).json(boards))
         .catch(err => next(err));
 }
+
+// export const getFilteredBoardsByName = async (req, res, next) => {
+//     boardsService().getFilteredBoardsByName(req.query.name)
+//         .then(boards => res.status(200).json(boards))
+//         .catch(err => next(err));
+// }

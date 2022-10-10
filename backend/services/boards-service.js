@@ -16,15 +16,31 @@ export default () => ({
         }
         return resolve(newBoard);
     }),
-    getAllBoards: () => new Promise(async(resolve, reject) => {
+    getBoards: (name) => new Promise(async(resolve, reject) => {
         let boards;
         try {
-            boards = await boardDao().getAllBoards();
+            if (!name) {
+                boards = await boardDao().getAllBoards();
+            } else {
+                boards = await boardDao().filterBoardsByName(name);
+            }
+            
         } catch (err) {
             return reject(err);
         }
 
         return resolve(boards);
     }),
+    // getFilteredBoardsByName: (name) => new Promise(async(resolve, reject) => {
+    //     let boards;
+
+    //     try {
+    //         boards = await boardDao().filterBoardsByName(name);
+    //     } catch (err) {
+    //         return reject(err);
+    //     }
+
+    //     return resolve(boards);
+    // })
 });
 
