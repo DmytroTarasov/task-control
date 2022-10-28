@@ -3,4 +3,5 @@
   <p class="board-edit" [appEditBoard]="boardName">Edit</p>
   <p class="board-body">{{ board.description }}</p>
   <p class="board-footer">{{ board.created_at | date: 'medium'}}</p>
+  <a [routerLink]="[board._id]" class="board-link">&#8594;</a>
 </div>

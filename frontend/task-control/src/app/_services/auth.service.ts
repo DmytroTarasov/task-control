@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError, catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user.model';
-import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +22,7 @@ export class AuthService {
         username,
       })
       .pipe(
-        catchError((errorRes) =>
+        catchError((errorRes: HttpErrorResponse) =>
           throwError(() => new Error(errorRes?.error?.message))
         )
       );
@@ -36,9 +35,7 @@ export class AuthService {
         password,
       })
       .pipe(
-        catchError((errorRes) =>
-          throwError(() => new Error(errorRes?.error?.message))
-        ),
+        catchError(errorRes => throwError(() => new Error(errorRes?.error?.message))),
         tap((responseData) => {
           localStorage.setItem('userData', JSON.stringify(responseData));
           this.user.next(responseData);
@@ -49,11 +46,16 @@ export class AuthService {
   autoLogin() {
     const user = JSON.parse(localStorage.getItem('userData')!!);
 
-    if (!user && !user.token) {
+    if (!user || !user.token) {
       return;
     }
 
-    const loadedUser = new User(user.email, user.username, user.created_date, user.token);
+    const loadedUser = new User(
+      user.email,
+      user.username,
+      user.created_date,
+      user.token
+    );
 
     this.user.next(loadedUser);
   }

@@ -10,7 +10,6 @@ router.use(checkAuth);
 
 // router.get('/', getBoards);
 router.post('/', [joiValidator(validateTaskCreate)], createTask);
-// router.post('/', createTask);
 // router.patch('/:boardId', [joiValidator(validateBoardEdit)], editBoard);
 
 export default router;

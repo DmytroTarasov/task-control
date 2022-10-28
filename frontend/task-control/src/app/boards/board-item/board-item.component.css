@@ -8,7 +8,6 @@
   grid-template-rows: 25% 55% 20%;
   grid-template-columns: 100%;
   justify-items: center;
-  cursor: pointer;
   position: relative;
 }
 
@@ -38,4 +37,16 @@
   top: 5px;
   right: 5px;
   font-size: 12px;
+  cursor: pointer;
 }
+
+.board-link {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+}
+

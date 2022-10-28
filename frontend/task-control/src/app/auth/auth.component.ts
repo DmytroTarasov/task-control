@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -13,16 +12,16 @@ import { AuthService } from '../_services/auth.service';
 })
 export class AuthComponent implements OnInit {
   isLoginMode = false;
-  authForm!: FormGroup;
+  authForm!: UntypedFormGroup;
   error: string = '';
   registerMessage = '';
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.authForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [
+    this.authForm = new UntypedFormGroup({
+      email: new UntypedFormControl(null, [Validators.required, Validators.email]),
+      password: new UntypedFormControl(null, [
         Validators.required,
         Validators.minLength(6),
       ]),
@@ -57,12 +56,11 @@ export class AuthComponent implements OnInit {
           this.registerMessage = responseData.message;
           return;
         }
-
         this.authForm.reset();
-        this.router.navigate(['/']);
+        this.router.navigate(['/boards']);
       },
-      error: (errorMessage: string) => {
-        this.error = errorMessage;
+      error: (error: Error) => {
+        this.error = error.message;
       },
     });
   }
@@ -71,7 +69,7 @@ export class AuthComponent implements OnInit {
     if (!this.isLoginMode) {
       this.authForm.addControl(
         'username',
-        new FormControl(null, [Validators.required])
+        new UntypedFormControl(null, [Validators.required])
       );
     } else {
       this.authForm.removeControl('username');

@@ -17,6 +17,7 @@ import { TextInputComponent } from './shared/_forms/text-input/text-input.compon
 import { BoardItemComponent } from './boards/board-item/board-item.component';
 import { EditBoardDirective } from './_directives/edit-board.directive';
 import { HighlightButtonDirective } from './_directives/highlight-button.directive';
+import { BoardDetailsComponent } from './boards/board-details/board-details.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { HighlightButtonDirective } from './_directives/highlight-button.directi
     BoardItemComponent,
     EditBoardDirective,
     HighlightButtonDirective,
+    BoardDetailsComponent,
   ],
   imports: [
     BrowserModule,

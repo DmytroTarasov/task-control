@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { BoardsService } from 'src/app/_services/boards.service';
@@ -15,7 +15,7 @@ export class ModalComponent implements OnInit {
   @Input('formInputNames') formInputNames!: string[];
   @Input('btnSubmitText') btnSubmitText!: string;
   display$!: Observable<boolean>;
-  form!: FormGroup;
+  form!: UntypedFormGroup;
 
   constructor(
     private modalService: ModalService,
@@ -25,10 +25,10 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {
     this.display$ = this.modalService.display$;
 
-    this.form = new FormGroup({});
+    this.form = new UntypedFormGroup({});
 
     this.formInputNames.forEach((name) => {
-      this.form.addControl(name, new FormControl(null, [Validators.required]));
+      this.form.addControl(name, new UntypedFormControl(null, [Validators.required]));
     });
   }
 

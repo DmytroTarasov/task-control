@@ -36,3 +36,7 @@
   width: 100px;
   text-transform: uppercase;
 }
+
+.text-danger {
+  color: #D10D0A;
+}
