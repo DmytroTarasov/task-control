@@ -7,7 +7,7 @@ export const createBoard = async (req, res, next) => {
 }
 
 export const getBoards = async (req, res, next) => {
-    boardsService().getBoards(req.query.name)
+    boardsService().getBoards(req.query)
         .then(boards => res.status(200).json(boards))
         .catch(err => next(err));
 }

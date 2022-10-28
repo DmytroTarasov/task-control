@@ -67,10 +67,10 @@
   height: 100%;
 }
 
-.filter {
+.query-options {
   margin: 10px auto;
   display: grid;
-  grid-template-columns: 200px 100px 100px;
+  grid-template-columns: 200px 100px 100px 200px 100px 100px;
   grid-template-rows: 30px;
   gap: 20px;
   justify-content: flex-end;

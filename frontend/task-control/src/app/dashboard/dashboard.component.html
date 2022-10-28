@@ -2,8 +2,16 @@
 
 <div class="container">
   <h1>Dashboard</h1>
-  <div class="filter">
-    <input type="text" name="name" id="name" placeholder="name" class="filter-input" [(ngModel)]="filterValue">
+  <div class="query-options">
+    <select name="" #sortBy>
+      <option value="name">Name</option>
+      <option value="created_at">Created At</option>
+      <option value="task_status">Tasks status</option>
+    </select>
+    <button class="btn" #sortAsc (click)="sortBoards($event)">{{ 'asc' | uppercase }}</button>
+    <button class="btn" #sortDesc (click)="sortBoards($event)">{{ 'desc' | uppercase }}</button>
+
+    <input type="text" name="name" id="name" placeholder="name" class="filter-input" #filter>
     <button class="btn" (click)="filterBoards()">Filter</button>
     <button class="btn" (click)="resetFilter()">Reset</button>
   </div>

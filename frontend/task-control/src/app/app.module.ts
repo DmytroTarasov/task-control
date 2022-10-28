@@ -16,6 +16,7 @@ import { ModalComponent } from './shared/modal/modal.component';
 import { TextInputComponent } from './shared/_forms/text-input/text-input.component';
 import { BoardItemComponent } from './boards/board-item/board-item.component';
 import { EditBoardDirective } from './_directives/edit-board.directive';
+import { HighlightButtonDirective } from './_directives/highlight-button.directive';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EditBoardDirective } from './_directives/edit-board.directive';
     TextInputComponent,
     BoardItemComponent,
     EditBoardDirective,
+    HighlightButtonDirective,
   ],
   imports: [
     BrowserModule,

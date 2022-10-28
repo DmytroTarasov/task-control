@@ -17,10 +17,19 @@ export default () => ({
 
         return resolve(board);
     }),
-    getAllBoards: () => new Promise(async (resolve, reject) => {
+    getAllBoards: (queryParams) => new Promise(async (resolve, reject) => {
+        const {boardName, taskName, sortBy, sortDirection} = queryParams;
         let boards;
         try {
-            boards = await Board.find().select('-__v');
+            const filterOptions = {};
+            const sortOptions = {};
+            if (boardName) {
+                filterOptions['name'] = {$regex: `${boardName}`, $options: "$i"};
+            }
+            if (sortBy) {
+                sortOptions[sortBy] = sortDirection && sortDirection.toLowerCase() === 'desc' ? -1 : 1;
+            }
+            boards = await Board.find(filterOptions).sort(sortOptions).select('-__v');
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }

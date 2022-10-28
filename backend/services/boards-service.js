@@ -16,15 +16,16 @@ export default () => ({
         }
         return resolve(newBoard);
     }),
-    getBoards: (name) => new Promise(async(resolve, reject) => {
+    getBoards: (queryParams) => new Promise(async(resolve, reject) => {
+        console.log(queryParams);
         let boards;
         try {
-            if (!name) {
-                boards = await boardDao().getAllBoards();
-            } else {
-                boards = await boardDao().filterBoardsByName(name);
-            }
-            
+            // if (!name) {
+            //     boards = await boardDao().getAllBoards();
+            // } else {
+            //     boards = await boardDao().filterBoardsByName(name);
+            // }
+            boards = await boardDao().getAllBoards(queryParams);
         } catch (err) {
             return reject(err);
         }
