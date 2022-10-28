@@ -3,8 +3,9 @@
 <div class="container">
   <h1>Dashboard</h1>
   <div class="filter">
-    <input type="text" name="name" id="name" placeholder="name" class="filter-input" #boardFilter>
+    <input type="text" name="name" id="name" placeholder="name" class="filter-input" [(ngModel)]="filterValue">
     <button class="btn" (click)="filterBoards()">Filter</button>
+    <button class="btn" (click)="resetFilter()">Reset</button>
   </div>
   <div class="content">
     <div class="new-board" (click)="openModal()">

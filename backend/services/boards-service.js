@@ -31,6 +31,14 @@ export default () => ({
 
         return resolve(boards);
     }),
+    editBoard: (id, name) => new Promise(async(resolve, reject) => {
+        try {
+            await boardDao().editBoard(id, name);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
+    })
     // getFilteredBoardsByName: (name) => new Promise(async(resolve, reject) => {
     //     let boards;
 

@@ -10,7 +10,7 @@ import { ModalService } from '../_services/modal.service';
 })
 export class DashboardComponent implements OnInit {
   boards!: Board[];
-  @ViewChild('boardFilter') boardFilter: ElementRef;
+  filterValue: string;
 
   constructor(
     private boardsService: BoardsService,
@@ -28,6 +28,12 @@ export class DashboardComponent implements OnInit {
   }
 
   filterBoards() {
-    this.boardsService.getBoards(this.boardFilter.nativeElement.value);
+    this.boardsService.getBoards(this.filterValue);
   }
+
+  resetFilter() {
+    this.filterValue = '';
+    this.boardsService.getBoards();
+  }
+
 }

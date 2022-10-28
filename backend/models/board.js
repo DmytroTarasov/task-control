@@ -20,4 +20,11 @@ const validateBoardCreate = (board) => {
     return schema.validate(board);
 }
 
-export { Board, validateBoardCreate };
+const validateBoardEdit = (board) => {
+    const schema = Joi.object({
+        name: Joi.string().required(),
+    });
+    return schema.validate(board);
+}
+
+export { Board, validateBoardCreate, validateBoardEdit };

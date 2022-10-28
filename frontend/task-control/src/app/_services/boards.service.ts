@@ -35,4 +35,10 @@ export class BoardsService {
       description,
     });
   }
+
+  editBoard(id: string, name: string) {
+    return this.http.patch<string>(`${environment.serverUrl}/boards/${id}`, {
+      name
+    });
+  }
 }

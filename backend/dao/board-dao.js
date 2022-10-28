@@ -35,6 +35,15 @@ export default () => ({
         }
         return resolve(boards)
     }),
+    editBoard: (id, name) => new Promise(async(resolve, reject) => {
+        console.log(id, name);
+        try {
+            await Board.findByIdAndUpdate(id, { name: name });
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve();
+    }),
     saveBoard: (board) => new Promise(async (resolve, reject) => {
         try {
             await board.save();

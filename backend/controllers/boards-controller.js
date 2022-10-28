@@ -12,6 +12,12 @@ export const getBoards = async (req, res, next) => {
         .catch(err => next(err));
 }
 
+export const editBoard = async (req, res, next) => {
+    boardsService().editBoard(req.params.boardId, req.body.name)
+        .then(() => res.status(201).json({ message: 'Board was successfully edit'}))
+        .catch(err => next(err));
+}
+
 // export const getFilteredBoardsByName = async (req, res, next) => {
 //     boardsService().getFilteredBoardsByName(req.query.name)
 //         .then(boards => res.status(200).json(boards))
