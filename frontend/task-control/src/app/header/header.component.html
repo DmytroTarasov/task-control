@@ -1,12 +1,12 @@
 <nav class="navbar">
   <div class="container">
     <div>
-      <a [routerLink]="'/'" class="brand">Task Control</a>
+      <a [routerLink]="'/boards'" class="brand">Task Control</a>
     </div>
 
     <ul class="nav">
       <li class="nav-item">
-        <a [routerLink]="'/'" class="nav-link" *ngIf="user">{{ user.username }}</a>
+        <a [routerLink]="'/boards'" class="nav-link" *ngIf="user">{{ user.username }}</a>
       </li>
 
       <li class="nav-item">

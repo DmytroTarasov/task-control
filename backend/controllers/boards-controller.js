@@ -13,7 +13,7 @@ export const getBoards = async (req, res, next) => {
 }
 
 export const getBoardById = async (req, res, next) => {
-    boardsService().getBoardById(req.params.boardId)
+    boardsService().getBoardById(req.params.boardId, req.query.taskName)
         .then(board => res.status(200).json(board))
         .catch(err => next(err));
 }
