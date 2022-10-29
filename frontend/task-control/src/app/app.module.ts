@@ -20,6 +20,7 @@ import { HighlightButtonDirective } from './_directives/highlight-button.directi
 import { BoardDetailsComponent } from './boards/board-details/board-details.component';
 import { TaskItemComponent } from './tasks/task-item/task-item.component';
 import { FilterPipe } from './_pipes/filter.pipe';
+import { OpenOptionsDirective } from './_directives/open-options.directive';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { FilterPipe } from './_pipes/filter.pipe';
     BoardDetailsComponent,
     TaskItemComponent,
     FilterPipe,
+    OpenOptionsDirective,
   ],
   imports: [
     BrowserModule,
