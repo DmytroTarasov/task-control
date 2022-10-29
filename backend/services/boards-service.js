@@ -39,6 +39,15 @@ export default () => ({
             return reject(err);
         }
         return resolve();
+    }),
+    getBoardById: (id) => new Promise(async(resolve, reject) => {
+        let board;
+        try {
+            board = await boardDao().getBoardById(id);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve(board);
     })
     // getFilteredBoardsByName: (name) => new Promise(async(resolve, reject) => {
     //     let boards;

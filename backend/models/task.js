@@ -16,7 +16,7 @@ const Task = mongoose.model('Task', taskSchema);
 const validateTaskCreate = (task) => {
     const schema = Joi.object({
         name: Joi.string().required(),
-        status: Joi.string().valid('Todo', 'In progress', 'Done').required(),
+        status: Joi.string().valid('Todo', 'In Progress', 'Done').required(),
         board: Joi.string().required()
     });
     return schema.validate(task);

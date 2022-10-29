@@ -7,7 +7,7 @@ const boardSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     created_at: { type: String, required: true },
-    tasks: { type: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Task' }], default: [] }
+    tasks: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Task' }]
 });
 
 const Board = mongoose.model('Board', boardSchema);

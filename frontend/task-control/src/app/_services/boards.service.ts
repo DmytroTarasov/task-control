@@ -11,6 +11,7 @@ import { QueryParams } from '../_models/queryParams.model';
 })
 export class BoardsService {
   public boardsSource = new BehaviorSubject<Board[]>([]);
+  public selectedBoardSource = new BehaviorSubject<Board>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -19,7 +20,7 @@ export class BoardsService {
     // if (!!name) {
     //   params = params.append('boardName', name);
     // }
-    for(let key in queryParams) {
+    for (let key in queryParams) {
       if (!!queryParams[key]) {
         params = params.append(key, queryParams[key]);
       }
@@ -28,7 +29,10 @@ export class BoardsService {
     console.log(params);
 
     return this.http
-      .get<Board[]>(`${environment.serverUrl}/boards`, { observe: 'response', params })
+      .get<Board[]>(`${environment.serverUrl}/boards`, {
+        observe: 'response',
+        params,
+      })
       .pipe(
         tap((response) => {
           this.boardsSource.next(response.body);
@@ -46,7 +50,17 @@ export class BoardsService {
 
   editBoard(id: string, name: string) {
     return this.http.patch<string>(`${environment.serverUrl}/boards/${id}`, {
-      name
+      name,
     });
+  }
+
+  getBoardById(id: string) {
+    return this.http.get<Board>(`${environment.serverUrl}/boards/${id}`)
+    .pipe(
+      tap(board => {
+        this.selectedBoardSource.next(board);
+      }
+    ))
+    .subscribe();
   }
 }

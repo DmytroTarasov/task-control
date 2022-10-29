@@ -1,1 +1,35 @@
-<p>board-details works!</p>
+<div class="container" *ngIf="board">
+  <h1>{{ board.name }}</h1>
+
+  <div class="content">
+    <div class="col">
+      <h3 class="text-center">Todo</h3>
+      <div class="col-content">
+        <div class="add-task" (click)="openModal('Todo')"></div>
+        <div *ngFor="let board of board.tasks | filter:'Todo'" class="task-item">{{ board.name }}</div>
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="text-center">In Progress</h3>
+      <div class="col-content">
+        <div class="add-task" (click)="openModal('In Progress')"></div>
+        <div *ngFor="let board of board.tasks | filter:'In Progress'" class="task-item">{{ board.name }}</div>
+      </div>
+    </div>
+    <div class="col">
+      <h3 class="text-center">Done</h3>
+      <div class="col-content">
+        <div class="add-task" (click)="openModal('Done')"></div>
+        <div *ngFor="let board of board.tasks | filter:'Done'" class="task-item">{{ board.name }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal
+  [modalHeader]="'Create task'"
+  [formInputNames]="['name']"
+  [btnSubmitText]="'Create'"
+  [mode]="'task'"
+  [taskStatus]="taskStatus">
+</app-modal>

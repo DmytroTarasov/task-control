@@ -45,13 +45,21 @@ export default () => ({
         return resolve(boards)
     }),
     editBoard: (id, name) => new Promise(async(resolve, reject) => {
-        console.log(id, name);
         try {
             await Board.findByIdAndUpdate(id, { name: name });
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }
         return resolve();
+    }),
+    getBoardById: (id) => new Promise(async(resolve, reject) => {
+        let board;
+        try {
+            board = await Board.findById(id).populate('tasks').select('-__v');
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve(board);
     }),
     saveBoard: (board) => new Promise(async (resolve, reject) => {
         try {

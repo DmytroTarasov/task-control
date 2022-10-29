@@ -18,6 +18,8 @@ import { BoardItemComponent } from './boards/board-item/board-item.component';
 import { EditBoardDirective } from './_directives/edit-board.directive';
 import { HighlightButtonDirective } from './_directives/highlight-button.directive';
 import { BoardDetailsComponent } from './boards/board-details/board-details.component';
+import { TaskItemComponent } from './tasks/task-item/task-item.component';
+import { FilterPipe } from './_pipes/filter.pipe';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { BoardDetailsComponent } from './boards/board-details/board-details.comp
     EditBoardDirective,
     HighlightButtonDirective,
     BoardDetailsComponent,
+    TaskItemComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,11 @@
-import { Task } from "./task.model";
+import { TaskModel } from "./task.model";
 
 export interface Board {
   _id: string;
   name: string;
   description: string;
   created_at: string;
-  tasks: Task[];
+  tasks: TaskModel[];
 }
 
 // export class Board {
