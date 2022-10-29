@@ -16,4 +16,8 @@ export class TasksService {
   editTask(id: string, name: string) {
     return this.http.patch<string>(`${environment.serverUrl}/tasks/${id}`, { name });
   }
+
+  deleteTask(id: string) {
+    return this.http.delete<string>(`${environment.serverUrl}/tasks/${id}`);
+  }
 }

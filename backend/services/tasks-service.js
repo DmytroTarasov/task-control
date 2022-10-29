@@ -25,4 +25,12 @@ export default () => ({
         }
         return resolve();
     }),
+    deleteTask: (id) => new Promise(async(resolve, reject) => {
+        try {
+            await taskDao().deleteTask(id);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
+    })
 });

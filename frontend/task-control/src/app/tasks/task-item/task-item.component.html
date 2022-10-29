@@ -8,5 +8,5 @@
 
 <div class="task-options hide" #options>
   <p [appEditBoard]="taskName">Edit</p>
-  <p>Delete</p>
+  <p (click)="deleteTask()">Delete</p>
 </div>

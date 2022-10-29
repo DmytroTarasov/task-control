@@ -20,7 +20,7 @@ export const getBoardById = async (req, res, next) => {
 
 export const editBoard = async (req, res, next) => {
     boardsService().editBoard(req.params.boardId, req.body.name)
-        .then(() => res.status(201).json({ message: 'Board was successfully edit'}))
+        .then(() => res.status(201).json({ message: 'Board was successfully edited'}))
         .catch(err => next(err));
 }
 
