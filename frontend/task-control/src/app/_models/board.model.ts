@@ -1,7 +1,7 @@
 import { TaskModel } from "./task.model";
 
 export interface Board {
-  _id: string;
+  _id?: string;
   name: string;
   description: string;
   created_at: string;

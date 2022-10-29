@@ -12,4 +12,8 @@ export class TasksService {
   createTask(task: TaskModel) {
     return this.http.post<TaskModel>(`${environment.serverUrl}/tasks`, task);
   }
+
+  editTask(id: string, name: string) {
+    return this.http.patch<string>(`${environment.serverUrl}/tasks/${id}`, { name });
+  }
 }

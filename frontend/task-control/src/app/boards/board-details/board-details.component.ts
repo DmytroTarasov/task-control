@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Board } from 'src/app/_models/board.model';
+import { TaskModel } from 'src/app/_models/task.model';
 import { BoardsService } from 'src/app/_services/boards.service';
 import { ModalService } from 'src/app/_services/modal.service';
+import { TasksService } from 'src/app/_services/tasks.service';
 
 @Component({
   selector: 'app-board-details',
@@ -17,7 +19,8 @@ export class BoardDetailsComponent implements OnInit {
   constructor(
     private boardsService: BoardsService,
     private route: ActivatedRoute,
-    private modalService: ModalService
+    private modalService: ModalService,
+
   ) {}
 
   ngOnInit(): void {
@@ -38,4 +41,5 @@ export class BoardDetailsComponent implements OnInit {
     this.taskStatus = status;
     this.modalService.open();
   }
+
 }

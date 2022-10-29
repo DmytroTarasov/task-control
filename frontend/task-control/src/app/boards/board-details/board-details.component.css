@@ -64,46 +64,10 @@
   width: 100%;
   background-color: #A3A49E;
   display: grid;
+  grid-template-rows: 30px;
   justify-content: center;
   align-items: center;
+  align-content: center;
   color: #fff;
   position: relative;
-}
-
-.dots {
-  display: grid;
-  grid-template-columns: 8px;
-  grid-auto-rows: 8px;
-  gap: 2px;
-  position: absolute;
-  right: 5%;
-  top: 15%;
-  cursor: pointer;
-}
-
-.dot {
-  height: 100%;
-  width: 100%;
-  border-radius: 100%;
-  background-color: #fff;
-}
-
-.task-options {
-  padding: 5px;
-  width: 70px;
-  height: 50px;
-  position: absolute;
-  background-color: #D0D0CC;
-  color: #000;
-  font-size: 14px;
-  border-radius: 5px;
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  align-items: center;
-  top: -50%;
-  right: 2%;
-}
-
-.hide {
-  display: none;
 }

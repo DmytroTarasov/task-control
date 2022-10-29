@@ -1,1 +1,12 @@
-<p>task-item works!</p>
+<input class="task-title" value={{task.name}} name="name" #taskName (blur)="editTask(task)">
+
+<div class="dots" [appOpenOptions]="options">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<div class="task-options hide" #options>
+  <p [appEditBoard]="taskName">Edit</p>
+  <p>Delete</p>
+</div>

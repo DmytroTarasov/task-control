@@ -5,6 +5,14 @@ import { Board } from "../models/board.js";
 import HttpError from "../models/http-error.js";
 
 export default () => ({
+    editTask: (id, name) => new Promise(async(resolve, reject) => {
+        try {
+            await Task.findByIdAndUpdate(id, { name: name });
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve();
+    }),
     saveTask: (task) => new Promise(async (resolve, reject) => {
         try {
             const sess = await mongoose.startSession();

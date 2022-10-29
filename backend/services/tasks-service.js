@@ -17,4 +17,12 @@ export default () => ({
         }
         return resolve(newTask);
     }),
+    editTask: (id, name) => new Promise(async(resolve, reject) => {
+        try {
+            await taskDao().editTask(id, name);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
+    }),
 });
