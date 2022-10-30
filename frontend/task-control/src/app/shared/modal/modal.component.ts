@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {
+  FormControl,
+  FormGroup,
   UntypedFormControl,
   UntypedFormGroup,
   Validators,
@@ -23,7 +25,7 @@ export class ModalComponent implements OnInit {
   @Input('mode') mode: string;
   @Input('taskStatus') taskStatus: string;
   display$!: Observable<boolean>;
-  form!: UntypedFormGroup;
+  form!: FormGroup;
 
   constructor(
     private modalService: ModalService,
@@ -35,12 +37,12 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {
     this.display$ = this.modalService.display$;
 
-    this.form = new UntypedFormGroup({});
+    this.form = new FormGroup({});
 
     this.formInputNames.forEach((name) => {
       this.form.addControl(
         name,
-        new UntypedFormControl(null, [Validators.required])
+        new FormControl(null, [Validators.required])
       );
     });
   }
@@ -69,12 +71,14 @@ export class ModalComponent implements OnInit {
               board.tasks = [...board.tasks, task];
               this.boardsService.selectedBoardSource.next(board);
             });
+          this.form.reset();
           this.close();
         });
     }
   }
 
   close() {
+    this.form.reset();
     this.modalService.close();
   }
 }
