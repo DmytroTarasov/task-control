@@ -23,6 +23,7 @@ import { OpenOptionsDirective } from './_directives/open-options.directive';
 import { FilterComponent } from './shared/filter/filter.component';
 import { FocusDirective } from './_directives/focus.directive';
 import { HoverDirective } from './_directives/hover.directive';
+import { LengthPipe } from './_pipes/length.pipe';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { HoverDirective } from './_directives/hover.directive';
     OpenOptionsDirective,
     FilterComponent,
     FocusDirective,
-    HoverDirective
+    HoverDirective,
+    LengthPipe
   ],
   imports: [
     BrowserModule,

@@ -8,9 +8,9 @@
     <p class="board-footer">{{ board.created_at | date: 'medium'}}</p>
 
     <div class="board-overlay hide" #overlay>
-      <p>Todo: 5</p>
-      <p>In progress: 5</p>
-      <p>Done: 5</p>
+      <p>Todo: {{ board.tasks | filter:'Todo' | length }}</p>
+      <p>In progress: {{ board.tasks | filter:'In Progress' | length }}</p>
+      <p>Done: {{ board.tasks | filter:'Done' | length }}</p>
     </div>
   </div>
 
