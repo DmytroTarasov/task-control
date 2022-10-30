@@ -1,7 +1,21 @@
 <div class="board-item">
   <input class="board-title" value={{board.name}} name="name" #boardName (blur)="editBoard()">
-  <p class="board-edit" [appEditBoard]="boardName">Edit</p>
-  <p class="board-body">{{ board.description }}</p>
-  <p class="board-footer">{{ board.created_at | date: 'medium'}}</p>
+  <p class="board-edit" [appFocus]="boardName">Edit</p>
   <a [routerLink]="[board._id]" class="board-link">&#8594;</a>
+
+  <div class="board-content" [appHover]="overlay">
+    <p class="board-body">{{ board.description }}</p>
+    <p class="board-footer">{{ board.created_at | date: 'medium'}}</p>
+
+    <div class="board-overlay hide" #overlay>
+      <p>Todo: 5</p>
+      <p>In progress: 5</p>
+      <p>Done: 5</p>
+    </div>
+  </div>
+
 </div>
+
+
+
+

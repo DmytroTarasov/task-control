@@ -4,11 +4,19 @@
   height: 100%;
   border-radius: 10px;
   background-color: #D6DAD6;
+  position: relative;
+}
+
+.board-content {
+  margin-top: 10px;
+  width: 100%;
+  height: 60%;
   display: grid;
-  grid-template-rows: 25% 55% 20%;
+  grid-template-rows: 80% 20%;
   grid-template-columns: 100%;
   justify-items: center;
   position: relative;
+  cursor: pointer;
 }
 
 .board-body {
@@ -18,7 +26,6 @@
 .board-title {
   display: block;
   width: 100%;
-  height: 80%;
   background-color: transparent;
   border: none;
   font-weight: bold;
@@ -30,6 +37,7 @@
 
 .board-footer {
   font-size: 12px;
+  align-self: flex-end;
 }
 
 .board-edit {
@@ -48,5 +56,27 @@
   font-weight: bold;
   text-decoration: none;
   color: #000;
+}
+
+.hide {
+  display: none !important;
+}
+
+.board-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  gap: 15px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  color: #000 !important;
+}
+
+.hide-text > * {
+  color: #D6DAD6;
 }
 

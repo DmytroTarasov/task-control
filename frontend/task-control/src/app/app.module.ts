@@ -15,13 +15,14 @@ import { HeaderComponent } from './header/header.component';
 import { ModalComponent } from './shared/modal/modal.component';
 import { TextInputComponent } from './shared/_forms/text-input/text-input.component';
 import { BoardItemComponent } from './boards/board-item/board-item.component';
-import { EditBoardDirective } from './_directives/edit-board.directive';
 import { HighlightButtonDirective } from './_directives/highlight-button.directive';
 import { BoardDetailsComponent } from './boards/board-details/board-details.component';
 import { TaskItemComponent } from './tasks/task-item/task-item.component';
 import { FilterPipe } from './_pipes/filter.pipe';
 import { OpenOptionsDirective } from './_directives/open-options.directive';
 import { FilterComponent } from './shared/filter/filter.component';
+import { FocusDirective } from './_directives/focus.directive';
+import { HoverDirective } from './_directives/hover.directive';
 
 @NgModule({
   declarations: [
@@ -33,13 +34,14 @@ import { FilterComponent } from './shared/filter/filter.component';
     ModalComponent,
     TextInputComponent,
     BoardItemComponent,
-    EditBoardDirective,
     HighlightButtonDirective,
     BoardDetailsComponent,
     TaskItemComponent,
     FilterPipe,
     OpenOptionsDirective,
     FilterComponent,
+    FocusDirective,
+    HoverDirective
   ],
   imports: [
     BrowserModule,

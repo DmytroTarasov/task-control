@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  UntypedFormControl,
-  UntypedFormGroup,
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
