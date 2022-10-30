@@ -21,6 +21,7 @@ import { BoardDetailsComponent } from './boards/board-details/board-details.comp
 import { TaskItemComponent } from './tasks/task-item/task-item.component';
 import { FilterPipe } from './_pipes/filter.pipe';
 import { OpenOptionsDirective } from './_directives/open-options.directive';
+import { FilterComponent } from './shared/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { OpenOptionsDirective } from './_directives/open-options.directive';
     TaskItemComponent,
     FilterPipe,
     OpenOptionsDirective,
+    FilterComponent,
   ],
   imports: [
     BrowserModule,

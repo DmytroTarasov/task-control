@@ -1,0 +1,15 @@
+<div class="query-options">
+  <select name="" #sortBy>
+    <option value="name">Name</option>
+    <option value="created_at">Created At</option>
+    <!-- <option value="task_status">Tasks status</option> -->
+  </select>
+  <button class="btn" #sortAsc (click)="notifySort($event, sortAsc, sortDesc, sortBy.value,
+  filter.value)">{{ 'asc' | uppercase }}</button>
+  <button class="btn" #sortDesc (click)="notifySort($event, sortAsc, sortDesc, sortBy.value,
+  filter.value)">{{ 'desc' | uppercase }}</button>
+
+  <input type="text" name="name" placeholder="name" class="filter-input" #filter>
+  <button class="btn" (click)="notifyFilter(filter.value)">Filter</button>
+  <button class="btn" (click)="notifyResetFilter()">Reset</button>
+</div>

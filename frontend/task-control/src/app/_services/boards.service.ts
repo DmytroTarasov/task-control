@@ -16,17 +16,7 @@ export class BoardsService {
   constructor(private http: HttpClient) {}
 
   getBoards(queryParams?: QueryParams) {
-    var params = new HttpParams();
-    // if (!!name) {
-    //   params = params.append('boardName', name);
-    // }
-    for (let key in queryParams) {
-      if (!!queryParams[key]) {
-        params = params.append(key, queryParams[key]);
-      }
-    }
-
-    console.log(params);
+    const params = this.createParams(queryParams);
 
     return this.http
       .get<Board[]>(`${environment.serverUrl}/boards`, {
@@ -54,13 +44,29 @@ export class BoardsService {
     });
   }
 
-  getBoardById(id: string) {
-    return this.http.get<Board>(`${environment.serverUrl}/boards/${id}`)
-    .pipe(
-      tap(board => {
-        this.selectedBoardSource.next(board);
+  getBoardById(id: string, queryParams?: QueryParams) {
+    const params = this.createParams(queryParams);
+
+    return this.http
+      .get<Board>(`${environment.serverUrl}/boards/${id}`, {
+        observe: 'response',
+        params,
+      })
+      .pipe(
+        tap((response) => {
+          this.selectedBoardSource.next(response.body);
+        })
+      )
+      .subscribe();
+  }
+
+  private createParams(queryParams?: QueryParams) {
+    var params = new HttpParams();
+    for (let key in queryParams) {
+      if (!!queryParams[key]) {
+        params = params.append(key, queryParams[key]);
       }
-    ))
-    .subscribe();
+    }
+    return params;
   }
 }

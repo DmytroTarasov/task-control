@@ -1,0 +1,22 @@
+.query-options {
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 200px 100px 100px 200px 100px 100px;
+  grid-template-rows: 30px;
+  gap: 20px;
+  justify-content: flex-end;
+}
+
+.filter-input {
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 2px 5px;
+}
+
+.btn {
+  border-radius: 5px;
+  cursor: pointer;
+}
+

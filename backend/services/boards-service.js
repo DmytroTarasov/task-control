@@ -40,10 +40,10 @@ export default () => ({
         }
         return resolve();
     }),
-    getBoardById: (id, taskName) => new Promise(async(resolve, reject) => {
+    getBoardById: (id, queryParams) => new Promise(async(resolve, reject) => {
         let board;
         try {
-            board = await boardDao().getBoardById(id, taskName);
+            board = await boardDao().getBoardById(id, queryParams);
         } catch (err) {
             return reject(err);
         }

@@ -60,14 +60,3 @@
   transform: translate(-50%, -50%);
 }
 
-.task-item {
-  width: 100%;
-  background-color: #A3A49E;
-  display: grid;
-  grid-template-rows: 30px;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  color: #fff;
-  position: relative;
-}

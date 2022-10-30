@@ -1,12 +1,18 @@
 <div class="container" *ngIf="board">
   <h1>{{ board.name }}</h1>
+  <app-filter
+    [filterFn]="filterTasks"
+    [resetFilterFn]="resetFilter"
+    (sortEvent)="sortTasks($event)"
+    (filterEvent)="filterTasks($event)"
+    (resetEvent)="resetFilter()"></app-filter>
 
   <div class="content">
     <div class="col">
       <h3 class="text-center">Todo</h3>
       <div class="col-content">
         <div class="add-task" (click)="openModal('Todo')"></div>
-        <div *ngFor="let task of board.tasks | filter:'Todo'" class="task-item">
+        <div *ngFor="let task of board.tasks | filter:'Todo'">
           <app-task-item [task]="task"></app-task-item>
         </div>
       </div>
@@ -15,7 +21,7 @@
       <h3 class="text-center">In Progress</h3>
       <div class="col-content">
         <div class="add-task" (click)="openModal('In Progress')"></div>
-        <div *ngFor="let task of board.tasks | filter:'In Progress'" class="task-item">
+        <div *ngFor="let task of board.tasks | filter:'In Progress'">
           <app-task-item [task]="task"></app-task-item>
         </div>
       </div>
@@ -24,7 +30,7 @@
       <h3 class="text-center">Done</h3>
       <div class="col-content">
         <div class="add-task" (click)="openModal('Done')"></div>
-        <div *ngFor="let task of board.tasks | filter:'Done'" class="task-item">
+        <div *ngFor="let task of board.tasks | filter:'Done'">
           <app-task-item [task]="task"></app-task-item>
         </div>
       </div>

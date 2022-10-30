@@ -1,12 +1,17 @@
-<input class="task-title" value={{task.name}} name="name" #taskName (blur)="editTask(task)">
 
-<div class="dots" [appOpenOptions]="options">
-  <div class="dot"></div>
-  <div class="dot"></div>
-  <div class="dot"></div>
+<div class="task-item">
+  <input class="task-title" value={{task.name}} name="name" #taskName (blur)="editTask(task)">
+  <p class="task-date">{{ task.created_at | date: 'medium'}}</p>
+
+  <div class="dots" [appOpenOptions]="options">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <div class="task-options hide" #options>
+    <p [appEditBoard]="taskName">Edit</p>
+    <p (click)="deleteTask()">Delete</p>
+  </div>
 </div>
 
-<div class="task-options hide" #options>
-  <p [appEditBoard]="taskName">Edit</p>
-  <p (click)="deleteTask()">Delete</p>
-</div>
