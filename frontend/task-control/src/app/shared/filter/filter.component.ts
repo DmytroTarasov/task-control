@@ -12,28 +12,37 @@ export class FilterComponent implements OnInit {
   @Output() filterEvent: EventEmitter<string> = new EventEmitter();
   @Output() resetEvent: EventEmitter<void> = new EventEmitter();
 
-  constructor() { }
+  constructor(private renderer: Renderer2) { }
 
   ngOnInit(): void {
   }
 
   notifySort(e: Event, sortAsc: HTMLElement, sortDesc: HTMLElement, sortByValue: string,
     filterValue: string) {
+    this.setElementColor(sortAsc);
+    this.setElementColor(sortDesc);
+    this.setElementColor(e.target as HTMLElement, '#C7C8BE');
+
     this.sortEvent.emit({
       target: e.target,
-      sortAsc,
-      sortDesc,
       sortByValue,
       filterValue
-    })
+    });
   }
 
   notifyFilter(filterValue: string) {
     this.filterEvent.emit(filterValue);
   }
 
-  notifyResetFilter() {
+  notifyResetFilter(sortAsc: HTMLElement, sortDesc: HTMLElement) {
     this.filter.nativeElement.value = '';
+    this.setElementColor(sortAsc);
+    this.setElementColor(sortDesc);
     this.resetEvent.emit();
   }
+
+  setElementColor(element: HTMLElement, color: string = '#F0F0F0') {
+    this.renderer.setStyle(element, 'background-color', color);
+  }
+
 }

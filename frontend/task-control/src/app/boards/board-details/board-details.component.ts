@@ -19,11 +19,8 @@ export class BoardDetailsComponent implements OnInit {
   constructor(
     private boardsService: BoardsService,
     private route: ActivatedRoute,
-    private modalService: ModalService,
-    private renderer: Renderer2
-  ) {
-    this.setElementColor = this.setElementColor.bind(this);
-  }
+    private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -44,28 +41,19 @@ export class BoardDetailsComponent implements OnInit {
     this.modalService.open();
   }
 
-  setElementColor(element: HTMLElement, color: string = '#F0F0F0') {
-    this.renderer.setStyle(element, 'background-color', color);
-  }
-
   sortTasks(data: {
     target: HTMLElement;
-    sortAsc: HTMLElement;
-    sortDesc: HTMLElement;
     sortByValue: string;
     filterValue: string;
   }) {
-    const { target, sortAsc, sortDesc, sortByValue, filterValue } = data;
-
-    this.setElementColor(sortAsc);
-    this.setElementColor(sortDesc);
-    this.setElementColor(target, '#C7C8BE');
+    const { target, sortByValue, filterValue } = data;
 
     const queryParams = new QueryParams(
       sortByValue,
       target.innerText.toLowerCase(),
       filterValue
     );
+
     this.boardsService.getBoardById(this.boardId, queryParams);
   }
 

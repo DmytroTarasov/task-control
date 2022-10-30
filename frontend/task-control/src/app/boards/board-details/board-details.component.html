@@ -1,11 +1,10 @@
 <div class="container" *ngIf="board">
   <h1>{{ board.name }}</h1>
   <app-filter
-    [filterFn]="filterTasks"
-    [resetFilterFn]="resetFilter"
     (sortEvent)="sortTasks($event)"
     (filterEvent)="filterTasks($event)"
-    (resetEvent)="resetFilter()"></app-filter>
+    (resetEvent)="resetFilter()">
+  </app-filter>
 
   <div class="content">
     <div class="col">

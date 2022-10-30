@@ -11,5 +11,5 @@
 
   <input type="text" name="name" placeholder="name" class="filter-input" #filter>
   <button class="btn" (click)="notifyFilter(filter.value)">Filter</button>
-  <button class="btn" (click)="notifyResetFilter()">Reset</button>
+  <button class="btn" (click)="notifyResetFilter(sortAsc, sortDesc)">Reset</button>
 </div>
