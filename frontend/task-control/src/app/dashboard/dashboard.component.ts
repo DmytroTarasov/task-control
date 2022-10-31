@@ -59,7 +59,12 @@ export class DashboardComponent implements OnInit {
       target.innerText.toLowerCase(),
       filterValue
     );
-    this.boardsService.getBoards(queryParams);
+
+    if (['todo', 'in progress', 'done'].includes(sortByValue)) {
+      this.boardsService.sortBoards('status', sortByValue);
+    } else {
+      this.boardsService.getBoards(queryParams);
+    }
   }
 
   filterBoards(filterValue: string) {

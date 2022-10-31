@@ -3,7 +3,11 @@
   <app-filter
     (sortEvent)="sortTasks($event)"
     (filterEvent)="filterTasks($event)"
-    (resetEvent)="resetFilter()">
+    (resetEvent)="resetFilter()"
+    [selectOptions]="[
+      { name: 'Name', value: 'name' },
+      { name: 'Created At', value: 'created_at' }
+    ]">
   </app-filter>
 
   <div class="content">

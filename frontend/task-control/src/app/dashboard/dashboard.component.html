@@ -3,7 +3,14 @@
   <app-filter
     (sortEvent)="sortBoards($event)"
     (filterEvent)="filterBoards($event)"
-    (resetEvent)="resetFilter()">
+    (resetEvent)="resetFilter()"
+    [selectOptions]="[
+      { name: 'Name', value: 'name' },
+      { name: 'Created At', value: 'created_at' },
+      { name: 'Tasks (Todo)', value: 'todo' },
+      { name: 'Tasks (In progress)', value: 'in progress' },
+      { name: 'Tasks (Done)', value: 'done' }
+    ]">
   </app-filter>
 
   <div class="content">

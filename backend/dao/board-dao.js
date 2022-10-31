@@ -38,6 +38,7 @@ export default () => ({
                 .sort(sortOptions)
                 .select('-__v');
         } catch (err) {
+            console.log(err);
             return reject(new HttpError('DB error occured', 500));
         }
         return resolve(boards);

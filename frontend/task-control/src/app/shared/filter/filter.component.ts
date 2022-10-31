@@ -1,24 +1,39 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { BoardsService } from 'src/app/_services/boards.service';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'app-filter',
   templateUrl: './filter.component.html',
-  styleUrls: ['./filter.component.css']
+  styleUrls: ['./filter.component.css'],
 })
 export class FilterComponent implements OnInit {
+  @Input('selectOptions') selectOptions: { value: string; name: string }[];
   @ViewChild('filter') filter: ElementRef;
   @Output() sortEvent: EventEmitter<any> = new EventEmitter();
   @Output() filterEvent: EventEmitter<string> = new EventEmitter();
   @Output() resetEvent: EventEmitter<void> = new EventEmitter();
 
-  constructor(private renderer: Renderer2) { }
+  constructor(private renderer: Renderer2) {}
 
   ngOnInit(): void {
+    console.log(this.selectOptions);
   }
 
-  notifySort(e: Event, sortAsc: HTMLElement, sortDesc: HTMLElement, sortByValue: string,
-    filterValue: string) {
+  notifySort(
+    e: Event,
+    sortAsc: HTMLElement,
+    sortDesc: HTMLElement,
+    sortByValue: string,
+    filterValue: string
+  ) {
     this.setElementColor(sortAsc);
     this.setElementColor(sortDesc);
     this.setElementColor(e.target as HTMLElement, '#C7C8BE');
@@ -26,7 +41,7 @@ export class FilterComponent implements OnInit {
     this.sortEvent.emit({
       target: e.target,
       sortByValue,
-      filterValue
+      filterValue,
     });
   }
 
@@ -42,8 +57,6 @@ export class FilterComponent implements OnInit {
   }
 
   setElementColor(element: HTMLElement, color: string = '#F0F0F0') {
-    console.log('set element color');
     this.renderer.setStyle(element, 'background-color', color);
   }
-
 }

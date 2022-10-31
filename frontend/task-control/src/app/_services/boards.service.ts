@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Board } from '../_models/board.model';
 import { QueryParams } from '../_models/queryParams.model';
@@ -68,5 +68,15 @@ export class BoardsService {
       }
     }
     return params;
+  }
+
+  sortBoards(property: string, value: string) {
+    this.boardsSource.pipe(take(1)).subscribe(boards => {
+      boards.sort((board1, board2) => {
+        return board1.tasks.filter(t => t[property].toLowerCase() === value.toLowerCase()).length -
+          board2.tasks.filter(t => t[property].toLowerCase() === value.toLowerCase()).length
+      });
+      this.boardsSource.next(boards);
+    });
   }
 }
