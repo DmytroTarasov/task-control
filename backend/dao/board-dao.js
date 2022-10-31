@@ -81,6 +81,14 @@ export default () => ({
         }
         return resolve(board);
     }),
+    setColumnColor: (id, colorType, color) => new Promise(async(resolve, reject) => {
+        try {
+            await Board.findByIdAndUpdate(id, { [colorType]: color });
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve();
+    }),
     saveBoard: (board) => new Promise(async (resolve, reject) => {
         try {
             await board.save();

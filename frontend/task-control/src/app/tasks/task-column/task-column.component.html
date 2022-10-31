@@ -1,7 +1,16 @@
 <div class="col">
-  <h3 class="text-center">{{ title }}</h3>
-  <div class="col-content">
-    <div class="add-task" (click)="openModal()"></div>
+
+  <h3 class="title">{{ title }}</h3>
+
+  <div class="col-content" [ngStyle]="{ backgroundColor: color }">
+    <input
+      type="color"
+      class="colorpicker"
+      value="{{ color }}"
+      [(ngModel)]="color"
+      appHandleColorChange
+      name="{{ transformStatus() }}">
+    <div class="add-task" (click)="openModal(status)"></div>
     <div
       cdkDropList
       [cdkDropListData]="board.tasks | filter:status"
@@ -19,5 +28,5 @@
   [formInputNames]="['name']"
   [btnSubmitText]="'Create'"
   [mode]="'task'"
-  [taskStatus]="status">
+  [taskStatus]="taskStatus">
 </app-modal>

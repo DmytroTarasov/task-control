@@ -47,6 +47,14 @@ export default () => ({
             return reject(err);
         }
         return resolve(board);
+    }),
+    setColumnColor: (id, colorType, color) => new Promise(async(resolve, reject) => {
+        try {
+            await boardDao().setColumnColor(id, colorType, color);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
     })
 });
 

@@ -24,6 +24,13 @@ export const editBoard = async (req, res, next) => {
         .catch(err => next(err));
 }
 
+export const setColumnColor = async (req, res, next) => {
+    boardsService().setColumnColor(req.params.boardId, req.body.colorType, req.body.color)
+        .then(() => res.status(201).json({ message: 'Color was successfully assigned'}))
+        .catch(err => next(err));
+}
+
+
 // export const getFilteredBoardsByName = async (req, res, next) => {
 //     boardsService().getFilteredBoardsByName(req.query.name)
 //         .then(boards => res.status(200).json(boards))

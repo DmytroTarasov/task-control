@@ -21,6 +21,8 @@ export class TaskColumnComponent implements OnInit {
   @Input() board: Board;
   @Input() title: string;
   @Input() status: string;
+  color: string = '#F0F0F0';
+  taskStatus: string = 'Todo';
 
   constructor(
     private boardsService: BoardsService,
@@ -28,9 +30,12 @@ export class TaskColumnComponent implements OnInit {
     private modalService: ModalService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.color = this.board[this.transformStatus()];
+  }
 
-  openModal() {
+  openModal(status: string) {
+    this.taskStatus = status;
     this.modalService.open();
   }
 
@@ -42,7 +47,6 @@ export class TaskColumnComponent implements OnInit {
         event.currentIndex
       );
     } else {
-      console.log(event.container);
       let newStatus: string;
       switch (event.container.id) {
         case 'cdk-drop-list-0':
@@ -85,5 +89,9 @@ export class TaskColumnComponent implements OnInit {
         event.currentIndex
       );
     }
+  }
+
+  transformStatus() {
+    return this.status.toLowerCase().split(' ').join('_') + '_color';
   }
 }

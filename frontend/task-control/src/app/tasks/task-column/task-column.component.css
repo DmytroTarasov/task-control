@@ -4,16 +4,17 @@
 }
 
 .col-content {
-  padding: 10px;
+  padding: 30px 10px 10px 10px;
   height: 100%;
-  background-color: #F0F0F0;
+  /* background-color: #F0F0F0;  */
   overflow-y: scroll;
   display: grid;
   grid-template-rows: 50px;
   gap: 20px;
+  position: relative;
 }
 
-.text-center {
+.title {
   text-align: center;
 }
 
@@ -55,4 +56,13 @@
   display: grid;
   grid-auto-rows: 80px;
   gap: 20px;
+}
+
+.colorpicker {
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  border: 1px solid gray;
+  height: 20px;
+  cursor: pointer;
 }

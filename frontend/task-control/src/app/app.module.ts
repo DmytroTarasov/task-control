@@ -27,6 +27,7 @@ import { FocusDirective } from './_directives/focus.directive';
 import { HoverDirective } from './_directives/hover.directive';
 import { LengthPipe } from './_pipes/length.pipe';
 import { TaskColumnComponent } from './tasks/task-column/task-column.component';
+import { HandleColorChangeDirective } from './_directives/handle-color-change.directive';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { TaskColumnComponent } from './tasks/task-column/task-column.component';
     FocusDirective,
     HoverDirective,
     LengthPipe,
-    TaskColumnComponent
+    TaskColumnComponent,
+    HandleColorChangeDirective
   ],
   imports: [
     BrowserModule,

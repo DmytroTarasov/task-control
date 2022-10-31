@@ -7,6 +7,9 @@ const boardSchema = new Schema({
     name: { type: String, required: true },
     description: { type: String, required: true },
     created_at: { type: String, required: true },
+    todo_color: { type: String, default: '#F0F0F0' },
+    in_progress_color: { type: String, default: '#F0F0F0' },
+    done_color: { type: String, default: '#F0F0F0' },
     tasks: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Task' }]
 });
 

@@ -71,12 +71,27 @@ export class BoardsService {
   }
 
   sortBoards(property: string, value: string) {
-    this.boardsSource.pipe(take(1)).subscribe(boards => {
+    this.boardsSource.pipe(take(1)).subscribe((boards) => {
       boards.sort((board1, board2) => {
-        return board1.tasks.filter(t => t[property].toLowerCase() === value.toLowerCase()).length -
-          board2.tasks.filter(t => t[property].toLowerCase() === value.toLowerCase()).length
+        return (
+          board1.tasks.filter(
+            (t) => t[property].toLowerCase() === value.toLowerCase()
+          ).length -
+          board2.tasks.filter(
+            (t) => t[property].toLowerCase() === value.toLowerCase()
+          ).length
+        );
       });
       this.boardsSource.next(boards);
     });
+  }
+
+  setColumnColor(id: string, colorType: string, color: string) {
+    return this.http
+      .patch<string>(`${environment.serverUrl}/boards/${id}/setColumnColor`, {
+        colorType,
+        color,
+      })
+      .subscribe();
   }
 }
