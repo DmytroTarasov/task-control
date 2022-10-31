@@ -5,7 +5,7 @@ import { Board } from "../models/board.js";
 import HttpError from "../models/http-error.js";
 
 export default () => ({
-    editTask: (id, name) => new Promise(async(resolve, reject) => {
+    editTask: (id, name) => new Promise(async (resolve, reject) => {
         try {
             await Task.findByIdAndUpdate(id, { name: name });
         } catch (err) {
@@ -13,9 +13,15 @@ export default () => ({
         }
         return resolve();
     }),
-    deleteTask: (id) => new Promise(async(resolve, reject) => {
+    deleteTask: (id) => new Promise(async (resolve, reject) => {
         try {
-            await Task.findByIdAndRemove(id);
+            const task = await Task.findById(id).populate({ path: 'board' });
+            const sess = await mongoose.startSession();
+            sess.startTransaction();
+            await task.remove({ session: sess });
+            task.board.tasks.pull(task);
+            await task.board.save({ session: sess });
+            await sess.commitTransaction();
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }
@@ -26,7 +32,7 @@ export default () => ({
             const sess = await mongoose.startSession();
             sess.startTransaction();
             await task.save({ session: sess });
-            await Board.updateOne({ _id: task.board }, { $push: { tasks: task }}).session(sess);
+            await Board.updateOne({ _id: task.board }, { $push: { tasks: task } }).session(sess);
             await sess.commitTransaction();
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));

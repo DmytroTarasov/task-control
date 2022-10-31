@@ -51,6 +51,7 @@ export class BoardDetailsComponent implements OnInit {
     const queryParams = new QueryParams(
       sortByValue,
       target.innerText.toLowerCase(),
+      null,
       filterValue
     );
 

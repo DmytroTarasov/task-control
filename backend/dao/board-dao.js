@@ -18,35 +18,40 @@ export default () => ({
         return resolve(board);
     }),
     getAllBoards: (queryParams) => new Promise(async (resolve, reject) => {
-        const {boardName, sortBy, sortDirection} = queryParams;
+        const { boardName, sortBy, sortDirection } = queryParams;
         let boards;
         try {
             const filterOptions = {};
             const sortOptions = {};
             if (boardName) {
-                filterOptions['name'] = {$regex: `${boardName}`, $options: "$i"};
+                filterOptions['name'] = { $regex: `${boardName}`, $options: "$i" };
             }
             if (sortBy) {
                 sortOptions[sortBy] = sortDirection && sortDirection.toLowerCase() === 'desc' ? -1 : 1;
             }
-            boards = await Board.find(filterOptions).populate({
-                path: 'tasks'
-            }).sort(sortOptions).select('-__v');
+            boards = await Board
+                .find(filterOptions)
+                .populate({
+                    path: 'tasks',
+                    select: '-__v'
+                })
+                .sort(sortOptions)
+                .select('-__v');
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }
         return resolve(boards);
     }),
-    filterBoardsByName: (name) => new Promise(async(resolve, reject) => {
+    filterBoardsByName: (name) => new Promise(async (resolve, reject) => {
         let boards;
         try {
-            boards = await Board.find({ name: {$regex: `${name}`, $options: "$i"} }).select('-__v');
+            boards = await Board.find({ name: { $regex: `${name}`, $options: "$i" } }).select('-__v');
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }
         return resolve(boards)
     }),
-    editBoard: (id, name) => new Promise(async(resolve, reject) => {
+    editBoard: (id, name) => new Promise(async (resolve, reject) => {
         try {
             await Board.findByIdAndUpdate(id, { name: name });
         } catch (err) {
@@ -54,14 +59,14 @@ export default () => ({
         }
         return resolve();
     }),
-    getBoardById: (id, queryParams) => new Promise(async(resolve, reject) => {
-        const {taskName, sortBy, sortDirection} = queryParams;
+    getBoardById: (id, queryParams) => new Promise(async (resolve, reject) => {
+        const { taskName, sortBy, sortDirection } = queryParams;
         let board;
         try {
             const sortOptions = {};
             const matchOptions = {};
             if (taskName) {
-                matchOptions['name'] = {$regex: `${taskName}`, $options: "$i"};
+                matchOptions['name'] = { $regex: `${taskName}`, $options: "$i" };
             }
             if (sortBy) {
                 sortOptions[sortBy] = sortDirection && sortDirection.toLowerCase() === 'desc' ? -1 : 1;
@@ -69,7 +74,7 @@ export default () => ({
             board = await Board.findById(id).populate({
                 path: 'tasks',
                 match: matchOptions,
-                options: { sort: sortOptions}
+                options: { sort: sortOptions }
             }).select('-__v');
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));

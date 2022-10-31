@@ -42,6 +42,7 @@ export class FilterComponent implements OnInit {
   }
 
   setElementColor(element: HTMLElement, color: string = '#F0F0F0') {
+    console.log('set element color');
     this.renderer.setStyle(element, 'background-color', color);
   }
 
