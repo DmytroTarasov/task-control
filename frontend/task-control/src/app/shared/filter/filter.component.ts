@@ -23,9 +23,7 @@ export class FilterComponent implements OnInit {
 
   constructor(private renderer: Renderer2) {}
 
-  ngOnInit(): void {
-    console.log(this.selectOptions);
-  }
+  ngOnInit(): void {}
 
   notifySort(
     e: Event,

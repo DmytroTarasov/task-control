@@ -24,10 +24,10 @@ export class TaskItemComponent implements OnInit {
   editTask(task: TaskModel) {
     if (this.taskNameField.nativeElement.value !== task.name) {
       this.tasksService
-        .editTask(task._id, this.taskNameField.nativeElement.value)
+        .editTask(task._id, this.taskNameField.nativeElement.value, task.status)
         .subscribe({
           next: () => {
-            task.name = this.taskNameField.nativeElement.value;
+            task = { ...task, name: this.taskNameField.nativeElement.value };
             this.options.nativeElement.classList.add('hide');
           },
         });

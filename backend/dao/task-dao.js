@@ -5,9 +5,9 @@ import { Board } from "../models/board.js";
 import HttpError from "../models/http-error.js";
 
 export default () => ({
-    editTask: (id, name) => new Promise(async (resolve, reject) => {
+    editTask: (id, name, status) => new Promise(async (resolve, reject) => {
         try {
-            await Task.findByIdAndUpdate(id, { name: name });
+            await Task.findByIdAndUpdate(id, { name, status });
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }

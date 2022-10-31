@@ -17,9 +17,9 @@ export default () => ({
         }
         return resolve(newTask);
     }),
-    editTask: (id, name) => new Promise(async(resolve, reject) => {
+    editTask: (id, name, status) => new Promise(async(resolve, reject) => {
         try {
-            await taskDao().editTask(id, name);
+            await taskDao().editTask(id, name, status);
         } catch (err) {
             return reject(err);
         }

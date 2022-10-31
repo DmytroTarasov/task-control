@@ -7,7 +7,7 @@ export const createTask = async (req, res, next) => {
 }
 
 export const editTask = async (req, res, next) => {
-    tasksService().editTask(req.params.taskId, req.body.name)
+    tasksService().editTask(req.params.taskId, req.body.name, req.body.status)
         .then(() => res.status(201).json({ message: 'Task was successfully edited' }))
         .catch(err => next(err));
 }

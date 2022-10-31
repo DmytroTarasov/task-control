@@ -17,7 +17,6 @@ export default () => ({
         return resolve(newBoard);
     }),
     getBoards: (queryParams) => new Promise(async(resolve, reject) => {
-        console.log(queryParams);
         let boards;
         try {
             // if (!name) {
@@ -49,16 +48,5 @@ export default () => ({
         }
         return resolve(board);
     })
-    // getFilteredBoardsByName: (name) => new Promise(async(resolve, reject) => {
-    //     let boards;
-
-    //     try {
-    //         boards = await boardDao().filterBoardsByName(name);
-    //     } catch (err) {
-    //         return reject(err);
-    //     }
-
-    //     return resolve(boards);
-    // })
 });
 
