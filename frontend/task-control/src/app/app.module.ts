@@ -26,6 +26,7 @@ import { FilterComponent } from './shared/filter/filter.component';
 import { FocusDirective } from './_directives/focus.directive';
 import { HoverDirective } from './_directives/hover.directive';
 import { LengthPipe } from './_pipes/length.pipe';
+import { TaskColumnComponent } from './tasks/task-column/task-column.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { LengthPipe } from './_pipes/length.pipe';
     FilterComponent,
     FocusDirective,
     HoverDirective,
-    LengthPipe
+    LengthPipe,
+    TaskColumnComponent
   ],
   imports: [
     BrowserModule,

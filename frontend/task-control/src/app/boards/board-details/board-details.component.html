@@ -1,9 +1,6 @@
 <div class="container" *ngIf="board" cdkDropListGroup>
   <h1>{{ board.name }}</h1>
-  <app-filter
-    (sortEvent)="sortTasks($event)"
-    (filterEvent)="filterTasks($event)"
-    (resetEvent)="resetFilter()"
+  <app-filter (sortEvent)="sortTasks($event)" (filterEvent)="filterTasks($event)" (resetEvent)="resetFilter()"
     [selectOptions]="[
       { name: 'Name', value: 'name' },
       { name: 'Created At', value: 'created_at' }
@@ -11,65 +8,9 @@
   </app-filter>
 
   <div class="content">
-
-    <div class="col">
-      <h3 class="text-center">Todo</h3>
-      <div class="col-content">
-        <div class="add-task" (click)="openModal('Todo')"></div>
-        <div
-          cdkDropList
-          [cdkDropListData]="tasksTodo"
-          (cdkDropListDropped)="drop($event)"
-          class="task-items">
-          <div *ngFor="let task of board.tasks | filter:'Todo'">
-            <app-task-item [task]="task" cdkDrag></app-task-item>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="col">
-      <h3 class="text-center">In Progress</h3>
-      <div class="col-content">
-        <div class="add-task" (click)="openModal('In Progress')"></div>
-        <div
-          cdkDropList
-          [cdkDropListData]="board.tasks | filter:'In Progress'"
-          (cdkDropListDropped)="drop($event)"
-          class="task-items">
-          <div *ngFor="let task of board.tasks | filter:'In Progress'">
-            <app-task-item [task]="task" cdkDrag></app-task-item>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="col">
-      <h3 class="text-center">Done</h3>
-      <div class="col-content">
-        <div class="add-task" (click)="openModal('Done')"></div>
-        <div
-          cdkDropList
-          [cdkDropListData]="board.tasks | filter:'Done'"
-          (cdkDropListDropped)="drop($event)"
-          class="task-items">
-          <div *ngFor="let task of board.tasks | filter:'Done'">
-            <app-task-item [task]="task" cdkDrag></app-task-item>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <app-task-column [title]="'Todo'" [status]="'Todo'" [board]="board"></app-task-column>
+    <app-task-column [title]="'In Progress'" [status]="'In Progress'" [board]="board"></app-task-column>
+    <app-task-column [title]="'Done'" [status]="'Done'" [board]="board"></app-task-column>
   </div>
 
 </div>
-
-<app-modal
-  [modalHeader]="'Create task'"
-  [formInputNames]="['name']"
-  [btnSubmitText]="'Create'"
-  [mode]="'task'"
-  [taskStatus]="taskStatus">
-</app-modal>
