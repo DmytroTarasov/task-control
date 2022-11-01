@@ -17,3 +17,9 @@ export const deleteTask = async (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Task was successfully deleted' }))
         .catch(err => next(err));
 }
+
+export const archiveTask = async (req, res, next) => {
+    tasksService().archiveTask(req.params.taskId)
+        .then(() => res.status(200).json({ message: 'Task was successfully archived' }))
+        .catch(err => next(err));
+}

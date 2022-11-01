@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const taskSchema = new Schema({
     name: { type: String, required: true },
     status: { type: String, required: true },
+    archived: { type: Boolean, default: false },
     created_at: { type: String, required: true },
     created_by: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
     board: { type: mongoose.Types.ObjectId, required: true, ref: 'Board' }

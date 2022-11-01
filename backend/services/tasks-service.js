@@ -17,7 +17,7 @@ export default () => ({
         }
         return resolve(newTask);
     }),
-    editTask: (id, name, status) => new Promise(async(resolve, reject) => {
+    editTask: (id, name, status) => new Promise(async (resolve, reject) => {
         try {
             await taskDao().editTask(id, name, status);
         } catch (err) {
@@ -25,7 +25,15 @@ export default () => ({
         }
         return resolve();
     }),
-    deleteTask: (id) => new Promise(async(resolve, reject) => {
+    archiveTask: (id) => new Promise(async (resolve, reject) => {
+        try {
+            await taskDao().archiveTask(id);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
+    }),
+    deleteTask: (id) => new Promise(async (resolve, reject) => {
         try {
             await taskDao().deleteTask(id);
         } catch (err) {

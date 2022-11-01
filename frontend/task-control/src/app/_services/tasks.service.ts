@@ -20,4 +20,8 @@ export class TasksService {
   deleteTask(id: string) {
     return this.http.delete<string>(`${environment.serverUrl}/tasks/${id}`);
   }
+
+  archiveTask(id: string) {
+    return this.http.post<string>(`${environment.serverUrl}/tasks/${id}/archive`, {});
+  }
 }

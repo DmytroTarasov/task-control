@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createTask, editTask, deleteTask} from "../controllers/tasks-controller.js";
+import { createTask, editTask, deleteTask, archiveTask } from "../controllers/tasks-controller.js";
 import { validateTaskCreate, validateTaskEdit} from "../models/task.js";
 import joiValidator from "../middlewares/joi-validator-middleware.js";
 import checkAuth from '../middlewares/auth-middleware.js';
@@ -10,6 +10,7 @@ router.use(checkAuth);
 
 router.post('/', [joiValidator(validateTaskCreate)], createTask);
 router.patch('/:taskId', [joiValidator(validateTaskEdit)], editTask);
+router.post('/:taskId/archive', archiveTask);
 router.delete('/:taskId', deleteTask);
 
 export default router;

@@ -1,6 +1,12 @@
 
 <div class="task-item">
-  <input class="task-title" value={{task.name}} name="name" #taskName (blur)="editTask(task)">
+  <input
+    [ngClass]="task.archived ? 'text-crossed-out' : 'null'"
+    class="task-title"
+    value="{{task.name}}"
+    name="name" #taskName
+    (blur)="editTask(task)"
+    [disabled]="task.archived">
   <p class="task-date">{{ task.created_at | date: 'medium'}}</p>
 
   <div class="dots" [appOpenOptions]="options">
@@ -12,6 +18,7 @@
   <div class="task-options hide" #options>
     <p [appFocus]="taskName">Edit</p>
     <p (click)="deleteTask()">Delete</p>
+    <p *ngIf="task.status === 'Done' && !task.archived" (click)="archiveTask()">Archive</p>
   </div>
 </div>
 

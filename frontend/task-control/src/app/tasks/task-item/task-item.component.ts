@@ -45,4 +45,16 @@ export class TaskItemComponent implements OnInit {
       },
     });
   }
+
+  archiveTask() {
+    this.tasksService.archiveTask(this.task._id).subscribe({
+      next: () => {
+        this.boardsService.selectedBoardSource.pipe(take(1)).subscribe(board => {
+          const taskIndex = board.tasks.indexOf(this.task);
+          board.tasks = [...board.tasks.slice(0, taskIndex), {...this.task, archived: true }, ...board.tasks.slice(taskIndex + 1)];
+          this.boardsService.selectedBoardSource.next(board);
+        });
+      }
+    })
+  }
 }

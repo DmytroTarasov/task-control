@@ -13,6 +13,14 @@ export default () => ({
         }
         return resolve();
     }),
+    archiveTask: (id) => new Promise(async (resolve, reject) => {
+        try {
+            await Task.findByIdAndUpdate(id, { archived: true });
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve();
+    }),
     deleteTask: (id) => new Promise(async (resolve, reject) => {
         try {
             const task = await Task.findById(id).populate({ path: 'board' });
