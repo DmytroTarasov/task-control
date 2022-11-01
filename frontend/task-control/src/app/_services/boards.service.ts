@@ -44,6 +44,10 @@ export class BoardsService {
     });
   }
 
+  deleteBoard(id: string) {
+    return this.http.delete<string>(`${environment.serverUrl}/boards/${id}`);
+  }
+
   getBoardById(id: string, queryParams?: QueryParams) {
     const params = this.createParams(queryParams);
 

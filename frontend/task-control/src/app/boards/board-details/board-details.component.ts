@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Board } from 'src/app/_models/board.model';
 import { QueryParams } from 'src/app/_models/queryParams.model';
 import { BoardsService } from 'src/app/_services/boards.service';
@@ -19,7 +19,8 @@ export class BoardDetailsComponent implements OnInit {
   constructor(
     private boardsService: BoardsService,
     private modalService: ModalService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -65,5 +66,13 @@ export class BoardDetailsComponent implements OnInit {
   openModal(data: string) {
     this.taskStatus = data;
     this.modalService.open();
+  }
+
+  deleteBoard() {
+    this.boardsService.deleteBoard(this.board._id).subscribe({
+      next: () => {
+        this.router.navigateByUrl('/boards');
+      }
+    });
   }
 }

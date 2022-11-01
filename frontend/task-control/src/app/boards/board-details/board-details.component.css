@@ -14,3 +14,24 @@
 .text-center {
   text-align: center;
 }
+
+.board-header {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-items: center;
+}
+
+.board-name {
+  justify-self: flex-start;
+}
+
+.delete-board {
+  justify-self: flex-end;
+}
+
+.btn {
+  height: 30px;
+  width: 100px;
+  border-radius: 5px;
+  cursor: pointer;
+}

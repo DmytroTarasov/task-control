@@ -1,5 +1,8 @@
 <div class="container" *ngIf="board" cdkDropListGroup>
-  <h1>{{ board.name }}</h1>
+  <div class="board-header">
+    <h1 class="board-name">{{ board.name }}</h1>
+    <button class="btn delete-board" (click)="deleteBoard()">Delete</button>
+  </div>
   <app-filter (sortEvent)="sortTasks($event)" (filterEvent)="filterTasks($event)" (resetEvent)="resetFilter()"
     [selectOptions]="[
       { name: 'Name', value: 'name' },

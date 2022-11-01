@@ -1,4 +1,7 @@
+import mongoose from 'mongoose';
+
 import { Board } from "../models/board.js";
+import { Task } from '../models/task.js';
 import HttpError from "../models/http-error.js";
 
 export default () => ({
@@ -84,6 +87,19 @@ export default () => ({
     setColumnColor: (id, colorType, color) => new Promise(async(resolve, reject) => {
         try {
             await Board.findByIdAndUpdate(id, { [colorType]: color });
+        } catch (err) {
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve();
+    }),
+    deleteBoard: (id) => new Promise(async(resolve, reject) => {
+        try {
+            const sess = await mongoose.startSession();
+            sess.startTransaction();
+            await Task.deleteMany({ board: id }).session(sess);
+            await Board.findByIdAndRemove(id).session(sess);
+            await sess.commitTransaction();
+
         } catch (err) {
             return reject(new HttpError('DB error occured', 500));
         }

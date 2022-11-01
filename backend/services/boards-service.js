@@ -48,6 +48,14 @@ export default () => ({
         }
         return resolve(board);
     }),
+    deleteBoard: (id) => new Promise(async(resolve, reject) => {
+        try {
+            await boardDao().deleteBoard(id);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
+    }),
     setColumnColor: (id, colorType, color) => new Promise(async(resolve, reject) => {
         try {
             await boardDao().setColumnColor(id, colorType, color);
