@@ -1,14 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-
 import { ActivatedRoute, Params } from '@angular/router';
 import { Board } from 'src/app/_models/board.model';
 import { QueryParams } from 'src/app/_models/queryParams.model';
 import { BoardsService } from 'src/app/_services/boards.service';
 import { ModalService } from 'src/app/_services/modal.service';
-import { TaskModel } from 'src/app/_models/task.model';
-import { TasksService } from 'src/app/_services/tasks.service';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-board-details',
@@ -18,13 +14,12 @@ import { take } from 'rxjs';
 export class BoardDetailsComponent implements OnInit {
   boardId: string;
   board: Board;
-
+  taskStatus: string = 'Todo';
 
   constructor(
     private boardsService: BoardsService,
-    private route: ActivatedRoute,
     private modalService: ModalService,
-    private tasksService: TasksService
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -34,16 +29,12 @@ export class BoardDetailsComponent implements OnInit {
       if (this.boardId) {
         this.boardsService.getBoardById(this.boardId!!);
 
-        this.boardsService.selectedBoardSource.subscribe(
-          (board) => {
-            if (board) this.board = board;
-          }
-        );
+        this.boardsService.selectedBoardSource.subscribe((board) => {
+          if (board) this.board = board;
+        });
       }
     });
   }
-
-
 
   sortTasks(data: {
     target: HTMLElement;
@@ -69,5 +60,10 @@ export class BoardDetailsComponent implements OnInit {
 
   resetFilter() {
     this.boardsService.getBoardById(this.board._id);
+  }
+
+  openModal(data: string) {
+    this.taskStatus = data;
+    this.modalService.open();
   }
 }

@@ -70,17 +70,12 @@ export class BoardsService {
     return params;
   }
 
-  sortBoards(property: string, value: string) {
+  sortBoards(sortBy: string, value: string, orderBy: string = 'asc') {
     this.boardsSource.pipe(take(1)).subscribe((boards) => {
       boards.sort((board1, board2) => {
-        return (
-          board1.tasks.filter(
-            (t) => t[property].toLowerCase() === value.toLowerCase()
-          ).length -
-          board2.tasks.filter(
-            (t) => t[property].toLowerCase() === value.toLowerCase()
-          ).length
-        );
+        const board1TasksCount = board1.tasks.filter(t => t[sortBy].toLowerCase() === value.toLowerCase()).length;
+        const board2TasksCount = board2.tasks.filter(t => t[sortBy].toLowerCase() === value.toLowerCase()).length;
+        return orderBy === 'asc' ? board1TasksCount - board2TasksCount : board2TasksCount - board1TasksCount;
       });
       this.boardsSource.next(boards);
     });

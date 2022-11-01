@@ -4,7 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { take } from 'rxjs';
 import { Board } from 'src/app/_models/board.model';
 import { TaskModel } from 'src/app/_models/task.model';
@@ -21,8 +21,8 @@ export class TaskColumnComponent implements OnInit {
   @Input() board: Board;
   @Input() title: string;
   @Input() status: string;
+  @Output() openModalEvent: EventEmitter<string> = new EventEmitter<string>();
   color: string = '#F0F0F0';
-  taskStatus: string = 'Todo';
 
   constructor(
     private boardsService: BoardsService,
@@ -35,8 +35,8 @@ export class TaskColumnComponent implements OnInit {
   }
 
   openModal(status: string) {
-    this.taskStatus = status;
-    this.modalService.open();
+    // this.modalService.open();
+    this.openModalEvent.emit(status);
   }
 
   drop(event: CdkDragDrop<TaskModel[]>) {
