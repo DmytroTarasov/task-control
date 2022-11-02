@@ -17,5 +17,12 @@ export default () => ({
         }
         return resolve(newComment);
     }),
-
+    deletecomment: (id) => new Promise(async (resolve, reject) => {
+        try {
+            await commentDao().deleteComment(id);
+        } catch (err) {
+            return reject(err);
+        }
+        return resolve();
+    })
 });

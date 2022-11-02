@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskModel } from 'src/app/_models/task.model';
 import { CommentsService } from 'src/app/_services/comments.service';
@@ -10,6 +10,7 @@ import { TasksService } from 'src/app/_services/tasks.service';
   styleUrls: ['./task-details.component.css'],
 })
 export class TaskDetailsComponent implements OnInit {
+  @ViewChild('commentText') commentText: ElementRef;
   task: TaskModel;
 
   constructor(
@@ -30,6 +31,18 @@ export class TaskDetailsComponent implements OnInit {
     this.commentsService.createComment({ text, task: this.task._id }).subscribe({
       next: (comment) => {
         this.task.comments.push(comment);
+        this.commentText.nativeElement.value = '';
+      }
+    });
+  }
+
+  deleteComment(id: string) {
+    this.commentsService.deleteComment(id).subscribe({
+      next: () => {
+        const deletedComment = this.task.comments.find(comment => comment._id === id);
+        const deletedCommentIndex = this.task.comments.indexOf(deletedComment);
+        this.task.comments = [...this.task.comments.slice(0, deletedCommentIndex),
+          ...this.task.comments.slice(deletedCommentIndex + 1)];
       }
     });
   }

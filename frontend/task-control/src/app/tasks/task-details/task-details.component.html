@@ -19,7 +19,7 @@
             <p
               class="comment-item"
               *ngFor="let comment of task.comments">
-              {{ comment.text }}  <span>{{ comment.created_at | date:'short' }}</span>
+              <span class="delete-comment" (click)="deleteComment(comment._id)">&#10060;</span> {{ comment.text }}  <span>{{ comment.created_at | date:'short' }}</span>
             </p>
           </div>
         </div>

@@ -15,4 +15,8 @@ export class CommentsService {
     return this.http.post<Comment>(`${environment.serverUrl}/comments`, comment);
   }
 
+  deleteComment(id: string) {
+    return this.http.delete<string>(`${environment.serverUrl}/comments/${id}`);
+  }
+
 }

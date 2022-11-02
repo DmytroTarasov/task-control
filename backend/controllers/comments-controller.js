@@ -5,3 +5,10 @@ export const createComment = async (req, res, next) => {
         .then(comment => res.status(200).json(comment))
         .catch(err => next(err));
 }
+
+export const deleteComment = async (req, res, next) => {
+    commentsService().deletecomment(req.params.commentId)
+        .then(() => res.status(200).json({ message: 'Comment was successfully deleted' }))
+        .catch(err => next(err));
+}
+
