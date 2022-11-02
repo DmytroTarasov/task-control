@@ -1,37 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { AuthService } from '../_services/auth.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
+import { User } from '../_models/user.model';
+
+import * as fromApp from '../store/app.reducer';
+import { Store } from '@ngrx/store';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = false;
-  authForm!: UntypedFormGroup;
-  error: string = '';
-  registerMessage = '';
+  authForm!: FormGroup;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  registerMessage = '';
+  error = '';
+  user: User;
+  private storeSub: Subscription;
+
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.authForm = new UntypedFormGroup({
-      email: new UntypedFormControl(null, [Validators.required, Validators.email]),
-      password: new UntypedFormControl(null, [
+    this.authForm = new FormGroup({
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [
         Validators.required,
         Validators.minLength(6),
       ]),
     });
     this.handleUsernameControl();
+
+    this.storeSub = this.store.select('auth').subscribe((authState) => {
+      this.error = authState.authError;
+      this.user = authState.user;
+      this.registerMessage = authState.registerMessage;
+    });
   }
 
   onSwitchMode() {
-    this.registerMessage = '';
-    this.error = '';
+    this.store.dispatch(new AuthActions.ClearError());
+    this.store.dispatch(new AuthActions.ClearRegisterMessage());
     this.isLoginMode = !this.isLoginMode;
     this.handleUsernameControl();
   }
@@ -43,36 +54,31 @@ export class AuthComponent implements OnInit {
 
     const { email, username, password } = this.authForm.value;
 
-    let authObservable: Observable<any>;
     if (this.isLoginMode) {
-      authObservable = this.authService.login(email, password);
+      this.store.dispatch(new AuthActions.Login({ email, password }));
     } else {
-      authObservable = this.authService.register(email, username, password);
+      this.store.dispatch(
+        new AuthActions.Signup({ email, password, username })
+      );
     }
 
-    authObservable.subscribe({
-      next: (responseData) => {
-        if (responseData.message) {
-          this.registerMessage = responseData.message;
-          return;
-        }
-        this.authForm.reset();
-        this.router.navigate(['/boards']);
-      },
-      error: (error: Error) => {
-        this.error = error.message;
-      },
-    });
+    this.authForm.reset();
   }
 
   private handleUsernameControl() {
     if (!this.isLoginMode) {
       this.authForm.addControl(
         'username',
-        new UntypedFormControl(null, [Validators.required])
+        new FormControl(null, [Validators.required])
       );
     } else {
       this.authForm.removeControl('username');
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
     }
   }
 }

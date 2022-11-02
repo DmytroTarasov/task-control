@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskModel } from 'src/app/_models/task.model';
+import { BoardsService } from 'src/app/_services/boards.service';
 import { CommentsService } from 'src/app/_services/comments.service';
 import { TasksService } from 'src/app/_services/tasks.service';
 
@@ -14,12 +15,14 @@ export class TaskDetailsComponent implements OnInit {
   task: TaskModel;
 
   constructor(
+    private boardsService: BoardsService,
     private tasksService: TasksService,
     private commentsService: CommentsService,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.boardsService.selectedBoardSource.subscribe(board => console.log(board));
     this.route.params.subscribe((params) => {
       this.tasksService.getTaskById(params['taskId']).subscribe((task) => {
         this.task = task;

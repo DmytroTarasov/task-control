@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import {DragDropModule} from '@angular/cdk/drag-drop';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+
+import * as fromApp from './store/app.reducer';
+import { AuthEffects } from './auth/store/auth.effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +35,9 @@ import { LengthPipe } from './_pipes/length.pipe';
 import { TaskColumnComponent } from './tasks/task-column/task-column.component';
 import { HandleColorChangeDirective } from './_directives/handle-color-change.directive';
 import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
+import { environment } from 'src/environments/environment';
+
+
 
 @NgModule({
   declarations: [
@@ -51,7 +60,7 @@ import { TaskDetailsComponent } from './tasks/task-details/task-details.componen
     LengthPipe,
     TaskColumnComponent,
     HandleColorChangeDirective,
-    TaskDetailsComponent
+    TaskDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,12 +68,15 @@ import { TaskDetailsComponent } from './tasks/task-details/task-details.componen
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    DragDropModule
+    DragDropModule,
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([AuthEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   providers: [
     LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
