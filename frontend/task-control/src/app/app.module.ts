@@ -28,6 +28,7 @@ import { HoverDirective } from './_directives/hover.directive';
 import { LengthPipe } from './_pipes/length.pipe';
 import { TaskColumnComponent } from './tasks/task-column/task-column.component';
 import { HandleColorChangeDirective } from './_directives/handle-color-change.directive';
+import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { HandleColorChangeDirective } from './_directives/handle-color-change.di
     HoverDirective,
     LengthPipe,
     TaskColumnComponent,
-    HandleColorChangeDirective
+    HandleColorChangeDirective,
+    TaskDetailsComponent
   ],
   imports: [
     BrowserModule,

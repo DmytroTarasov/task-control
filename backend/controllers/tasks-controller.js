@@ -23,3 +23,9 @@ export const archiveTask = async (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Task was successfully archived' }))
         .catch(err => next(err));
 }
+
+export const getTaskById = async (req, res, next) => {
+    tasksService().getTaskById(req.params.taskId)
+        .then((task) => res.status(200).json(task))
+        .catch(err => next(err));
+}

@@ -9,6 +9,10 @@ import { TaskModel } from '../_models/task.model';
 export class TasksService {
   constructor(private http: HttpClient) {}
 
+  getTaskById(id: string) {
+    return this.http.get<TaskModel>(`${environment.serverUrl}/tasks/${id}`);
+  }
+
   createTask(task: TaskModel) {
     return this.http.post<TaskModel>(`${environment.serverUrl}/tasks`, task);
   }

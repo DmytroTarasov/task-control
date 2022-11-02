@@ -5,6 +5,20 @@ import { Board } from "../models/board.js";
 import HttpError from "../models/http-error.js";
 
 export default () => ({
+    getTaskById: (id) => new Promise(async (resolve, reject) => {
+        let task;
+        try {
+            task = await Task
+                .findById(id)
+                .populate('comments')
+                .populate('created_by', '-_id username')
+                .select('-__v');
+        } catch (err) {
+            console.log(err);
+            return reject(new HttpError('DB error occured', 500));
+        }
+        return resolve(task);
+    }),
     editTask: (id, name, status) => new Promise(async (resolve, reject) => {
         try {
             await Task.findByIdAndUpdate(id, { name, status });

@@ -9,7 +9,8 @@ const taskSchema = new Schema({
     archived: { type: Boolean, default: false },
     created_at: { type: String, required: true },
     created_by: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
-    board: { type: mongoose.Types.ObjectId, required: true, ref: 'Board' }
+    board: { type: mongoose.Types.ObjectId, required: true, ref: 'Board' },
+    comments: [{ type: mongoose.Types.ObjectId, required: true, ref: 'Comment' }]
 });
 
 const Task = mongoose.model('Task', taskSchema);

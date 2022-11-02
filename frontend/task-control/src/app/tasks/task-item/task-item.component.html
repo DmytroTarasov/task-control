@@ -1,5 +1,7 @@
 
 <div class="task-item">
+  <a [routerLink]="['tasks', task._id]" class="task-link">&#8594;</a>
+
   <input
     [ngClass]="task.archived ? 'text-crossed-out' : 'null'"
     class="task-title"

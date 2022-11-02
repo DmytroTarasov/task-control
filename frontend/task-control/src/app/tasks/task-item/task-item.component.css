@@ -67,10 +67,19 @@
   margin-right: 5%;
   font-size: 12px;
   justify-self: flex-end;
-  align-self: flex-end;
 }
 
 .text-crossed-out {
   text-decoration: line-through;
+}
+
+.task-link {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
 }
 
