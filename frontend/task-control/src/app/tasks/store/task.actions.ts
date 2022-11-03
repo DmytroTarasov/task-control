@@ -1,12 +1,12 @@
 import { Action } from '@ngrx/store';
+import { CommentModel } from 'src/app/_models/comment.model';
 import { TaskModel } from 'src/app/_models/task.model';
 
 export const SET_SELECTED_TASK = '[Tasks] SET_SELECTED_TASK';
 export const GET_TASK_BY_ID = '[Tasks] GET_TASK_BY_ID';
-export const ADD_TASK = '[Tasks] ADD_TASK';
-export const UPDATE_TASK = '[Tasks] UPDATE_TASK';
-export const DELETE_TASK = '[Tasks] DELETE_TASK';
-export const ARCHIVE_TASK = '[Tasks] ARCHIVE_TASK';
+export const CREATE_TASK_COMMENT = '[Tasks] CREATE_TASK_COMMENT';
+export const ADD_COMMENT_TO_TASK = '[Tasks] ADD_COMMENT_TO_TASK';
+export const DELETE_TASK_COMMENT = '[Tasks] DELETE_TASK_COMMENT';
 
 export class SetSelectedTask implements Action {
   readonly type = SET_SELECTED_TASK;
@@ -20,36 +20,26 @@ export class GetTaskById implements Action {
   constructor(public payload: string) {}
 }
 
-export class AddTask implements Action {
-  readonly type = ADD_TASK;
+export class CreateTaskComment implements Action {
+  readonly type = CREATE_TASK_COMMENT;
 
-  constructor(public payload: TaskModel) {}
+  constructor(public payload: CommentModel) {}
 }
 
-export class UpdateTask implements Action {
-  readonly type = UPDATE_TASK;
+export class AddCommentToTask implements Action {
+  readonly type = ADD_COMMENT_TO_TASK;
 
-  constructor(
-    public payload: { id: string; newName: string; newStatus: string }
-  ) {}
+  constructor(public payload: CommentModel) {}
 }
 
-export class DeleteTask implements Action {
-  readonly type = DELETE_TASK;
+export class DeleteCommentTask implements Action {
+  readonly type = DELETE_TASK_COMMENT;
 
   constructor(public payload: string) {}
 }
 
-export class ArchiveTask implements Action {
-  readonly type = ARCHIVE_TASK;
-
-  constructor(public payload: string) {}
-}
-
-export type BoardActions =
+export type TaskActions =
   | SetSelectedTask
   | GetTaskById
-  | AddTask
-  | UpdateTask
-  | DeleteTask
-  | ArchiveTask;
+  | AddCommentToTask
+  | DeleteCommentTask;

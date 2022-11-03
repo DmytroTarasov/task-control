@@ -15,9 +15,7 @@ import { Store } from '@ngrx/store';
   providedIn: 'root',
 })
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   intercept(
     req: HttpRequest<any>,

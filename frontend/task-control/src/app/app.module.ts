@@ -10,6 +10,7 @@ import { EffectsModule } from '@ngrx/effects';
 import * as fromApp from './store/app.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
 import { BoardEffects } from './boards/store/board.effects';
+import { TaskEffects } from './tasks/store/task.effects';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +18,6 @@ import { AuthComponent } from './auth/auth.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoaderComponent } from './shared/loader/loader.component';
-import { LoaderService } from './_services/loader.service';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { AuthInterceptor } from './_interceptors/auth.interceptor';
 import { HeaderComponent } from './header/header.component';
@@ -37,8 +37,6 @@ import { TaskColumnComponent } from './tasks/task-column/task-column.component';
 import { HandleColorChangeDirective } from './_directives/handle-color-change.directive';
 import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
 import { environment } from 'src/environments/environment';
-
-
 
 @NgModule({
   declarations: [
@@ -71,11 +69,10 @@ import { environment } from 'src/environments/environment';
     FormsModule,
     DragDropModule,
     StoreModule.forRoot(fromApp.appReducer),
-    EffectsModule.forRoot([AuthEffects, BoardEffects]),
+    EffectsModule.forRoot([AuthEffects, BoardEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
   ],
   providers: [
-    LoaderService,
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],

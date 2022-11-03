@@ -5,12 +5,13 @@ import {
 } from '@angular/cdk/drag-drop';
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { take } from 'rxjs';
+import { map } from 'rxjs';
 import { Board } from 'src/app/_models/board.model';
 import { TaskModel } from 'src/app/_models/task.model';
-import { BoardsService } from 'src/app/_services/boards.service';
-import { ModalService } from 'src/app/_services/modal.service';
-import { TasksService } from 'src/app/_services/tasks.service';
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducer';
+import * as BoardActions from '../../boards/store/board.actions';
 
 @Component({
   selector: 'app-task-column',
@@ -18,24 +19,29 @@ import { TasksService } from 'src/app/_services/tasks.service';
   styleUrls: ['./task-column.component.css'],
 })
 export class TaskColumnComponent implements OnInit {
-  @Input() board: Board;
+  board: Board;
   @Input() title: string;
   @Input() status: string;
   @Output() openModalEvent: EventEmitter<string> = new EventEmitter<string>();
   color: string = '#F0F0F0';
 
-  constructor(
-    private boardsService: BoardsService,
-    private tasksService: TasksService,
-    private modalService: ModalService
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.color = this.board[this.transformStatus()];
+    this.store
+      .select('boards')
+      .pipe(
+        map((boardsState) => {
+          return boardsState.selectedBoard;
+        })
+      )
+      .subscribe((board) => {
+        this.board = board;
+        this.color = this.board[this.transformStatus()];
+      });
   }
 
   openModal(status: string) {
-    // this.modalService.open();
     this.openModalEvent.emit(status);
   }
 
@@ -60,27 +66,14 @@ export class TaskColumnComponent implements OnInit {
           break;
       }
       const modifiedTask = event.previousContainer.data[event.previousIndex];
-      this.tasksService
-        .editTask(modifiedTask._id, modifiedTask.name, newStatus)
-        .subscribe({
-          next: () => {
-            this.boardsService.selectedBoardSource
-              .pipe(take(1))
-              .subscribe((board) => {
-                const updatedTask = board.tasks.find(
-                  (task) => task._id === modifiedTask._id
-                );
-                const updatedTaskIndex = board.tasks.indexOf(updatedTask);
-                updatedTask.status = newStatus;
-                board.tasks = [
-                  ...board.tasks.slice(0, updatedTaskIndex),
-                  updatedTask,
-                  ...board.tasks.slice(updatedTaskIndex + 1),
-                ];
-                this.boardsService.selectedBoardSource.next(board);
-              });
-          },
-        });
+
+      this.store.dispatch(
+        new BoardActions.UpdateBoardTask({
+          id: modifiedTask._id,
+          newName: modifiedTask.name,
+          newStatus,
+        })
+      );
 
       transferArrayItem(
         event.previousContainer.data,

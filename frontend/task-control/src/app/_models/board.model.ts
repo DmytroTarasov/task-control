@@ -4,15 +4,9 @@ export interface Board {
   _id?: string;
   name: string;
   description: string;
-  created_at: string;
-  tasks: TaskModel[];
+  created_at?: string;
+  todo_color?: string;
+  in_progress_color?: string;
+  done_color?: string;
+  tasks?: TaskModel[];
 }
-
-// export class Board {
-//   constructor(
-//     public name: string,
-//     public description: string,
-//     public created_at: string,
-//     public tasks: Task[]
-//   ) {}
-// }

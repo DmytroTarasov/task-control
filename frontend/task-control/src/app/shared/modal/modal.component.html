@@ -1,5 +1,5 @@
-<ng-container *ngIf="display$ | async as display">
-  <div class="modal-wrapper" [class.open]="display" (click)="close()">
+<ng-container *ngIf="modalOpen">
+  <div class="modal-wrapper" [class.open]="modalOpen" (click)="close()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close" type="button" (click)="close()">X</button>
 

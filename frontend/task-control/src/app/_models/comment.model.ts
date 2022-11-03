@@ -1,4 +1,4 @@
-export interface Comment {
+export interface CommentModel {
   _id?: string;
   text: string;
   created_at?: string;

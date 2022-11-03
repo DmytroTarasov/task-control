@@ -11,9 +11,9 @@
   </app-filter>
 
   <div class="content">
-    <app-task-column [title]="'Todo'" [status]="'Todo'" [board]="board" (openModalEvent)="openModal($event)"></app-task-column>
-    <app-task-column [title]="'In Progress'" [status]="'In Progress'" [board]="board" (openModalEvent)="openModal($event)"></app-task-column>
-    <app-task-column [title]="'Done'" [status]="'Done'" [board]="board" (openModalEvent)="openModal($event)"></app-task-column>
+    <app-task-column [title]="'Todo'" [status]="'Todo'" (openModalEvent)="openModal($event)"></app-task-column>
+    <app-task-column [title]="'In Progress'" [status]="'In Progress'" (openModalEvent)="openModal($event)"></app-task-column>
+    <app-task-column [title]="'Done'" [status]="'Done'" (openModalEvent)="openModal($event)"></app-task-column>
   </div>
 
 </div>

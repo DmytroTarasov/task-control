@@ -10,11 +10,11 @@ import { map, Subscription } from 'rxjs';
 import { Board } from '../_models/board.model';
 import { QueryParams } from '../_models/queryParams.model';
 import { BoardsService } from '../_services/boards.service';
-import { ModalService } from '../_services/modal.service';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as BoardActions from '../boards/store/board.actions';
+import * as ModalActions from '../shared/modal/store/modal.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,17 +31,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private boardsService: BoardsService,
-    private modalService: ModalService,
     private renderer: Renderer2,
     private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit(): void {
-    // this.boardsService.getBoards();
-
-    // this.boardsService.boardsSource.subscribe(
-    //   (boards) => (this.boards = boards)
-    // );
     this.store.dispatch(new BoardActions.GetBoards());
 
     this.storeSub = this.store
@@ -53,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openModal() {
-    this.modalService.open();
+    this.store.dispatch(new ModalActions.ModalOpen());
   }
 
   setElementColor(element: HTMLElement, color: string = '#F0F0F0') {
@@ -74,25 +68,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     );
 
     if (['todo', 'in progress', 'done'].includes(sortByValue)) {
-      this.boardsService.sortBoards(
+      const sortedBoards = this.boardsService.sortBoards(
+        this.boards,
         'status',
         sortByValue,
         target.innerText.toLowerCase()
       );
+
+      this.store.dispatch(new BoardActions.SetBoards(sortedBoards));
     } else {
-      // this.boardsService.getBoards(queryParams);
       this.store.dispatch(new BoardActions.GetBoards(queryParams));
     }
   }
 
   filterBoards(filterValue: string) {
     const queryParams = new QueryParams(null, null, filterValue);
-    // this.boardsService.getBoards(queryParams);
     this.store.dispatch(new BoardActions.GetBoards(queryParams));
   }
 
   resetFilter() {
-    // this.boardsService.getBoards();
     this.store.dispatch(new BoardActions.GetBoards());
   }
 

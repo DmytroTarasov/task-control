@@ -7,11 +7,9 @@ import { BoardDetailsComponent } from './boards/board-details/board-details.comp
 import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
 
 const routes: Routes = [
-  // { path: 'boards', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'boards', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'auth', component: AuthComponent },
-  // { path: 'boards/:boardId', component: BoardDetailsComponent, canActivate: [AuthGuard] },
-  { path: 'boards/:boardId', component: BoardDetailsComponent },
-  { path: 'boards', component: DashboardComponent },
+  { path: 'boards/:boardId', component: BoardDetailsComponent, canActivate: [AuthGuard] },
   { path: 'boards/:boardId/tasks/:taskId', component: TaskDetailsComponent, canActivate: [AuthGuard] }
 ];
 

@@ -1,5 +1,5 @@
 
-<div class="task-item">
+<div class="task-item" *ngIf="task">
   <a [routerLink]="['tasks', task._id]" class="task-link">&#8594;</a>
 
   <input
@@ -7,7 +7,7 @@
     class="task-title"
     value="{{task.name}}"
     name="name" #taskName
-    (blur)="editTask(task)"
+    (blur)="editTask()"
     [disabled]="task.archived">
   <p class="task-date">{{ task.created_at | date: 'medium'}}</p>
 

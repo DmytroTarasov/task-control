@@ -1,9 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TaskModel } from 'src/app/_models/task.model';
-import { BoardsService } from 'src/app/_services/boards.service';
-import { CommentsService } from 'src/app/_services/comments.service';
-import { TasksService } from 'src/app/_services/tasks.service';
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../../store/app.reducer';
+import * as TaskActions from '../../tasks/store/task.actions';
+import { map, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-task-details',
@@ -12,41 +14,40 @@ import { TasksService } from 'src/app/_services/tasks.service';
 })
 export class TaskDetailsComponent implements OnInit {
   @ViewChild('commentText') commentText: ElementRef;
+  taskId: string;
   task: TaskModel;
 
   constructor(
-    private boardsService: BoardsService,
-    private tasksService: TasksService,
-    private commentsService: CommentsService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit(): void {
-    this.boardsService.selectedBoardSource.subscribe(board => console.log(board));
-    this.route.params.subscribe((params) => {
-      this.tasksService.getTaskById(params['taskId']).subscribe((task) => {
-        this.task = task;
-      });
-    });
+    this.route.params
+      .pipe(
+        map((params) => {
+          return params['taskId'];
+        }),
+        switchMap((taskId) => {
+          this.taskId = taskId;
+          this.store.dispatch(new TaskActions.GetTaskById(this.taskId));
+          return this.store.select('tasks');
+        }),
+        map((tasksState) => {
+          return tasksState.selectedTask;
+        })
+      )
+      .subscribe((task) => (this.task = task));
   }
 
   createComment(text: string) {
-    this.commentsService.createComment({ text, task: this.task._id }).subscribe({
-      next: (comment) => {
-        this.task.comments.push(comment);
-        this.commentText.nativeElement.value = '';
-      }
-    });
+    this.store.dispatch(
+      new TaskActions.CreateTaskComment({ text, task: this.task._id })
+    );
+    this.commentText.nativeElement.value = '';
   }
 
   deleteComment(id: string) {
-    this.commentsService.deleteComment(id).subscribe({
-      next: () => {
-        const deletedComment = this.task.comments.find(comment => comment._id === id);
-        const deletedCommentIndex = this.task.comments.indexOf(deletedComment);
-        this.task.comments = [...this.task.comments.slice(0, deletedCommentIndex),
-          ...this.task.comments.slice(deletedCommentIndex + 1)];
-      }
-    });
+    this.store.dispatch(new TaskActions.DeleteCommentTask(id));
   }
 }

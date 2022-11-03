@@ -1,4 +1,4 @@
-import { Comment } from "./comment.model";
+import { CommentModel } from "./comment.model";
 
 export interface TaskModel {
     _id?: string;
@@ -8,5 +8,5 @@ export interface TaskModel {
     archived?: boolean;
     created_by?: { username: string };
     board: string;
-    comments?: Comment[]
+    comments?: CommentModel[]
 }

@@ -1,6 +1,12 @@
-import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Board } from 'src/app/_models/board.model';
-import { BoardsService } from 'src/app/_services/boards.service';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
@@ -19,20 +25,17 @@ export class BoardItemComponent implements OnInit, OnDestroy {
 
   storeSub: Subscription;
 
-  constructor(
-    private boardsService: BoardsService,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
     this.storeSub = this.store
       .select('boards')
       .pipe(
-        map(boardsState => {
-          return boardsState.boards.find(board => board._id === this.id);
+        map((boardsState) => {
+          return boardsState.boards.find((board) => board._id === this.id);
         })
       )
-      .subscribe(board => {
+      .subscribe((board) => {
         this.board = board;
       });
   }
@@ -40,7 +43,12 @@ export class BoardItemComponent implements OnInit, OnDestroy {
   editBoard() {
     const inputValue = this.boardNameField.nativeElement.value;
     if (inputValue !== this.board.name) {
-      this.store.dispatch(new BoardActions.UpdateBoard({ id: this.board._id, newName: inputValue }));
+      this.store.dispatch(
+        new BoardActions.UpdateBoard({
+          id: this.board._id,
+          newName: inputValue,
+        })
+      );
     }
   }
 

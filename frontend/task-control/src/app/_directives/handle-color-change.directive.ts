@@ -1,6 +1,8 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
-import { take } from 'rxjs';
-import { BoardsService } from '../_services/boards.service';
+
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as BoardActions from '../boards/store/board.actions';
 
 @Directive({
   selector: '[appHandleColorChange]',
@@ -8,17 +10,16 @@ import { BoardsService } from '../_services/boards.service';
 export class HandleColorChangeDirective {
   constructor(
     private elementRef: ElementRef,
-    private boardsService: BoardsService
+    private store: Store<fromApp.AppState>
   ) {}
 
   @HostListener('focusout') handleFocusOut() {
-    console.log(this.elementRef.nativeElement.attributes.getNamedItem('ng-reflect-name').value);
-    this.boardsService.selectedBoardSource.pipe(take(1)).subscribe(board => {
-      this.boardsService.setColumnColor(
-        board._id,
-        this.elementRef.nativeElement.attributes.getNamedItem('ng-reflect-name').value,
-        this.elementRef.nativeElement.value
-      );
-    });
+    const colorType = this.elementRef.nativeElement.attributes.getNamedItem('ng-reflect-name').value;
+    this.store.dispatch(
+      new BoardActions.SetColumnColor({
+        colorType,
+        color: this.elementRef.nativeElement.value,
+      })
+    );
   }
 }
