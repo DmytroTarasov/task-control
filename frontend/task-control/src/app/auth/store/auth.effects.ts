@@ -23,7 +23,7 @@ export class AuthEffects {
         .pipe(
           map((user) => {
             localStorage.setItem('userData', JSON.stringify(user));
-            return new AuthActions.AuthenticateSuccess(user);
+            return new AuthActions.AuthenticateSuccess({ user, redirect: true });
           }),
           catchError((errorRes) => {
             return of(
@@ -39,7 +39,9 @@ export class AuthEffects {
   authRedirect = this.actions$.pipe(
     ofType(AuthActions.AUTHENTICATE_SUCCESS),
     tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
-      this.router.navigateByUrl('/boards');
+      if (authSuccessAction.payload.redirect) {
+        this.router.navigateByUrl('/boards');
+      }
     })
   );
 
@@ -85,7 +87,7 @@ export class AuthEffects {
       );
 
       if (loadedUser.token) {
-        return new AuthActions.AuthenticateSuccess(loadedUser);
+        return new AuthActions.AuthenticateSuccess({ user: loadedUser, redirect: false });
       }
 
       return { type: 'NOTHING' };

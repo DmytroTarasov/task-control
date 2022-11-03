@@ -1,4 +1,4 @@
-<div class="board-item">
+<div class="board-item" *ngIf="board">
   <input class="board-title" value={{board.name}} name="name" #boardName (blur)="editBoard()">
   <p class="board-edit" [appFocus]="boardName">Edit</p>
   <a [routerLink]="[board._id]" class="board-link">&#8594;</a>

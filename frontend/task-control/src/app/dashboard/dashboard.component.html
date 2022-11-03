@@ -17,7 +17,7 @@
     <div class="new-board" (click)="openModal()">
       <span class="new-board-title">Add new</span>
     </div>
-    <app-board-item *ngFor="let board of boards" [board]="board" class="w-100 h-100"></app-board-item>
+    <app-board-item *ngFor="let board of boards" [id]="board._id" class="w-100 h-100"></app-board-item>
   </div>
 
 </div>
