@@ -1,3 +1,4 @@
+import { createReducer, on } from '@ngrx/store';
 import * as LoadingActions from './loader.actions';
 
 export interface State {
@@ -5,25 +6,11 @@ export interface State {
 }
 
 const initialState: State = {
-  loading: false
+  loading: false,
 };
 
-export function loadingReducer(
-  state: State = initialState,
-  action: LoadingActions.LoadingActions
-) {
-  switch (action.type) {
-    case LoadingActions.LOADING_START:
-      return {
-        ...state,
-        loading: true
-      };
-    case LoadingActions.LOADING_COMPLETE:
-      return {
-        ...state,
-        loading: false
-      };
-    default:
-      return state;
-  }
-}
+export const loadingReducer = createReducer(
+  initialState,
+  on(LoadingActions.startLoading, (state) => ({ ...state, loading: true })),
+  on(LoadingActions.completeLoading, (state) => ({ ...state, loading: false }))
+);

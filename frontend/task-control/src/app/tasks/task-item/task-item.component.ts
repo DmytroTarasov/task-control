@@ -23,7 +23,7 @@ export class TaskItemComponent implements OnInit {
     const inputValue = this.taskNameField.nativeElement.value;
     if (inputValue !== this.task.name) {
       this.store.dispatch(
-        new BoardActions.UpdateBoardTask({
+        BoardActions.updateBoardTask({
           id: this.task._id,
           newName: inputValue,
           newStatus: this.task.status,
@@ -34,10 +34,10 @@ export class TaskItemComponent implements OnInit {
   }
 
   deleteTask() {
-    this.store.dispatch(new BoardActions.DeleteBoardTask(this.task._id));
+    this.store.dispatch(BoardActions.deleteBoardTask({ id: this.task._id }));
   }
 
   archiveTask() {
-    this.store.dispatch(new BoardActions.ArchiveBoardTask(this.task._id));
+    this.store.dispatch(BoardActions.archiveBoardTask({ id: this.task._id }));
   }
 }

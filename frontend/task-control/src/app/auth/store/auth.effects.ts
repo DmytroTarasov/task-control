@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { User } from 'src/app/_models/user.model';
 import { environment } from 'src/environments/environment';
@@ -10,98 +10,113 @@ import * as AuthActions from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-  // +
-  @Effect()
-  authLogin = this.actions$.pipe(
-    ofType(AuthActions.LOGIN),
-    switchMap((authData: AuthActions.Login) => {
-      return this.http
-        .post<User>(`${environment.serverUrl}/auth/login`, {
-          email: authData.payload.email,
-          password: authData.payload.password,
-        })
-        .pipe(
-          map((user) => {
-            localStorage.setItem('userData', JSON.stringify(user));
-            return new AuthActions.AuthenticateSuccess({ user, redirect: true });
-          }),
-          catchError((errorRes) => {
-            return of(
-              new AuthActions.AuthenticateFail(errorRes?.error?.message)
-            );
+
+  authLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.login),
+      switchMap((action) => {
+        return this.http
+          .post<User>(`${environment.serverUrl}/auth/login`, {
+            email: action.email,
+            password: action.password,
           })
-        );
-    })
+          .pipe(
+            map((user) => {
+              localStorage.setItem('userData', JSON.stringify(user));
+              return AuthActions.authenticateSuccess({
+                user,
+                redirect: true,
+              });
+            }),
+            catchError((errorRes) => {
+              return of(
+                AuthActions.authenticateFail({
+                  error: errorRes?.error?.message,
+                })
+              );
+            })
+          );
+      })
+    )
   );
 
-  // +
-  @Effect({ dispatch: false })
-  authRedirect = this.actions$.pipe(
-    ofType(AuthActions.AUTHENTICATE_SUCCESS),
-    tap((authSuccessAction: AuthActions.AuthenticateSuccess) => {
-      if (authSuccessAction.payload.redirect) {
-        this.router.navigateByUrl('/boards');
-      }
-    })
-  );
-
-  @Effect()
-  authSignup = this.actions$.pipe(
-    ofType(AuthActions.SIGNUP),
-    switchMap((signupAction: AuthActions.Signup) => {
-      return this.http
-        .post<{ message: string }>(`${environment.serverUrl}/auth/register`, {
-          email: signupAction.payload.email,
-          password: signupAction.payload.password,
-          username: signupAction.payload.username,
+  authRedirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.authenticateSuccess),
+        tap((action) => {
+          if (action.redirect) {
+            this.router.navigateByUrl('/boards');
+          }
         })
-        .pipe(
-          map((resData) => {
-            return new AuthActions.SignupSuccess(resData.message);
-          }),
-          catchError((errorRes) => {
-            return of(
-              new AuthActions.AuthenticateFail(errorRes?.error?.message)
-            );
-          })
-        );
-    })
+      ),
+    { dispatch: false }
   );
 
-  // +
-  @Effect()
-  autoLogin = this.actions$.pipe(
-    ofType(AuthActions.AUTO_LOGIN),
-    map(() => {
-      const userData = JSON.parse(localStorage.getItem('userData'));
+  authSignup$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.signup),
+      switchMap((action) => {
+        return this.http
+          .post<{ message: string }>(`${environment.serverUrl}/auth/register`, {
+            email: action.email,
+            password: action.password,
+            username: action.username,
+          })
+          .pipe(
+            map((resData) => {
+              return AuthActions.signupSuccess({ message: resData.message });
+            }),
+            catchError((errorRes) => {
+              return of(
+                AuthActions.authenticateFail({
+                  error: errorRes?.error?.message,
+                })
+              );
+            })
+          );
+      })
+    )
+  );
 
-      if (!userData) {
+  autoLogin$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AuthActions.autoLogin),
+      map(() => {
+        const userData = JSON.parse(localStorage.getItem('userData'));
+
+        if (!userData) {
+          return { type: 'NOTHING' };
+        }
+
+        const loadedUser = new User(
+          userData.email,
+          userData.username,
+          userData.created_date,
+          userData.token
+        );
+
+        if (loadedUser.token) {
+          return AuthActions.authenticateSuccess({
+            user: loadedUser,
+            redirect: false,
+          });
+        }
         return { type: 'NOTHING' };
-      }
-
-      const loadedUser = new User(
-        userData.email,
-        userData.username,
-        userData.created_date,
-        userData.token
-      );
-
-      if (loadedUser.token) {
-        return new AuthActions.AuthenticateSuccess({ user: loadedUser, redirect: false });
-      }
-
-      return { type: 'NOTHING' };
-    })
+      })
+    )
   );
 
-  // +
-  @Effect({ dispatch: false })
-  logout = this.actions$.pipe(
-    ofType(AuthActions.LOGOUT),
-    tap(() => {
-      localStorage.removeItem('userData');
-      this.router.navigate(['/auth']);
-    })
+  logout$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(AuthActions.logout),
+        tap(() => {
+          localStorage.removeItem('userData');
+          this.router.navigate(['/auth']);
+        })
+      ),
+    { dispatch: false }
   );
 
   constructor(

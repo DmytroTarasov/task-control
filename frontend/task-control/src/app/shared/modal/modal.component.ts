@@ -40,11 +40,11 @@ export class ModalComponent implements OnInit, OnDestroy {
   onSubmit() {
     if (this.mode === 'board') {
       const { name, description } = this.form.value;
-      this.store.dispatch(new BoardActions.CreateBoard({ name, description }));
+      this.store.dispatch(BoardActions.createBoard({ board: { name, description } }));
     } else if (this.mode === 'task') {
       const { name } = this.form.value;
       this.store.dispatch(
-        new BoardActions.CreateTask({ name, status: this.taskStatus })
+        BoardActions.createTask({ name, status: this.taskStatus })
       );
     }
     this.close();
@@ -52,7 +52,7 @@ export class ModalComponent implements OnInit, OnDestroy {
 
   close() {
     this.form.reset();
-    this.store.dispatch(new ModalActions.ModalClose());
+    this.store.dispatch(ModalActions.closeModal());
   }
 
   ngOnDestroy(): void {

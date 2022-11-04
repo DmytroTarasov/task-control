@@ -18,11 +18,11 @@ export class LoadingInterceptor implements HttpInterceptor {
   constructor(private store: Store<fromApp.AppState>) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.store.dispatch(new LoadingActions.LoadingStart());
+    this.store.dispatch(LoadingActions.startLoading());
     return next.handle(request).pipe(
       delay(1000),
       finalize(() => {
-        this.store.dispatch(new LoadingActions.LoadingComplete());
+        this.store.dispatch(LoadingActions.completeLoading());
       })
     );
   }

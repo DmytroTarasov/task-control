@@ -44,7 +44,7 @@ export class BoardItemComponent implements OnInit, OnDestroy {
     const inputValue = this.boardNameField.nativeElement.value;
     if (inputValue !== this.board.name) {
       this.store.dispatch(
-        new BoardActions.UpdateBoard({
+        BoardActions.updateBoard({
           id: this.board._id,
           newName: inputValue,
         })

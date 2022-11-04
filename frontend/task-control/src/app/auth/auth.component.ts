@@ -41,8 +41,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   onSwitchMode() {
-    this.store.dispatch(new AuthActions.ClearError());
-    this.store.dispatch(new AuthActions.ClearRegisterMessage());
+    // this.store.dispatch(new AuthActions.ClearError());
+    // this.store.dispatch(new AuthActions.ClearRegisterMessage());
+    if (this.error) {
+      this.store.dispatch(AuthActions.clearError());
+    }
+    if (this.registerMessage) {
+      this.store.dispatch(AuthActions.clearRegisterMessage());
+    }
     this.isLoginMode = !this.isLoginMode;
     this.handleUsernameControl();
   }
@@ -55,14 +61,12 @@ export class AuthComponent implements OnInit, OnDestroy {
     const { email, username, password } = this.authForm.value;
 
     if (this.isLoginMode) {
-      this.store.dispatch(new AuthActions.Login({ email, password }));
+      this.store.dispatch(AuthActions.login({ email, password }));
     } else {
-      this.store.dispatch(
-        new AuthActions.Signup({ email, password, username })
-      );
+      this.store.dispatch(AuthActions.signup({ email, password, username }));
     }
 
-    this.authForm.reset();
+    // this.authForm.reset();
   }
 
   private handleUsernameControl() {

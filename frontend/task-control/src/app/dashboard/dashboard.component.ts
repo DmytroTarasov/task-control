@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new BoardActions.GetBoards());
+    this.store.dispatch(BoardActions.getBoards({}));
 
     this.storeSub = this.store
       .select('boards')
@@ -47,7 +47,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openModal() {
-    this.store.dispatch(new ModalActions.ModalOpen());
+    this.store.dispatch(ModalActions.openModal());
   }
 
   setElementColor(element: HTMLElement, color: string = '#F0F0F0') {
@@ -75,19 +75,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
         target.innerText.toLowerCase()
       );
 
-      this.store.dispatch(new BoardActions.SetBoards(sortedBoards));
+      this.store.dispatch(BoardActions.setBoards({ boards: sortedBoards }));
     } else {
-      this.store.dispatch(new BoardActions.GetBoards(queryParams));
+      this.store.dispatch(BoardActions.getBoards({ queryParams }));
     }
   }
 
   filterBoards(filterValue: string) {
     const queryParams = new QueryParams(null, null, filterValue);
-    this.store.dispatch(new BoardActions.GetBoards(queryParams));
+    this.store.dispatch(BoardActions.getBoards({ queryParams }));
   }
 
   resetFilter() {
-    this.store.dispatch(new BoardActions.GetBoards());
+    this.store.dispatch(BoardActions.getBoards({}));
   }
 
   ngOnDestroy(): void {

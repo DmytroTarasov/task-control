@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { map, Subscription, switchMap } from 'rxjs';
 
 import { Board } from 'src/app/_models/board.model';
 import { QueryParams } from 'src/app/_models/queryParams.model';
@@ -15,10 +15,11 @@ import * as ModalActions from '../../shared/modal/store/modal.actions';
   templateUrl: './board-details.component.html',
   styleUrls: ['./board-details.component.css'],
 })
-export class BoardDetailsComponent implements OnInit {
+export class BoardDetailsComponent implements OnInit, OnDestroy {
   boardId: string;
   board: Board;
   taskStatus: string = 'Todo';
+  private storeSub: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,7 +27,7 @@ export class BoardDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params
+    this.storeSub = this.route.params
       .pipe(
         map((params) => {
           return params['boardId'];
@@ -34,7 +35,7 @@ export class BoardDetailsComponent implements OnInit {
         switchMap((boardId) => {
           this.boardId = boardId;
           this.store.dispatch(
-            new BoardActions.GetBoardById({ id: this.boardId })
+            BoardActions.getBoardById({ id: this.boardId })
           );
           return this.store.select('boards');
         }),
@@ -60,27 +61,33 @@ export class BoardDetailsComponent implements OnInit {
     );
 
     this.store.dispatch(
-      new BoardActions.GetBoardById({ id: this.boardId, queryParams })
+      BoardActions.getBoardById({ id: this.boardId, queryParams })
     );
   }
 
   filterTasks(filterValue: string) {
     const queryParams = new QueryParams(null, null, null, filterValue);
     this.store.dispatch(
-      new BoardActions.GetBoardById({ id: this.boardId, queryParams })
+      BoardActions.getBoardById({ id: this.boardId, queryParams })
     );
   }
 
   resetFilter() {
-    this.store.dispatch(new BoardActions.GetBoardById({ id: this.boardId }));
+    this.store.dispatch(BoardActions.getBoardById({ id: this.boardId }));
   }
 
   openModal(data: string) {
     this.taskStatus = data;
-    this.store.dispatch(new ModalActions.ModalOpen());
+    this.store.dispatch(ModalActions.openModal());
   }
 
   deleteBoard() {
-    this.store.dispatch(new BoardActions.DeleteBoard(this.board._id));
+    this.store.dispatch(BoardActions.deleteBoard({ id: this.board._id }));
+  }
+
+  ngOnDestroy(): void {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }

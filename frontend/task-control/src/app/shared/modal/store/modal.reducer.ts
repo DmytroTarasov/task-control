@@ -1,3 +1,5 @@
+import { createReducer, on } from '@ngrx/store';
+
 import * as ModalActions from './modal.actions';
 
 export interface State {
@@ -8,22 +10,8 @@ const initialState: State = {
   open: false
 };
 
-export function modalReducer(
-  state: State = initialState,
-  action: ModalActions.ModalActions
-) {
-  switch (action.type) {
-    case ModalActions.MODAL_OPEN:
-      return {
-        ...state,
-        open: true
-      };
-    case ModalActions.MODAL_CLOSE:
-      return {
-        ...state,
-        open: false
-      };
-    default:
-      return state;
-  }
-}
+export const modalReducer = createReducer(
+  initialState,
+  on(ModalActions.openModal, (state) => ({ ...state, open: true })),
+  on(ModalActions.closeModal, (state) => ({ ...state, open: false }))
+);

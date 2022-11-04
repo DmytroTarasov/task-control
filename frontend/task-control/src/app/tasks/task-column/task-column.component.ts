@@ -4,8 +4,8 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { map } from 'rxjs';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { map, Subscription } from 'rxjs';
 import { Board } from 'src/app/_models/board.model';
 import { TaskModel } from 'src/app/_models/task.model';
 
@@ -18,17 +18,18 @@ import * as BoardActions from '../../boards/store/board.actions';
   templateUrl: './task-column.component.html',
   styleUrls: ['./task-column.component.css'],
 })
-export class TaskColumnComponent implements OnInit {
+export class TaskColumnComponent implements OnInit, OnDestroy {
   board: Board;
   @Input() title: string;
   @Input() status: string;
   @Output() openModalEvent: EventEmitter<string> = new EventEmitter<string>();
   color: string = '#F0F0F0';
+  private storeSub: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.store
+    this.storeSub = this.store
       .select('boards')
       .pipe(
         map((boardsState) => {
@@ -37,7 +38,7 @@ export class TaskColumnComponent implements OnInit {
       )
       .subscribe((board) => {
         this.board = board;
-        this.color = this.board[this.transformStatus()];
+        if (!!this.board) this.color = this.board[this.transformStatus()];
       });
   }
 
@@ -68,7 +69,7 @@ export class TaskColumnComponent implements OnInit {
       const modifiedTask = event.previousContainer.data[event.previousIndex];
 
       this.store.dispatch(
-        new BoardActions.UpdateBoardTask({
+        BoardActions.updateBoardTask({
           id: modifiedTask._id,
           newName: modifiedTask.name,
           newStatus,
@@ -86,5 +87,11 @@ export class TaskColumnComponent implements OnInit {
 
   transformStatus() {
     return this.status.toLowerCase().split(' ').join('_') + '_color';
+  }
+
+  ngOnDestroy() {
+    if (this.storeSub) {
+      this.storeSub.unsubscribe();
+    }
   }
 }

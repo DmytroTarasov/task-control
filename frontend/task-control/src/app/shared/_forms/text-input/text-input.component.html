@@ -15,13 +15,19 @@
 
   <div
     class="text-danger"
-    *ngIf="ngControl.control.errors?.minlength">
+    *ngIf="ngControl.control.errors?.email && ngControl.control.touched">
+    {{label}} has a wrong format
+  </div>
+
+  <div
+    class="text-danger"
+    *ngIf="ngControl.control.errors?.minlength && ngControl.control.touched">
     {{label}} must be at least {{ngControl.control.errors.minlength['requiredLength']}}
   </div>
 
   <div
     class="text-danger"
-    *ngIf="ngControl.control.errors?.maxlength">
+    *ngIf="ngControl.control.errors?.maxlength && ngControl.control.touched">
     {{label}} must be at most {{ngControl.control.errors.maxlength['requiredLength']}}
   </div>
 

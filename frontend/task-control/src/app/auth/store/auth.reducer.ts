@@ -1,3 +1,4 @@
+import { createReducer, on } from '@ngrx/store';
 import { User } from '../../_models/user.model';
 import * as AuthActions from './auth.actions';
 
@@ -13,53 +14,12 @@ const initialState: State = {
   registerMessage: null,
 };
 
-export function authReducer(
-  state: State = initialState,
-  action: AuthActions.AuthActions
-) {
-  switch (action.type) {
-    case AuthActions.AUTHENTICATE_SUCCESS:
-      const { email, username, created_date, token } = action.payload.user;
-      const user = new User(email, username, created_date, token);
-      return {
-        ...state,
-        authError: null,
-        user
-      };
-    case AuthActions.LOGOUT:
-      return {
-        ...state,
-        user: null,
-        registerMessage: null
-      };
-    case AuthActions.LOGIN:
-    case AuthActions.SIGNUP:
-      return {
-        ...state,
-        authError: null
-      };
-    case AuthActions.SIGNUP_SUCCESS:
-      return {
-        ...state,
-        registerMessage: action.payload
-      };
-    case AuthActions.AUTHENTICATE_FAIL:
-      return {
-        ...state,
-        user: null,
-        authError: action.payload
-      };
-    case AuthActions.CLEAR_ERROR:
-      return {
-        ...state,
-        authError: null
-      };
-    case AuthActions.CLEAR_REGISTER_MESSAGE:
-      return {
-        ...state,
-        registerMessage: null
-      };
-    default:
-      return state;
-  }
-}
+export const authReducer = createReducer(
+  initialState,
+  on(AuthActions.authenticateSuccess, (state, { user }) => ({ ...state, user: { ...user }, authError: null })),
+  on(AuthActions.logout, (state) => ({ ...state, user: null, authError: null, registerMessage: null })),
+  on(AuthActions.login, AuthActions.signup, AuthActions.clearError, (state) => ({ ...state, authError: null })),
+  on(AuthActions.signupSuccess, (state, { message }) => ({ ...state, registerMessage: message })),
+  on(AuthActions.authenticateFail, (state, { error }) => ({ ...state, user: null, authError: error })),
+  on(AuthActions.clearRegisterMessage, (state) => ({ ...state, registerMessage: null }))
+);
