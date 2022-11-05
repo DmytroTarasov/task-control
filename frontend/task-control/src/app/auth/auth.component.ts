@@ -1,25 +1,28 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, tap } from 'rxjs';
 import { User } from '../_models/user.model';
 
 import * as fromApp from '../store/app.reducer';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as AuthActions from '../auth/store/auth.actions';
+import { getAuthError, getAuthMessage } from '../auth/store/auth.selectors';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css']
+  styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = false;
   authForm!: FormGroup;
 
-  registerMessage = '';
-  error = '';
-  user: User;
-  private storeSub: Subscription;
+  // registerMessage = '';
+  // error = '';
+  // user: User;
+  // private storeSub: Subscription;
+  authError$: Observable<any>;
+  authMessage$: Observable<any>;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -33,22 +36,30 @@ export class AuthComponent implements OnInit, OnDestroy {
     });
     this.handleUsernameControl();
 
-    this.storeSub = this.store.select('auth').subscribe((authState) => {
-      this.error = authState.authError;
-      this.user = authState.user;
-      this.registerMessage = authState.registerMessage;
-    });
+    // this.storeSub = this.store.select('auth').subscribe((authState) => {
+    //   this.error = authState.authError;
+    //   this.user = authState.user;
+    //   this.registerMessage = authState.registerMessage;
+    // });
+
+    this.authError$ = this.store.pipe(select(getAuthError));
+    this.authMessage$ = this.store.pipe(select(getAuthMessage));
+      // tap((authState) => {
+      //   this.error = authState.authError;
+      //   this.user = authState.user;
+      //   this.registerMessage = authState.registerMessage;
+      // })
   }
 
   onSwitchMode() {
     // this.store.dispatch(new AuthActions.ClearError());
     // this.store.dispatch(new AuthActions.ClearRegisterMessage());
-    if (this.error) {
+    // if (this.error) {
       this.store.dispatch(AuthActions.clearError());
-    }
-    if (this.registerMessage) {
+    // }
+    // if (this.registerMessage) {
       this.store.dispatch(AuthActions.clearRegisterMessage());
-    }
+    // }
     this.isLoginMode = !this.isLoginMode;
     this.handleUsernameControl();
   }
@@ -81,8 +92,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
-    }
+    // if (this.storeSub) {
+    //   this.storeSub.unsubscribe();
+    // }
   }
 }

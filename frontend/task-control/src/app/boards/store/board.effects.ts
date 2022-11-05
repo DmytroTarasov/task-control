@@ -13,19 +13,22 @@ export class BoardEffects {
   getBoards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.getBoards),
-      switchMap((action) => this.boardsService.getBoards(action.queryParams)),
-      map((resData) => resData.body),
-      map((boards) => {
-        return boards.map((board) => {
-          return {
-            ...board,
-            tasks: board.tasks ? board.tasks : [],
-          };
-        });
-      }),
-      map((boards) => {
-        // will be automatically dispatched by ngrx/effects
-        return BoardActions.setBoards({ boards });
+      switchMap((action) => {
+        return this.boardsService.getBoards(action.queryParams).pipe(
+          map((resData) => resData.body),
+          map((boards) => {
+            return boards.map((board) => {
+              return {
+                ...board,
+                tasks: board.tasks ? board.tasks : [],
+              };
+            });
+          }),
+          map((boards) => {
+            // will be automatically dispatched by ngrx/effects
+            return BoardActions.setBoards({ boards });
+          })
+        );
       })
     )
   );
@@ -44,9 +47,12 @@ export class BoardEffects {
   createBoard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.createBoard),
-      switchMap((action) => this.boardsService.createBoard(action.board)),
-      map((board) => {
-        return BoardActions.addBoard({ board });
+      switchMap((action) => {
+        return this.boardsService.createBoard(action.board).pipe(
+          map((board) => {
+            return BoardActions.addBoard({ board });
+          })
+        );
       })
     )
   );
@@ -54,11 +60,14 @@ export class BoardEffects {
   getBoardById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.getBoardById),
-      switchMap((action) =>
-        this.boardsService.getBoardById(action.id, action.queryParams)
-      ),
-      map((resData) => {
-        return BoardActions.setSelectedBoard({ board: resData.body });
+      switchMap((action) => {
+        return this.boardsService
+          .getBoardById(action.id, action.queryParams)
+          .pipe(
+            map((resData) => {
+              return BoardActions.setSelectedBoard({ board: resData.body });
+            })
+          );
       })
     )
   );
@@ -67,9 +76,12 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.deleteBoard),
-        switchMap((action) => this.boardsService.deleteBoard(action.id)),
-        tap(() => {
-          this.router.navigateByUrl('/boards');
+        switchMap((action) => {
+          return this.boardsService.deleteBoard(action.id).pipe(
+            tap(() => {
+              this.router.navigateByUrl('/boards');
+            })
+          );
         })
       ),
     { dispatch: false }
@@ -95,15 +107,18 @@ export class BoardEffects {
     this.actions$.pipe(
       ofType(BoardActions.createTask),
       withLatestFrom(this.store.select('boards')),
-      switchMap(([actionData, boardsState]) =>
-        this.tasksService.createTask(
-          boardsState.selectedBoard._id,
-          actionData['name'],
-          actionData['status']
-        )
-      ),
-      map((task) => {
-        return BoardActions.addTaskToBoard({ task });
+      switchMap(([actionData, boardsState]) => {
+        return this.tasksService
+          .createTask(
+            boardsState.selectedBoard._id,
+            actionData['name'],
+            actionData['status']
+          )
+          .pipe(
+            map((task) => {
+              return BoardActions.addTaskToBoard({ task });
+            })
+          );
       })
     )
   );

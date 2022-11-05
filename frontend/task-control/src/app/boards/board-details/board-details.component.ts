@@ -15,7 +15,6 @@ import * as ModalActions from '../../shared/modal/store/modal.actions';
   styleUrls: ['./board-details.component.css'],
 })
 export class BoardDetailsComponent implements OnInit, OnDestroy {
-  boardId: string;
   board: Board;
   taskStatus: string = 'Todo';
   private storeSub: Subscription;
@@ -44,19 +43,19 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
     );
 
     this.store.dispatch(
-      BoardActions.getBoardById({ id: this.boardId, queryParams })
+      BoardActions.getBoardById({ id: this.board._id, queryParams })
     );
   }
 
   filterTasks(filterValue: string) {
     const queryParams = new QueryParams(null, null, null, filterValue);
     this.store.dispatch(
-      BoardActions.getBoardById({ id: this.boardId, queryParams })
+      BoardActions.getBoardById({ id: this.board._id, queryParams })
     );
   }
 
   resetFilter() {
-    this.store.dispatch(BoardActions.getBoardById({ id: this.boardId }));
+    this.store.dispatch(BoardActions.getBoardById({ id: this.board._id }));
   }
 
   openModal(data: string) {

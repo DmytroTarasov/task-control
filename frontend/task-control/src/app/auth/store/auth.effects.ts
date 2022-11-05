@@ -9,22 +9,25 @@ import * as AuthActions from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
-
   authLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap((action) => this.authService.login(action.email, action.password)),
-      map((user) => {
-        localStorage.setItem('userData', JSON.stringify(user));
-        return AuthActions.authenticateSuccess({
-          user,
-          redirect: true,
-        });
-      }),
-      catchError((errorRes) => {
-        return of(
-          AuthActions.authenticateFail({
-            error: errorRes?.error?.message,
+      switchMap((action) => {
+        return this.authService.login(action.email, action.password).pipe(
+          map((user) => {
+            console.log(user);
+            localStorage.setItem('userData', JSON.stringify(user));
+            return AuthActions.authenticateSuccess({
+              user,
+              redirect: true,
+            });
+          }),
+          catchError((errorRes) => {
+            return of(
+              AuthActions.authenticateFail({
+                error: errorRes?.error?.message,
+              })
+            );
           })
         );
       })
@@ -47,16 +50,21 @@ export class AuthEffects {
   authSignup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signup),
-      switchMap((action) => this.authService.signup(action.email, action.username, action.password)),
-      map((resData) => {
-        return AuthActions.signupSuccess({ message: resData.message });
-      }),
-      catchError((errorRes) => {
-        return of(
-          AuthActions.authenticateFail({
-            error: errorRes?.error?.message,
-          })
-        );
+      switchMap((action) => {
+        return this.authService
+          .signup(action.email, action.username, action.password)
+          .pipe(
+            map((resData) => {
+              return AuthActions.signupSuccess({ message: resData.message });
+            }),
+            catchError((errorRes) => {
+              return of(
+                AuthActions.authenticateFail({
+                  error: errorRes?.error?.message,
+                })
+              );
+            })
+          );
       })
     )
   );

@@ -10,9 +10,12 @@ export class TaskEffects {
   getTaskById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.getTaskById),
-      switchMap((action) => this.tasksService.getTaskById(action.id)),
-      map((task) => {
-        return TaskActions.setSelectedTask({ task });
+      switchMap((action) => {
+        return this.tasksService.getTaskById(action.id).pipe(
+          map((task) => {
+            return TaskActions.setSelectedTask({ task });
+          })
+        );
       })
     )
   );
@@ -20,11 +23,12 @@ export class TaskEffects {
   addCommentToTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(TaskActions.createTaskComment),
-      switchMap((action) =>
-        this.commentsService.createComment(action.comment)
-      ),
-      map((comment) => {
-        return TaskActions.addCommentToTask({ comment });
+      switchMap((action) => {
+        return this.commentsService.createComment(action.comment).pipe(
+          map((comment) => {
+            return TaskActions.addCommentToTask({ comment });
+          })
+        );
       })
     )
   );

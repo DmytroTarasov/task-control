@@ -7,8 +7,8 @@
       <app-text-input *ngIf="!isLoginMode" [formControl]='authForm.controls["username"]' [label]='"Username"'></app-text-input>
       <app-text-input [formControl]='authForm.controls["password"]' [label]='"Password"' [type]="'password'"></app-text-input>
 
-      <p class="text-danger" *ngIf="error">{{ error }}</p>
-      <p class="text-success">{{ registerMessage }}</p>
+      <p class="text-danger" *ngIf="(authError$ | async) as error">{{ error }}</p>
+      <p class="text-success" *ngIf="(authMessage$ | async) as message">{{ message }}</p>
 
       <div class="mt-20">
         <div class="btn-group">
