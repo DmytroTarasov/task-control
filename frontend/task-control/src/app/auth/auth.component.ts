@@ -44,16 +44,9 @@ export class AuthComponent implements OnInit, OnDestroy {
 
     this.authError$ = this.store.pipe(select(getAuthError));
     this.authMessage$ = this.store.pipe(select(getAuthMessage));
-      // tap((authState) => {
-      //   this.error = authState.authError;
-      //   this.user = authState.user;
-      //   this.registerMessage = authState.registerMessage;
-      // })
   }
 
   onSwitchMode() {
-    // this.store.dispatch(new AuthActions.ClearError());
-    // this.store.dispatch(new AuthActions.ClearRegisterMessage());
     // if (this.error) {
       this.store.dispatch(AuthActions.clearError());
     // }
