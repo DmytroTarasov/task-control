@@ -10,7 +10,7 @@ export interface State {
 
 const initialState: State = {
   selectedBoard: null,
-  boards: [],
+  boards: null,
 };
 
 export const boardReducer = createReducer(

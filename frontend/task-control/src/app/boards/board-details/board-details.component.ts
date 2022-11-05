@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { map, Subscription, switchMap } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 
 import { Board } from 'src/app/_models/board.model';
 import { QueryParams } from 'src/app/_models/queryParams.model';
@@ -21,28 +20,12 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
   taskStatus: string = 'Todo';
   private storeSub: Subscription;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.storeSub = this.route.params
-      .pipe(
-        map((params) => {
-          return params['boardId'];
-        }),
-        switchMap((boardId) => {
-          this.boardId = boardId;
-          this.store.dispatch(
-            BoardActions.getBoardById({ id: this.boardId })
-          );
-          return this.store.select('boards');
-        }),
-        map((boardsState) => {
-          return boardsState.selectedBoard;
-        })
-      )
+    this.storeSub = this.store
+      .select('boards')
+      .pipe(map((boardsState) => boardsState.selectedBoard))
       .subscribe((board) => (this.board = board));
   }
 

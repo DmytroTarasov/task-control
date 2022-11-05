@@ -36,8 +36,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(BoardActions.getBoards({}));
-
     this.storeSub = this.store
       .select('boards')
       .pipe(map((boardsState) => boardsState.boards))

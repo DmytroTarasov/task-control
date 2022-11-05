@@ -1,11 +1,16 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { TaskModel } from 'src/app/_models/task.model';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as TaskActions from '../../tasks/store/task.actions';
-import { map, Subscription, switchMap } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-details',
@@ -18,26 +23,12 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   task: TaskModel;
   private storeSub: Subscription;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.storeSub = this.route.params
-      .pipe(
-        map((params) => {
-          return params['taskId'];
-        }),
-        switchMap((taskId) => {
-          this.taskId = taskId;
-          this.store.dispatch(TaskActions.getTaskById({ id: this.taskId }));
-          return this.store.select('tasks');
-        }),
-        map((tasksState) => {
-          return tasksState.selectedTask;
-        })
-      )
+    this.storeSub = this.store
+      .select('tasks')
+      .pipe(map((tasksState) => tasksState.selectedTask))
       .subscribe((task) => (this.task = task));
   }
 
