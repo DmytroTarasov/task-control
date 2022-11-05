@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { getAuthUser } from '../auth/store/auth.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +27,9 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.store.select('auth').pipe(
+    return this.store.pipe(
+      select(getAuthUser),
       take(1),
-      map((authState) => authState.user),
       map((user) => {
         const isAuth = user && user.token;
 
@@ -38,6 +39,6 @@ export class AuthGuard implements CanActivate {
 
         return this.router.createUrlTree(['/auth']);
       })
-    );
+    )
   }
 }

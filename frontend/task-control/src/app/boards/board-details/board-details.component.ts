@@ -4,10 +4,12 @@ import { map, Subscription } from 'rxjs';
 import { Board } from 'src/app/_models/board.model';
 import { QueryParams } from 'src/app/_models/queryParams.model';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as BoardActions from '../store/board.actions';
 import * as ModalActions from '../../shared/modal/store/modal.actions';
+
+import { getSelectedBoard } from '../store/board.selectors';
 
 @Component({
   selector: 'app-board-details',
@@ -23,8 +25,7 @@ export class BoardDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.storeSub = this.store
-      .select('boards')
-      .pipe(map((boardsState) => boardsState.selectedBoard))
+      .pipe(select(getSelectedBoard))
       .subscribe((board) => (this.board = board));
   }
 

@@ -6,15 +6,17 @@ import {
   Renderer2,
   ViewChild,
 } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { map, Subscription, tap } from 'rxjs';
 import { Board } from '../_models/board.model';
 import { QueryParams } from '../_models/queryParams.model';
 import { BoardsService } from '../_services/boards.service';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as BoardActions from '../boards/store/board.actions';
 import * as ModalActions from '../shared/modal/store/modal.actions';
+
+import { getBoards } from '../boards/store/board.selectors';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,11 +39,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.storeSub = this.store
-      .select('boards')
-      .pipe(map((boardsState) => boardsState.boards))
-      .subscribe((boards: Board[]) => {
-        this.boards = boards;
-      });
+      .pipe(select(getBoards))
+      .subscribe((boards) => (this.boards = boards));
   }
 
   openModal() {

@@ -8,10 +8,11 @@ import {
 } from '@angular/core';
 import { Board } from 'src/app/_models/board.model';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as BoardActions from '../store/board.actions';
 import { map, Subscription } from 'rxjs';
+import { getBoardById } from '../store/board.selectors';
 
 @Component({
   selector: 'app-board-item',
@@ -20,24 +21,17 @@ import { map, Subscription } from 'rxjs';
 })
 export class BoardItemComponent implements OnInit, OnDestroy {
   @Input('id') id: string;
-  @Input('board') board!: Board;
   @ViewChild('boardName') boardNameField: ElementRef;
 
+  board: Board;
   storeSub: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
     this.storeSub = this.store
-      .select('boards')
-      .pipe(
-        map((boardsState) => {
-          return boardsState.boards.find((board) => board._id === this.id);
-        })
-      )
-      .subscribe((board) => {
-        this.board = board;
-      });
+      .pipe(select(getBoardById(this.id)))
+      .subscribe((board) => (this.board = board));
   }
 
   editBoard() {

@@ -4,13 +4,13 @@
       <a [routerLink]="'/boards'" class="brand">Task Control</a>
     </div>
 
-    <ul class="nav">
+    <ul class="nav" *ngIf="(authUser$ | async) as user">
       <li class="nav-item">
-        <a [routerLink]="'/boards'" class="nav-link" *ngIf="user">{{ user.username }}</a>
+        <a [routerLink]="'/boards'" class="nav-link">{{ user.username }}</a>
       </li>
 
       <li class="nav-item">
-        <a class="nav-link" *ngIf="isAuthenticated" (click)="onLogout()">Logout</a>
+        <a class="nav-link" (click)="onLogout()">Logout</a>
       </li>
     </ul>
 

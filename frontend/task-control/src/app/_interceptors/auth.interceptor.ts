@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 import { exhaustMap, map, take } from 'rxjs/operators';
 
 import * as fromApp from '../store/app.reducer';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { getAuthUser } from '../auth/store/auth.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,9 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.store.select('auth').pipe(
+    return this.store.pipe(
+      select(getAuthUser),
       take(1),
-      map((authState) => authState.user),
       exhaustMap((user) => {
         if (!user || !user.token) {
           return next.handle(req);

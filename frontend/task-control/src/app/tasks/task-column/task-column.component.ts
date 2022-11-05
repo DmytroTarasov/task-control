@@ -8,13 +8,15 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { map, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Board } from 'src/app/_models/board.model';
 import { TaskModel } from 'src/app/_models/task.model';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as BoardActions from '../../boards/store/board.actions';
+
+import { getSelectedBoard } from '../../boards/store/board.selectors';
 
 @Component({
   selector: 'app-task-column',
@@ -32,17 +34,10 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.storeSub = this.store
-      .select('boards')
-      .pipe(
-        map((boardsState) => {
-          return boardsState.selectedBoard;
-        })
-      )
-      .subscribe((board) => {
-        this.board = board;
-        if (!!this.board) this.color = this.board[this.transformStatus()];
-      });
+    this.storeSub = this.store.pipe(select(getSelectedBoard)).subscribe(board => {
+      this.board = board;
+      if (!!this.board) this.color = this.board[this.transformStatus()];
+    })
   }
 
   openModal(status: string) {

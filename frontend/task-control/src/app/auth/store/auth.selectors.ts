@@ -13,3 +13,8 @@ export const getAuthMessage = createSelector(
   (state: State) => state.registerMessage
 )
 
+export const getAuthUser = createSelector(
+  getAuthState,
+  (state: State) => state.user
+)
+
