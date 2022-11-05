@@ -14,10 +14,11 @@
     <div
       cdkDropList
       [cdkDropListData]="board.tasks | filter:status"
+      cdkDropListSortingDisabled
       (cdkDropListDropped)="drop($event)"
       class="task-items">
-      <div *ngFor="let task of board.tasks | filter:status">
-        <app-task-item [task]="task" cdkDrag></app-task-item>
+      <div *ngFor="let task of board.tasks | filter:status" cdkDrag>
+        <app-task-item [task]="task"></app-task-item>
       </div>
     </div>
   </div>

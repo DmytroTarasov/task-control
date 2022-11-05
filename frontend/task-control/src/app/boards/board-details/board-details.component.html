@@ -1,4 +1,4 @@
-<div class="container" *ngIf="board" cdkDropListGroup>
+<div class="container" *ngIf="board">
   <div class="board-header">
     <h1 class="board-name">{{ board.name }}</h1>
     <button class="btn delete-board" (click)="deleteBoard()">Delete</button>
@@ -10,7 +10,7 @@
     ]">
   </app-filter>
 
-  <div class="content">
+  <div class="content" cdkDropListGroup>
     <app-task-column [title]="'Todo'" [status]="'Todo'" (openModalEvent)="openModal($event)"></app-task-column>
     <app-task-column [title]="'In Progress'" [status]="'In Progress'" (openModalEvent)="openModal($event)"></app-task-column>
     <app-task-column [title]="'Done'" [status]="'Done'" (openModalEvent)="openModal($event)"></app-task-column>

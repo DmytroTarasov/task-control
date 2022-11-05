@@ -1,39 +1,19 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, of, switchMap, tap, withLatestFrom } from 'rxjs';
-import { Board } from '../../_models/board.model';
+import { map, switchMap, tap, withLatestFrom } from 'rxjs';
 import * as BoardActions from './board.actions';
 import * as fromApp from '../../store/app.reducer';
 import { Store } from '@ngrx/store';
-import { QueryParams } from '../../_models/queryParams.model';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
-import { TaskModel } from 'src/app/_models/task.model';
-
-const createParams = (queryParams?: QueryParams) => {
-  let params = new HttpParams();
-  for (let key in queryParams) {
-    if (!!queryParams[key]) {
-      params = params.append(key, queryParams[key]);
-    }
-  }
-  return params;
-};
+import { BoardsService } from 'src/app/_services/boards.service';
+import { TasksService } from 'src/app/_services/tasks.service';
 
 @Injectable()
 export class BoardEffects {
-
   getBoards$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.getBoards),
-      switchMap((action) => {
-        const params = createParams(action.queryParams);
-        return this.http.get<Board[]>(`${environment.serverUrl}/boards`, {
-          observe: 'response',
-          params,
-        });
-      }),
+      switchMap((action) => this.boardsService.getBoards(action.queryParams)),
       map((resData) => resData.body),
       map((boards) => {
         return boards.map((board) => {
@@ -54,14 +34,9 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.updateBoard),
-        switchMap((action) => {
-          return this.http.patch<string>(
-            `${environment.serverUrl}/boards/${action.id}`,
-            {
-              name: action.newName,
-            }
-          );
-        })
+        switchMap((action) =>
+          this.boardsService.updateBoard(action.id, action.newName)
+        )
       ),
     { dispatch: false }
   );
@@ -69,12 +44,7 @@ export class BoardEffects {
   createBoard$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.createBoard),
-      switchMap((action) => {
-        return this.http.post<Board>(
-          `${environment.serverUrl}/boards`,
-          action.board
-        );
-      }),
+      switchMap((action) => this.boardsService.createBoard(action.board)),
       map((board) => {
         return BoardActions.addBoard({ board });
       })
@@ -84,16 +54,9 @@ export class BoardEffects {
   getBoardById$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.getBoardById),
-      switchMap((action) => {
-        const params = createParams(action.queryParams);
-        return this.http.get<Board>(
-          `${environment.serverUrl}/boards/${action.id}`,
-          {
-            observe: 'response',
-            params,
-          }
-        );
-      }),
+      switchMap((action) =>
+        this.boardsService.getBoardById(action.id, action.queryParams)
+      ),
       map((resData) => {
         return BoardActions.setSelectedBoard({ board: resData.body });
       })
@@ -104,11 +67,7 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.deleteBoard),
-        switchMap((action) => {
-          return this.http.delete<string>(
-            `${environment.serverUrl}/boards/${action.id}`
-          );
-        }),
+        switchMap((action) => this.boardsService.deleteBoard(action.id)),
         tap(() => {
           this.router.navigateByUrl('/boards');
         })
@@ -121,30 +80,28 @@ export class BoardEffects {
       this.actions$.pipe(
         ofType(BoardActions.setColumnColor),
         withLatestFrom(this.store.select('boards')),
-        switchMap(([actionData, boardsState]) => {
-          return this.http.patch<string>(
-            `${environment.serverUrl}/boards/${boardsState.selectedBoard._id}/setColumnColor`,
-            {
-              colorType: actionData['colorType'],
-              color: actionData['color'],
-            }
-          );
-        })
+        switchMap(([actionData, boardsState]) =>
+          this.boardsService.setColumnColor(
+            boardsState.selectedBoard._id,
+            actionData['colorType'],
+            actionData['color']
+          )
+        )
       ),
     { dispatch: false }
   );
 
-  createTask$ = createEffect(() =>
+  createBoardTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.createTask),
       withLatestFrom(this.store.select('boards')),
-      switchMap(([actionData, boardsState]) => {
-        return this.http.post<TaskModel>(`${environment.serverUrl}/tasks`, {
-          name: actionData['name'],
-          status: actionData['status'],
-          board: boardsState.selectedBoard._id,
-        });
-      }),
+      switchMap(([actionData, boardsState]) =>
+        this.tasksService.createTask(
+          boardsState.selectedBoard._id,
+          actionData['name'],
+          actionData['status']
+        )
+      ),
       map((task) => {
         return BoardActions.addTaskToBoard({ task });
       })
@@ -155,12 +112,13 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.updateBoardTask),
-        switchMap((action) => {
-          return this.http.patch<string>(
-            `${environment.serverUrl}/tasks/${action.id}`,
-            { name: action.newName, status: action.newStatus }
-          );
-        })
+        switchMap((action) =>
+          this.tasksService.updateTask(
+            action.id,
+            action.newName,
+            action.newStatus
+          )
+        )
       ),
     { dispatch: false }
   );
@@ -169,11 +127,7 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.deleteBoardTask),
-        switchMap((action) => {
-          return this.http.delete<string>(
-            `${environment.serverUrl}/tasks/${action.id}`
-          );
-        })
+        switchMap((action) => this.tasksService.deleteTask(action.id))
       ),
     { dispatch: false }
   );
@@ -182,19 +136,15 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.archiveBoardTask),
-        switchMap((action) => {
-          return this.http.post<string>(
-            `${environment.serverUrl}/tasks/${action.id}/archive`,
-            {}
-          );
-        })
+        switchMap((action) => this.tasksService.archiveTask(action.id))
       ),
     { dispatch: false }
   );
 
   constructor(
     private actions$: Actions,
-    private http: HttpClient,
+    private boardsService: BoardsService,
+    private tasksService: TasksService,
     private router: Router,
     private store: Store<fromApp.AppState>
   ) {}

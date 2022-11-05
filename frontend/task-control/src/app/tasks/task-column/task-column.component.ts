@@ -1,10 +1,13 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { map, Subscription } from 'rxjs';
 import { Board } from 'src/app/_models/board.model';
 import { TaskModel } from 'src/app/_models/task.model';
@@ -47,13 +50,7 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
   }
 
   drop(event: CdkDragDrop<TaskModel[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
+    if (event.previousContainer !== event.container) {
       let newStatus: string;
       switch (event.container.id) {
         case 'cdk-drop-list-0':
@@ -74,13 +71,6 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
           newName: modifiedTask.name,
           newStatus,
         })
-      );
-
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
       );
     }
   }

@@ -1,10 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { User } from 'src/app/_models/user.model';
-import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/_services/auth.service';
 
 import * as AuthActions from './auth.actions';
 
@@ -14,28 +13,20 @@ export class AuthEffects {
   authLogin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      switchMap((action) => {
-        return this.http
-          .post<User>(`${environment.serverUrl}/auth/login`, {
-            email: action.email,
-            password: action.password,
+      switchMap((action) => this.authService.login(action.email, action.password)),
+      map((user) => {
+        localStorage.setItem('userData', JSON.stringify(user));
+        return AuthActions.authenticateSuccess({
+          user,
+          redirect: true,
+        });
+      }),
+      catchError((errorRes) => {
+        return of(
+          AuthActions.authenticateFail({
+            error: errorRes?.error?.message,
           })
-          .pipe(
-            map((user) => {
-              localStorage.setItem('userData', JSON.stringify(user));
-              return AuthActions.authenticateSuccess({
-                user,
-                redirect: true,
-              });
-            }),
-            catchError((errorRes) => {
-              return of(
-                AuthActions.authenticateFail({
-                  error: errorRes?.error?.message,
-                })
-              );
-            })
-          );
+        );
       })
     )
   );
@@ -56,25 +47,16 @@ export class AuthEffects {
   authSignup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.signup),
-      switchMap((action) => {
-        return this.http
-          .post<{ message: string }>(`${environment.serverUrl}/auth/register`, {
-            email: action.email,
-            password: action.password,
-            username: action.username,
+      switchMap((action) => this.authService.signup(action.email, action.username, action.password)),
+      map((resData) => {
+        return AuthActions.signupSuccess({ message: resData.message });
+      }),
+      catchError((errorRes) => {
+        return of(
+          AuthActions.authenticateFail({
+            error: errorRes?.error?.message,
           })
-          .pipe(
-            map((resData) => {
-              return AuthActions.signupSuccess({ message: resData.message });
-            }),
-            catchError((errorRes) => {
-              return of(
-                AuthActions.authenticateFail({
-                  error: errorRes?.error?.message,
-                })
-              );
-            })
-          );
+        );
       })
     )
   );
@@ -121,7 +103,7 @@ export class AuthEffects {
 
   constructor(
     private actions$: Actions,
-    private http: HttpClient,
+    private authService: AuthService,
     private router: Router
   ) {}
 }
