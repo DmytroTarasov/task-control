@@ -43,7 +43,7 @@ export const boardReducer = createReducer(
   }),
   on(BoardActions.deleteBoard, (state, { id }) => ({
     ...state,
-    boards: state.boards.filter((board) => board._id !== id),
+    boards: !state.boards ? state.boards : state.boards.filter((board) => board._id !== id),
     selectedBoard: null,
   })),
   on(BoardActions.addTaskToBoard, (state, { task }) => {

@@ -4,11 +4,13 @@ import {
   RouterStateSnapshot,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import { filter, map, Observable, take, tap } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as TaskActions from '../tasks/store/task.actions';
+
+import { getSelectedTask } from '../tasks/store/task.selectors';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +23,8 @@ export class TaskResolver implements Resolve<boolean> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> {
     const taskId = route.paramMap.get('taskId');
 
-    return this.store.select('tasks').pipe(
-      map((tasksState) => tasksState.selectedTask),
+    return this.store.pipe(
+      select(getSelectedTask),
       tap(task => {
         if (!task || task._id !== taskId) {
           this.store.dispatch(TaskActions.getTaskById({ id: taskId }));

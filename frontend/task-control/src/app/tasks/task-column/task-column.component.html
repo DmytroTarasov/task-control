@@ -12,6 +12,7 @@
       name="{{ transformStatus() }}">
     <div class="add-task" (click)="openModal(status)"></div>
     <div
+      id="{{ createContainerId(status) }}"
       cdkDropList
       [cdkDropListData]="board.tasks | filter:status"
       cdkDropListSortingDisabled

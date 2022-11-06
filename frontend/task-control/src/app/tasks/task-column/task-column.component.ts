@@ -46,18 +46,19 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
 
   drop(event: CdkDragDrop<TaskModel[]>) {
     if (event.previousContainer !== event.container) {
-      let newStatus: string;
-      switch (event.container.id) {
-        case 'cdk-drop-list-0':
-          newStatus = 'Todo';
-          break;
-        case 'cdk-drop-list-1':
-          newStatus = 'In Progress';
-          break;
-        default:
-          newStatus = 'Done';
-          break;
-      }
+      const newStatus = this.transformContainerId(event.container.id);
+      // let newStatus: string;
+      // switch (event.container.id) {
+      //   case 'cdk-drop-list-0':
+      //     newStatus = 'Todo';
+      //     break;
+      //   case 'cdk-drop-list-1':
+      //     newStatus = 'In Progress';
+      //     break;
+      //   default:
+      //     newStatus = 'Done';
+      //     break;
+      // }
       const modifiedTask = event.previousContainer.data[event.previousIndex];
 
       this.store.dispatch(
@@ -72,6 +73,14 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
 
   transformStatus() {
     return this.status.toLowerCase().split(' ').join('_') + '_color';
+  }
+
+  createContainerId(status: string) {
+    return status.toLowerCase().split(' ').join('_');
+  }
+
+  transformContainerId(containerId: string) {
+    return containerId.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   }
 
   ngOnDestroy() {

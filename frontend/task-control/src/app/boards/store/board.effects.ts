@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { BoardsService } from 'src/app/_services/boards.service';
 import { TasksService } from 'src/app/_services/tasks.service';
 
+import { getSelectedBoard  } from './board.selectors';
+
 @Injectable()
 export class BoardEffects {
   getBoards$ = createEffect(() =>
@@ -91,10 +93,10 @@ export class BoardEffects {
     () =>
       this.actions$.pipe(
         ofType(BoardActions.setColumnColor),
-        withLatestFrom(this.store.select('boards')),
-        switchMap(([actionData, boardsState]) =>
+        withLatestFrom(this.store.select(getSelectedBoard)),
+        switchMap(([actionData, board]) =>
           this.boardsService.setColumnColor(
-            boardsState.selectedBoard._id,
+            board._id,
             actionData['colorType'],
             actionData['color']
           )
@@ -106,11 +108,11 @@ export class BoardEffects {
   createBoardTask$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BoardActions.createTask),
-      withLatestFrom(this.store.select('boards')),
-      switchMap(([actionData, boardsState]) => {
+      withLatestFrom(this.store.select(getSelectedBoard)),
+      switchMap(([actionData, board]) => {
         return this.tasksService
           .createTask(
-            boardsState.selectedBoard._id,
+            board._id,
             actionData['name'],
             actionData['status']
           )

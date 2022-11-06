@@ -27,7 +27,7 @@ const validateTaskCreate = (task) => {
 const validateTaskEdit = (board) => {
     const schema = Joi.object({
         name: Joi.string().required(),
-        status: Joi.string().required()
+        status: Joi.string().valid('Todo', 'In Progress', 'Done')
     });
     return schema.validate(board);
 }

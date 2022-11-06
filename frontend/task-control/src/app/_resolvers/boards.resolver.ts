@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
-  Router,
   Resolve,
   RouterStateSnapshot,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-import { catchError, filter, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { filter, Observable, take, tap } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as BoardActions from '../boards/store/board.actions';
+
+import { getBoards } from '../boards/store/board.selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +22,14 @@ export class BoardsResolver implements Resolve<boolean> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any> {
-    return this.store.select('boards').pipe(
-      map(boardsState => boardsState.boards),
-      tap(boards => {
+    return this.store.pipe(
+      select(getBoards),
+      tap((boards) => {
         if (!boards) {
-          this.store.dispatch(BoardActions.getBoards({}))
+          this.store.dispatch(BoardActions.getBoards({}));
         }
       }),
-      filter(boards => !!boards),
+      filter((boards) => !!boards),
       take(1)
     );
   }
