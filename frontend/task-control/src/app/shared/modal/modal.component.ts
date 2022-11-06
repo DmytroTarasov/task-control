@@ -15,14 +15,14 @@ import { getModalOpen } from './store/modal.selectors';
   styleUrls: ['./modal.component.css'],
 })
 export class ModalComponent implements OnInit {
-  @Input('modalHeader') modelHeader!: string;
-  @Input('formInputNames') formInputNames!: string[];
-  @Input('btnSubmitText') btnSubmitText!: string;
+  @Input('modalHeader') modelHeader: string;
+  @Input('formInputNames') formInputNames: string[];
+  @Input('btnSubmitText') btnSubmitText: string;
   @Input('mode') mode: string;
   @Input('taskStatus') taskStatus: string;
 
   modalOpen$: Observable<boolean>;
-  form!: FormGroup;
+  form: FormGroup;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -37,14 +37,15 @@ export class ModalComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.mode === 'board') {
-      const { name, description } = this.form.value;
-      this.store.dispatch(BoardActions.createBoard({ board: { name, description } }));
-    } else if (this.mode === 'task') {
-      const { name } = this.form.value;
-      this.store.dispatch(
-        BoardActions.createTask({ name, status: this.taskStatus })
-      );
+    switch(this.mode) {
+      case 'board':
+        this.store.dispatch(BoardActions.createBoard({ board: this.form.value }));
+        break;
+      case 'task':
+        this.store.dispatch(BoardActions.createTask({ ...this.form.value, status: this.taskStatus }));
+        break;
+      default:
+        this.close();
     }
     this.close();
   }
