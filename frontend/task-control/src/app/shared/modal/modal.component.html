@@ -3,7 +3,7 @@
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close" type="button" (click)="close()">X</button>
 
-      <div class="modal-header">{{ modelHeader }}</div>
+      <div class="modal-header">{{ modalHeader }}</div>
       <div class="modal-body">
         <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
           <app-text-input

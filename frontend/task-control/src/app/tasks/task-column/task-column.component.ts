@@ -47,18 +47,6 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
   drop(event: CdkDragDrop<TaskModel[]>) {
     if (event.previousContainer !== event.container) {
       const newStatus = this.transformContainerId(event.container.id);
-      // let newStatus: string;
-      // switch (event.container.id) {
-      //   case 'cdk-drop-list-0':
-      //     newStatus = 'Todo';
-      //     break;
-      //   case 'cdk-drop-list-1':
-      //     newStatus = 'In Progress';
-      //     break;
-      //   default:
-      //     newStatus = 'Done';
-      //     break;
-      // }
       const modifiedTask = event.previousContainer.data[event.previousIndex];
 
       this.store.dispatch(

@@ -15,7 +15,7 @@ import { getModalOpen } from './store/modal.selectors';
   styleUrls: ['./modal.component.css'],
 })
 export class ModalComponent implements OnInit {
-  @Input('modalHeader') modelHeader: string;
+  @Input('modalHeader') modalHeader: string;
   @Input('formInputNames') formInputNames: string[];
   @Input('btnSubmitText') btnSubmitText: string;
   @Input('mode') mode: string;

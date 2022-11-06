@@ -15,14 +15,14 @@ import { getAuthError, getAuthMessage } from '../auth/store/auth.selectors';
 })
 export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = false;
-  authForm!: FormGroup;
+  authForm: FormGroup;
 
   // registerMessage = '';
   // error = '';
   // user: User;
   // private storeSub: Subscription;
-  authError$: Observable<any>;
-  authMessage$: Observable<any>;
+  authError$: Observable<string>;
+  authMessage$: Observable<string>;
 
   constructor(private store: Store<fromApp.AppState>) {}
 

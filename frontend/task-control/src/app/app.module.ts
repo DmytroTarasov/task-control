@@ -37,6 +37,7 @@ import { TaskColumnComponent } from './tasks/task-column/task-column.component';
 import { HandleColorChangeDirective } from './_directives/handle-color-change.directive';
 import { TaskDetailsComponent } from './tasks/task-details/task-details.component';
 import { environment } from 'src/environments/environment';
+import { CoreModule } from './core.module';
 
 @NgModule({
   declarations: [
@@ -71,10 +72,7 @@ import { environment } from 'src/environments/environment';
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([AuthEffects, BoardEffects, TaskEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
-  ],
-  providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    CoreModule
   ],
   bootstrap: [AppComponent],
 })
