@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import * as LoadingActions from './loader.actions';
+import * as LoadingActions from './loading.actions';
 
 export interface State {
   loading: boolean;

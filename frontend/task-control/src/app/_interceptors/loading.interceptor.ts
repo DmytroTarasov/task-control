@@ -10,7 +10,7 @@ import { delay, finalize } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
-import * as LoadingActions from '../shared/loader/store/loader.actions';
+import * as LoadingActions from '../shared/loader/store/loading.actions';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {

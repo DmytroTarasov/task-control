@@ -1,4 +1,4 @@
-<div *ngIf="loading" class="loader-wrapper">
+<div *ngIf="loading$ | async" class="loader-wrapper">
   <div class="lds-default">
     <div></div>
     <div></div>

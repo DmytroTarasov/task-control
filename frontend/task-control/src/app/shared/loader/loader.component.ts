@@ -1,30 +1,22 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 
-import { map, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { getLoading } from './store/loading.selectors';
 
 @Component({
   selector: 'app-loader',
   templateUrl: './loader.component.html',
   styleUrls: ['./loader.component.css'],
 })
-export class LoaderComponent implements OnInit, OnDestroy {
-  loading: boolean;
-  private storeSub: Subscription;
+export class LoaderComponent implements OnInit {
+  loading$: Observable<boolean>;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    this.storeSub = this.store
-      .select('loading')
-      .pipe(map((loadingState) => loadingState.loading))
-      .subscribe((loading) => (this.loading = loading));
-  }
-
-  ngOnDestroy(): void {
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
-    }
+    this.loading$ = this.store.pipe(select(getLoading));
   }
 }
