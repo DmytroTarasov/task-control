@@ -1,26 +1,28 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { map, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import * as fromApp from '../../store/app.reducer';
 import * as BoardActions from '../../boards/store/board.actions';
 import * as ModalActions from '../modal/store/modal.actions';
+
+import { getModalOpen } from './store/modal.selectors';
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.css'],
 })
-export class ModalComponent implements OnInit, OnDestroy {
+export class ModalComponent implements OnInit {
   @Input('modalHeader') modelHeader!: string;
   @Input('formInputNames') formInputNames!: string[];
   @Input('btnSubmitText') btnSubmitText!: string;
   @Input('mode') mode: string;
   @Input('taskStatus') taskStatus: string;
-  modalOpen = false;
+
+  modalOpen$: Observable<boolean>;
   form!: FormGroup;
-  private storeSub: Subscription;
 
   constructor(private store: Store<fromApp.AppState>) {}
 
@@ -31,10 +33,7 @@ export class ModalComponent implements OnInit, OnDestroy {
       this.form.addControl(name, new FormControl(null, [Validators.required]));
     });
 
-    this.storeSub = this.store
-      .select('modal')
-      .pipe(map((modalState) => modalState.open))
-      .subscribe((open) => (this.modalOpen = open));
+    this.modalOpen$ = this.store.pipe(select(getModalOpen));
   }
 
   onSubmit() {
@@ -53,11 +52,5 @@ export class ModalComponent implements OnInit, OnDestroy {
   close() {
     this.form.reset();
     this.store.dispatch(ModalActions.closeModal());
-  }
-
-  ngOnDestroy(): void {
-    if (this.storeSub) {
-      this.storeSub.unsubscribe();
-    }
   }
 }
