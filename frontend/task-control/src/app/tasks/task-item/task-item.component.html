@@ -1,6 +1,6 @@
 
 <div class="task-item" *ngIf="task">
-  <a [routerLink]="['tasks', task._id]" class="task-link">&#8594;</a>
+  <a [routerLink]="['/tasks', task._id]" class="task-link">&#8594;</a>
 
   <input
     [ngClass]="task.archived ? 'text-crossed-out' : 'null'"

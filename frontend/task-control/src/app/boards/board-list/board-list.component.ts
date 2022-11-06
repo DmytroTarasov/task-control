@@ -1,29 +1,22 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
-import { map, Subscription, tap } from 'rxjs';
-import { Board } from '../_models/board.model';
-import { QueryParams } from '../_models/queryParams.model';
-import { BoardsService } from '../_services/boards.service';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+import { Board } from 'src/app/_models/board.model';
+import { QueryParams } from 'src/app/_models/queryParams.model';
+import { BoardsService } from 'src/app/_services/boards.service';
 
-import { select, Store } from '@ngrx/store';
-import * as fromApp from '../store/app.reducer';
-import * as BoardActions from '../boards/store/board.actions';
-import * as ModalActions from '../shared/modal/store/modal.actions';
+import * as fromApp from '../../store/app.reducer';
+import * as BoardActions from '../../boards/store/board.actions';
+import * as ModalActions from '../../shared/modal/store/modal.actions';
 
-import { getBoards } from '../boards/store/board.selectors';
+import { getBoards } from '../../boards/store/board.selectors';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: 'app-board-list',
+  templateUrl: './board-list.component.html',
+  styleUrls: ['./board-list.component.css']
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class BoardListComponent implements OnInit, OnDestroy {
   boards: Board[];
   storeSub: Subscription;
   @ViewChild('sortAsc') sortAsc: ElementRef;
