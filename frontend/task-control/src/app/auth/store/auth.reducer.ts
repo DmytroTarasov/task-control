@@ -8,7 +8,7 @@ export interface State {
   registerMessage: string;
 }
 
-const initialState: State = {
+export const initialState: State = {
   user: null,
   authError: null,
   registerMessage: null,

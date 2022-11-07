@@ -15,7 +15,7 @@ export class AuthEffects {
       switchMap((action) => {
         return this.authService.login(action.email, action.password).pipe(
           map((user) => {
-            console.log(user);
+            // console.log(user);
             localStorage.setItem('userData', JSON.stringify(user));
             return AuthActions.authenticateSuccess({
               user,
@@ -23,6 +23,7 @@ export class AuthEffects {
             });
           }),
           catchError((errorRes) => {
+            // console.log(errorRes);
             return of(
               AuthActions.authenticateFail({
                 error: errorRes?.error?.message,
@@ -97,7 +98,7 @@ export class AuthEffects {
     )
   );
 
-  logout$ = createEffect(
+  authLogout$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(AuthActions.logout),
