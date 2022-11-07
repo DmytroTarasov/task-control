@@ -1,7 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, Subscription, tap } from 'rxjs';
-import { User } from '../_models/user.model';
+import { Observable } from 'rxjs';
 
 import * as fromApp from '../store/app.reducer';
 import { select, Store } from '@ngrx/store';
@@ -13,14 +12,10 @@ import { getAuthError, getAuthMessage } from '../auth/store/auth.selectors';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
 })
-export class AuthComponent implements OnInit, OnDestroy {
+export class AuthComponent implements OnInit {
   isLoginMode = false;
   authForm: FormGroup;
 
-  // registerMessage = '';
-  // error = '';
-  // user: User;
-  // private storeSub: Subscription;
   authError$: Observable<string>;
   authMessage$: Observable<string>;
 
@@ -28,31 +23,21 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.authForm = new FormGroup({
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
       ]),
     });
     this.handleUsernameControl();
 
-    // this.storeSub = this.store.select('auth').subscribe((authState) => {
-    //   this.error = authState.authError;
-    //   this.user = authState.user;
-    //   this.registerMessage = authState.registerMessage;
-    // });
-
     this.authError$ = this.store.pipe(select(getAuthError));
     this.authMessage$ = this.store.pipe(select(getAuthMessage));
   }
 
   onSwitchMode() {
-    // if (this.error) {
-      this.store.dispatch(AuthActions.clearError());
-    // }
-    // if (this.registerMessage) {
-      this.store.dispatch(AuthActions.clearRegisterMessage());
-    // }
+    this.store.dispatch(AuthActions.clearError());
+    this.store.dispatch(AuthActions.clearRegisterMessage());
     this.isLoginMode = !this.isLoginMode;
     this.handleUsernameControl();
   }
@@ -69,24 +54,16 @@ export class AuthComponent implements OnInit, OnDestroy {
     } else {
       this.store.dispatch(AuthActions.signup({ email, password, username }));
     }
-
-    // this.authForm.reset();
   }
 
   private handleUsernameControl() {
     if (!this.isLoginMode) {
       this.authForm.addControl(
         'username',
-        new FormControl(null, [Validators.required])
+        new FormControl('', [Validators.required])
       );
     } else {
       this.authForm.removeControl('username');
     }
-  }
-
-  ngOnDestroy() {
-    // if (this.storeSub) {
-    //   this.storeSub.unsubscribe();
-    // }
   }
 }
