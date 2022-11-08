@@ -22,11 +22,7 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ):
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
+  ): Observable<boolean | UrlTree> {
     return this.store.pipe(
       select(getAuthUser),
       take(1),
@@ -39,6 +35,6 @@ export class AuthGuard implements CanActivate {
 
         return this.router.createUrlTree(['/auth']);
       })
-    )
+    );
   }
 }
