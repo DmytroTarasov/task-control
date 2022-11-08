@@ -83,7 +83,7 @@ describe('Auth Service', () => {
       expect(actualMessage).toEqual(messageSuccess);
     });
 
-    it('should register the user', () => {
+    it('should not register the user', () => {
       let actualMessage: string;
       authService
         .signup(user.email, user.username, '111111')
