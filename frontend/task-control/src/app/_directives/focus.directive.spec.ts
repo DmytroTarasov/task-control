@@ -1,5 +1,5 @@
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { FocusDirective } from './focus.directive';
 
@@ -14,10 +14,8 @@ class TestFocusComponent {}
 describe('Focus Directive', () => {
   let component: TestFocusComponent;
   let fixture: ComponentFixture<TestFocusComponent>;
-  let queryInputElement = () =>
-    fixture.debugElement.query(By.css('input')).nativeElement;
-  let queryParagraphElement = () =>
-    fixture.debugElement.query(By.css('p')).nativeElement;
+  let inputElement: DebugElement;
+  let paragraphElement: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,22 +24,24 @@ describe('Focus Directive', () => {
 
     fixture = TestBed.createComponent(TestFocusComponent);
     component = fixture.componentInstance;
+
+    inputElement = fixture.debugElement.query(By.css('input'));
+    paragraphElement = fixture.debugElement.query(By.css('p'));
+
     fixture.detectChanges();
   });
 
   it('should be initialized', () => {
-    expect(queryInputElement()).not.toBeNull();
-    expect(queryParagraphElement()).not.toBeNull();
+    expect(inputElement.nativeElement).not.toBeNull();
+    expect(paragraphElement.nativeElement).not.toBeNull();
   });
 
   it('should set focus on an input', waitForAsync(() => {
-    const input = queryInputElement();
-    const paragraph = queryParagraphElement();
-    spyOn(input, 'focus');
-    paragraph.dispatchEvent(new Event('click'));
+    spyOn(inputElement.nativeElement, 'focus');
+    paragraphElement.nativeElement.dispatchEvent(new Event('click'));
     fixture.detectChanges();
     fixture.whenStable().then(() => {
-      expect(input.focus).toHaveBeenCalled();
+      expect(inputElement.nativeElement.focus).toHaveBeenCalled();
     });
   }));
 });
