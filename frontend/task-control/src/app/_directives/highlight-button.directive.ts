@@ -11,8 +11,8 @@ export class HighlightButtonDirective {
   @HostBinding('style.background-color') backgroundColor: string;
 
   @HostListener('click') highLightButton() {
-    this.renderer.setStyle(this.element.nativeElement, "background-color", '#C7C8BE');
-    this.renderer.setStyle(this.appHighlightButton, "background-color", "#F0F0F0");
+    this.renderer.setStyle(this.element.nativeElement, 'background-color', 'rgb(199, 200, 190)');
+    this.renderer.setStyle(this.appHighlightButton, 'background-color', 'rgb(240, 240, 240)');
   }
 
 }
