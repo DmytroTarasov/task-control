@@ -2,8 +2,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import {
   TestBed,
   ComponentFixture,
-  fakeAsync,
-  waitForAsync,
+  waitForAsync
 } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -13,15 +12,17 @@ import { AppState } from '../store/app.reducer';
 import { AuthComponent } from './auth.component';
 import { TextInputComponent } from '../shared/_forms/text-input/text-input.component';
 
+import * as fromAuth from '../auth/store/auth.reducer';
 import { getAuthError, getAuthMessage } from '../auth/store/auth.selectors';
 import * as AuthActions from '../auth/store/auth.actions';
+import { MemoizedSelector } from '@ngrx/store';
 
 describe('AuthComponent', () => {
   let fixture: ComponentFixture<AuthComponent>;
   let component: AuthComponent;
   let store: MockStore<AppState>;
-  let mockAuthErrorSelector;
-  let mockAuthMessageSelector;
+  let mockAuthErrorSelector: MemoizedSelector<fromAuth.State, string>;
+  let mockAuthMessageSelector: MemoizedSelector<fromAuth.State, string>;
   const querySubmitButton = () =>
     fixture.debugElement.query(By.css('button[type="submit"]')).nativeElement;
   const querySwitchModeButton = () =>
@@ -43,7 +44,7 @@ describe('AuthComponent', () => {
     TestBed.configureTestingModule({
       providers: [provideMockStore()],
       imports: [HttpClientTestingModule, ReactiveFormsModule],
-      declarations: [AuthComponent, TextInputComponent],
+      declarations: [AuthComponent, TextInputComponent]
     });
 
     store = TestBed.inject(MockStore);
@@ -56,12 +57,6 @@ describe('AuthComponent', () => {
     fixture.detectChanges();
     spyOn(store, 'dispatch').and.callFake(() => {});
   });
-
-  it('should initialize error and message observables', () => {
-    // component.ngOnInit();
-    component.authError$.subscribe(error => expect(error).toEqual(''));
-    component.authMessage$.subscribe(message => expect(message).toEqual(''));
-  })
 
   it('number of rendered inputs in UI should equal to 3 if loginMode is set to false', () => {
     // component.ngOnInit();
@@ -174,5 +169,4 @@ describe('AuthComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(AuthActions.login({ ...component.authForm.value }));
     });
   }));
-
 });
