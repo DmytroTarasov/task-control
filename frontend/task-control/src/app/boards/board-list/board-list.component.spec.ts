@@ -23,12 +23,7 @@ import {
 } from '@angular/core';
 import { QueryParams } from 'src/app/_models/queryParams.model';
 import { Subscription } from 'rxjs';
-
-@Component({
-  selector: 'app-board-item',
-  template: '',
-})
-class MockBoardItemComponent {}
+import { MockBoardItemComponent } from '../mocks/mock-board-item.component';
 
 @Component({
   selector: 'app-modal',
