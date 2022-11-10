@@ -149,7 +149,7 @@ export class BoardEffects {
     { dispatch: false }
   );
 
-  archiveBoardTask = createEffect(
+  archiveBoardTask$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(BoardActions.archiveBoardTask),

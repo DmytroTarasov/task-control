@@ -8,7 +8,7 @@ export interface State {
   boards: Board[];
 }
 
-const initialState: State = {
+export const initialState: State = {
   selectedBoard: null,
   boards: null,
 };
