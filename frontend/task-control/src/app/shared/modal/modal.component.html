@@ -1,5 +1,5 @@
 <ng-container *ngIf="modalOpen$ | async as modalOpen">
-  <div class="modal-wrapper" [class.open]="modalOpen" (click)="close()">
+  <div class="modal-wrapper" [class.open]="modalOpen">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <button class="close" type="button" (click)="close()">X</button>
 
@@ -12,9 +12,7 @@
             *ngFor="let name of formInputNames">
           </app-text-input>
 
-          <button class="btn" type="submit" [disabled]="!form.valid">
-            {{ btnSubmitText }}
-          </button>
+          <button class="btn" type="submit" [disabled]="!form.valid">{{ btnSubmitText }}</button>
         </form>
       </div>
     </div>
