@@ -80,18 +80,18 @@ describe('AuthComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       const emailValueFromGroup = component.authForm.get('email');
-      expect(emailValueFromGroup.errors.required).toBeTruthy();
+      expect(emailValueFromGroup.errors?.required).toBeTruthy();
     });
   }));
 
-  it('email input should have email error if it was typed in a wrong format', waitForAsync(() => {
+  it('email input should have pattern error if it was typed in a wrong format', waitForAsync(() => {
     const emailInput = queryInput(0);
     emailInput.value = 'someemailtest.com';
     emailInput.dispatchEvent(new Event('input'));
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       const emailValueFromGroup = component.authForm.get('email');
-      expect(emailValueFromGroup.errors.email).toBeTruthy();
+      expect(emailValueFromGroup.errors?.pattern).toBeTruthy();
     });
   }));
 
@@ -102,7 +102,7 @@ describe('AuthComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       const passwordValueFromGroup = component.authForm.get('password');
-      expect(passwordValueFromGroup.errors.minlength).toBeTruthy();
+      expect(passwordValueFromGroup.errors?.minlength).toBeTruthy();
     });
   }));
 
