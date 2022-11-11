@@ -6,7 +6,7 @@ export interface State {
   open: boolean;
 }
 
-const initialState: State = {
+export const initialState: State = {
   open: false
 };
 
