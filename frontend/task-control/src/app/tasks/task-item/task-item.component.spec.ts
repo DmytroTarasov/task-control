@@ -105,4 +105,21 @@ describe('TaskItemComponent', () => {
       );
     });
   }));
+
+  it('should dispatch archiveBoardTask action', waitForAsync(() => {
+    component.task.status = 'Done';
+    fixture.detectChanges();
+    spyOn(component, 'archiveTask').and.callThrough();
+    const paragraphElement = fixture.debugElement.query(By.css('.archive'));
+    paragraphElement.nativeElement.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(component.archiveTask).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        BoardActions.archiveBoardTask({
+          id: task._id
+        })
+      );
+    });
+  }));
 });
