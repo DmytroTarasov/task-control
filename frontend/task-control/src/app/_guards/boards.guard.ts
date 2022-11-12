@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
-  Resolve,
-  RouterStateSnapshot,
   ActivatedRouteSnapshot,
+  CanActivate,
+  RouterStateSnapshot,
 } from '@angular/router';
-import { filter, Observable, take, tap } from 'rxjs';
+import { catchError, filter, Observable, of, switchMap, take, tap } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
@@ -15,13 +15,13 @@ import { getBoards } from '../boards/store/board.selectors';
 @Injectable({
   providedIn: 'root',
 })
-export class BoardsResolver implements Resolve<boolean> {
+export class BoardsGuard implements CanActivate {
   constructor(private store: Store<fromApp.AppState>) {}
 
-  resolve(
+  canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<any> {
+  ): Observable<boolean> {
     return this.store.pipe(
       select(getBoards),
       tap((boards) => {
@@ -30,7 +30,9 @@ export class BoardsResolver implements Resolve<boolean> {
         }
       }),
       filter((boards) => !!boards),
-      take(1)
+      take(1),
+      switchMap(() => of(true)),
+      catchError(() => of(false))
     );
   }
 }
