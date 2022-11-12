@@ -7,7 +7,7 @@ export interface State {
   selectedTask: TaskModel;
 }
 
-const initialState: State = {
+export const initialState: State = {
   selectedTask: null,
 };
 

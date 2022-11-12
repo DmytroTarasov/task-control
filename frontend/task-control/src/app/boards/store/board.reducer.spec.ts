@@ -2,7 +2,7 @@ import { TypedAction } from '@ngrx/store/src/models';
 import * as fromReducer from './board.reducer';
 import * as BoardActions from './board.actions';
 
-describe('AuthReducer', () => {
+describe('BoardReducer', () => {
   const { initialState } = fromReducer;
   let state = { ...initialState, boards: [] };
 
