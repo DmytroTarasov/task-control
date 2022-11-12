@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from '../_guards/auth.guard';
+import { BoardGuard } from '../_guards/board.guard';
 import { BoardsGuard } from '../_guards/boards.guard';
-import { BoardResolver } from '../_resolvers/board.resolver';
 import { BoardDetailsComponent } from './board-details/board-details.component';
 import { BoardListComponent } from './board-list/board-list.component';
 
@@ -15,8 +15,7 @@ const routes: Routes = [
   {
     path: ':boardId',
     component: BoardDetailsComponent,
-    canActivate: [AuthGuard],
-    resolve: { board: BoardResolver },
+    canActivate: [AuthGuard, BoardGuard]
   },
 ];
 

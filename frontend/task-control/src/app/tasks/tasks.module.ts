@@ -3,7 +3,7 @@ import { TaskDetailsComponent } from './task-details/task-details.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from '../_guards/auth.guard';
-import { TaskResolver } from '../_resolvers/task.resolver';
+import { TaskGuard } from '../_guards/task.guard';
 
 @NgModule({
   declarations: [TaskDetailsComponent],
@@ -13,10 +13,9 @@ import { TaskResolver } from '../_resolvers/task.resolver';
       {
         path: ':taskId',
         component: TaskDetailsComponent,
-        canActivate: [AuthGuard],
-        resolve: { task: TaskResolver },
-      },
-    ]),
-  ],
+        canActivate: [AuthGuard, TaskGuard]
+      }
+    ])
+  ]
 })
 export class TasksModule {}

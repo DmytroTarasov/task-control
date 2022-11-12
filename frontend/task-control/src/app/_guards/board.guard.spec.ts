@@ -8,7 +8,7 @@ import { getSelectedBoard } from '../boards/store/board.selectors';
 import * as BoardActions from '../boards/store/board.actions';
 import { convertToParamMap } from '@angular/router';
 
-describe('Boards Guard', () => {
+describe('Board Guard', () => {
   let guard: BoardGuard;
   let routeMock: any = { paramMap: convertToParamMap({ boardId: '1' }) };
   let store: MockStore<AppState>;

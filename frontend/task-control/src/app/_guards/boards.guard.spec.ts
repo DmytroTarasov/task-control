@@ -10,7 +10,6 @@ import * as BoardActions from '../boards/store/board.actions';
 describe('Boards Guard', () => {
   let guard: BoardsGuard;
   let routeMock: any = { snapshot: {} };
-  let routeStateMock: any = { snapshot: {} };
   let store: MockStore<AppState>;
 
   beforeEach(() => {
@@ -40,7 +39,7 @@ describe('Boards Guard', () => {
       store.overrideSelector(getBoards, []);
       store.refreshState();
     });
-    guard.canActivate(routeMock, routeStateMock).subscribe(value => {
+    guard.canActivate(routeMock, null).subscribe(value => {
       expect(store.dispatch).toHaveBeenCalledWith(BoardActions.getBoards({}));
       expect(value).toBeTrue();
     });
@@ -50,7 +49,7 @@ describe('Boards Guard', () => {
     spyOn(store, 'dispatch').and.callFake(() => {});
     store.overrideSelector(getBoards, []);
     store.refreshState();
-    guard.canActivate(routeMock, routeStateMock).subscribe(value => {
+    guard.canActivate(routeMock, null).subscribe(value => {
       expect(store.dispatch).not.toHaveBeenCalledWith(BoardActions.getBoards({}));
       expect(value).toBeTrue();
     });
@@ -58,7 +57,7 @@ describe('Boards Guard', () => {
 
   it('should dispatch getBoards action and return false', waitForAsync(() => {
     spyOn(store, 'dispatch').and.throwError('');
-    guard.canActivate(routeMock, routeStateMock).subscribe(value => {
+    guard.canActivate(routeMock, null).subscribe(value => {
       expect(store.dispatch).toHaveBeenCalledWith(BoardActions.getBoards({}));
       expect(value).toBeFalse();
     });
