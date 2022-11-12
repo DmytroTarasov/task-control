@@ -19,8 +19,8 @@
 
   <div class="task-options hide" #options>
     <p [appFocus]="taskName">Edit</p>
-    <p (click)="deleteTask()">Delete</p>
-    <p *ngIf="task.status === 'Done' && !task.archived" (click)="archiveTask()">Archive</p>
+    <p class="delete" (click)="deleteTask()">Delete</p>
+    <p class="archive" *ngIf="task.status === 'Done' && !task.archived" (click)="archiveTask()">Archive</p>
   </div>
 </div>
 
