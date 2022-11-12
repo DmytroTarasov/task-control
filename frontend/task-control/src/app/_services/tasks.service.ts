@@ -21,8 +21,8 @@ export class TasksService {
     });
   }
 
-  updateTask(boardId: string, newName: string, newStatus: string) {
-    return this.http.patch<string>(`${environment.serverUrl}/tasks/${boardId}`, {
+  updateTask(id: string, newName: string, newStatus: string) {
+    return this.http.patch<string>(`${environment.serverUrl}/tasks/${id}`, {
       name: newName,
       status: newStatus,
     });
