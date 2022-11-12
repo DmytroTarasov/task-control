@@ -1,4 +1,3 @@
-import HttpError from '../models/http-error.js';
 import boardDao from '../dao/board-dao.js';
 import { Board } from '../models/board.js';
 
@@ -19,11 +18,6 @@ export default () => ({
     getBoards: (queryParams) => new Promise(async(resolve, reject) => {
         let boards;
         try {
-            // if (!name) {
-            //     boards = await boardDao().getAllBoards();
-            // } else {
-            //     boards = await boardDao().filterBoardsByName(name);
-            // }
             boards = await boardDao().getAllBoards(queryParams);
         } catch (err) {
             return reject(err);

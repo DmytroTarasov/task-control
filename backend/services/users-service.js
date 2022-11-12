@@ -1,4 +1,3 @@
-import HttpError from '../models/http-error.js';
 import userDao from '../dao/user-dao.js';
 
 export default () => ({

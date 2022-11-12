@@ -1,4 +1,3 @@
-import HttpError from '../models/http-error.js';
 import taskDao from '../dao/task-dao.js';
 import { Task } from '../models/task.js';
 

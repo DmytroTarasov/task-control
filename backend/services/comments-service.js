@@ -1,4 +1,3 @@
-import HttpError from '../models/http-error.js';
 import commentDao from '../dao/comment-dao.js';
 import { Comment } from '../models/comment.js';
 
