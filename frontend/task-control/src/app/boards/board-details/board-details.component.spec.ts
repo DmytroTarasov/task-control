@@ -16,7 +16,7 @@ import { MockFilterComponent } from '../mocks/mock-filter.component';
 import { MockModalComponent } from '../mocks/mock-modal.component';
 import { MockTaskColumnComponent } from '../mocks/mock-task-column.component';
 
-describe('BoardListComponent', () => {
+describe('BoardDetailsComponent', () => {
   let fixture: ComponentFixture<BoardDetailsComponent>;
   let component: BoardDetailsComponent;
   let store: MockStore<AppState>;

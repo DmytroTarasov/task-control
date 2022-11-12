@@ -1,11 +1,10 @@
 <div class="container" *ngIf="task">
   <h1>{{ task.name }}</h1>
   <div class="task-content">
-
     <div>
       <h3>Details</h3>
       <p>Status: {{ task.status }}</p>
-      <p>Created at: {{ task.created_at | date:'medium' }}</p>
+      <p>Created at: {{ task.created_at | date: "medium" }}</p>
       <p>Created by: {{ task.created_by.username }}</p>
       <p>Comments count: {{ task.comments.length }}</p>
     </div>
@@ -14,22 +13,31 @@
       <h3 class="text-center">Comments</h3>
       <div class="comments-block">
         <div class="comments-content">
-          <p class="no-comments" *ngIf="task.comments.length === 0">No comments yet...</p>
+          <p class="no-comments" *ngIf="task.comments.length === 0">
+            No comments yet...
+          </p>
           <div class="comments-list">
-            <p
-              class="comment-item"
-              *ngFor="let comment of task.comments">
-              <span class="delete-comment" (click)="deleteComment(comment._id)">&#10060;</span> {{ comment.text }}  <span>{{ comment.created_at | date:'short' }}</span>
+            <p class="comment-item" *ngFor="let comment of task.comments">
+              <span class="delete-comment" (click)="deleteComment(comment._id)"
+                >&#10060;</span
+              >
+              {{ comment.text }}
+              <span>{{ comment.created_at | date: "short" }}</span>
             </p>
           </div>
         </div>
         <div class="send-comment">
-          <input class="comment-text" type="text" placeholder="your text here" #commentText>
-          <button class="btn" (click)="createComment(commentText.value)">Create</button>
+          <input
+            class="comment-text"
+            type="text"
+            placeholder="your text here"
+            #commentText
+          />
+          <button class="btn" (click)="createComment(commentText.value)">
+            Create
+          </button>
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
