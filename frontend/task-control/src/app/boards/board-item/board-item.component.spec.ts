@@ -2,18 +2,12 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
-import { MemoizedSelector } from '@ngrx/store';
 
 import { AppState } from '../../store/app.reducer';
 import { BoardItemComponent } from './board-item.component';
 import { BoardsService } from 'src/app/_services/boards.service';
 
-import * as fromBoards from '../store/board.reducer';
-import {
-  getBoards,
-  getBoardById,
-  getBoardsState,
-} from '../store/board.selectors';
+import { getBoardsState } from '../store/board.selectors';
 import * as BoardActions from '../store/board.actions';
 import { Board } from 'src/app/_models/board.model';
 import { Component } from '@angular/core';
@@ -40,7 +34,7 @@ describe('BoardItemComponent', () => {
   const boards: Board[] = [
     { _id: '1', name: 'Board1', description: 'descr1', tasks: [] },
     { _id: '2', name: 'Board2', description: 'descr2', tasks: [] },
-    { _id: '3', name: 'Board3', description: 'descr3', tasks: [] },
+    { _id: '3', name: 'Board3', description: 'descr3', tasks: [] }
   ];
 
   beforeEach(() => {
@@ -107,7 +101,9 @@ describe('BoardItemComponent', () => {
   }));
 
   it('should not dispatch updateBoard action', waitForAsync(() => {
-    const boardTitleElement = fixture.debugElement.query(By.css('.board-title'));
+    const boardTitleElement = fixture.debugElement.query(
+      By.css('.board-title')
+    );
     boardTitleElement.nativeElement.blur();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -122,7 +118,9 @@ describe('BoardItemComponent', () => {
 
   it('should dispatch updateBoard action', waitForAsync(() => {
     spyOn(component, 'editBoard').and.callThrough();
-    const boardTitleElement = fixture.debugElement.query(By.css('.board-title')).nativeElement;
+    const boardTitleElement = fixture.debugElement.query(
+      By.css('.board-title')
+    ).nativeElement;
     boardTitleElement.value = 'NewBoard';
     boardTitleElement.dispatchEvent(new Event('blur'));
     fixture.detectChanges();

@@ -84,5 +84,4 @@ describe('AuthReducer', () => {
       expect(state).toEqual({ ...initialState, registerMessage: null });
     });
   });
-
 });

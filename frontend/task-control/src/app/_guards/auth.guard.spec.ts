@@ -1,6 +1,7 @@
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { Router } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
+import { MemoizedSelector } from '@ngrx/store';
 
 import { AuthGuard } from './auth.guard';
 import { AppState } from '../store/app.reducer';
@@ -8,7 +9,6 @@ import { AppState } from '../store/app.reducer';
 import { getAuthUser } from '../auth/store/auth.selectors';
 import { User } from '../_models/user.model';
 import * as fromAuth from '../auth/store/auth.reducer';
-import { MemoizedSelector } from '@ngrx/store';
 
 describe('Auth Guard', () => {
   let guard: AuthGuard;
@@ -36,7 +36,7 @@ describe('Auth Guard', () => {
   });
 
   afterEach(() => {
-    store.complete(); // kill subscriptions
+    store.complete();
   });
 
   it('should be created', () => {

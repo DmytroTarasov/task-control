@@ -7,7 +7,6 @@ import { BoardsService } from './boards.service';
 import { Board } from '../_models/board.model';
 import { QueryParams } from '../_models/queryParams.model';
 import { environment } from 'src/environments/environment';
-import { HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs';
 
 describe('Boards Service', () => {

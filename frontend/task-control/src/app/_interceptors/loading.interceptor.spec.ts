@@ -6,6 +6,7 @@ import {
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { MemoizedSelector } from '@ngrx/store';
+import { finalize } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
@@ -15,7 +16,6 @@ import * as fromLoading from '../shared/loader/store/loading.reducer';
 import * as LoadingActions from '../shared/loader/store/loading.actions';
 import { getLoading } from '../shared/loader/store/loading.selectors';
 import { BoardsService } from '../_services/boards.service';
-import { finalize } from 'rxjs';
 
 describe('Loading Interceptor', () => {
   let httpMock: HttpTestingController;
@@ -62,7 +62,7 @@ it('should set loading to true when the request starts and to false when it ends
           expect(store.dispatch).toHaveBeenCalledWith(LoadingActions.completeLoading());
         })
       )
-      .subscribe((res) => {
+      .subscribe(() => {
         expect(store.dispatch).toHaveBeenCalledTimes(1)
         expect(store.dispatch).toHaveBeenCalledWith(LoadingActions.startLoading());
       });

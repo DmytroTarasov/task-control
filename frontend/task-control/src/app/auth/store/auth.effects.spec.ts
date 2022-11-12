@@ -1,7 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
 
 import { AppState } from '../../store/app.reducer';
@@ -10,8 +11,6 @@ import { AuthService } from 'src/app/_services/auth.service';
 import { AuthEffects } from './auth.effects';
 import { initialState } from './auth.reducer';
 import { User } from 'src/app/_models/user.model';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 describe('AuthEffects', () => {
   let actions$: Observable<any>;
@@ -148,6 +147,4 @@ describe('AuthEffects', () => {
       });
     }));
   });
-
-
 });

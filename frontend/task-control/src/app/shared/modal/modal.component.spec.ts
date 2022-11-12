@@ -2,13 +2,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 
 import { By } from '@angular/platform-browser';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ModalComponent } from './modal.component';
 import { AppState } from '../../store/app.reducer';
 import { getModalOpen } from './store/modal.selectors';
 import * as ModalActions from './store/modal.actions';
 import * as BoardsActions from '../../boards/store/board.actions';
-import { ReactiveFormsModule } from '@angular/forms';
 import { TextInputComponent } from '../_forms/text-input/text-input.component';
 
 describe('ModalComponent', () => {

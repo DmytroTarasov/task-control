@@ -1,9 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { AppState } from '../../store/app.reducer';
 import * as BoardActions from './board.actions';

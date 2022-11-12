@@ -2,6 +2,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { TestBed, ComponentFixture, waitForAsync } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { By } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 
 import { AppState } from '../../store/app.reducer';
 import { TaskDetailsComponent } from './task-details.component';
@@ -9,7 +10,6 @@ import { TaskDetailsComponent } from './task-details.component';
 import { getSelectedTask } from '../store/task.selectors';
 import * as TaskActions from '../store/task.actions';
 import { TaskModel } from 'src/app/_models/task.model';
-import { Subscription } from 'rxjs';
 import { CommentModel } from 'src/app/_models/comment.model';
 
 describe('TaskDetailsComponent', () => {

@@ -24,7 +24,7 @@ describe('BoardDetailsComponent', () => {
   const boards: Board[] = [
     { _id: '1', name: 'Board1', description: 'descr1', tasks: [] },
     { _id: '2', name: 'Board2', description: 'descr2', tasks: [] },
-    { _id: '3', name: 'Board3', description: 'descr3', tasks: [] },
+    { _id: '3', name: 'Board3', description: 'descr3', tasks: [] }
   ];
 
   beforeEach(() => {
@@ -36,7 +36,7 @@ describe('BoardDetailsComponent', () => {
         MockModalComponent,
         MockFilterComponent,
         MockTaskColumnComponent
-      ],
+      ]
     });
 
     store = TestBed.inject(MockStore);

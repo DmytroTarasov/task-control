@@ -1,12 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { AppState } from '../../store/app.reducer';
 import * as TaskActions from './task.actions';
-import { getSelectedTask } from './task.selectors';
 import { TaskEffects } from './task.effects';
 import { initialState } from './task.reducer';
 import { TasksService } from 'src/app/_services/tasks.service';
@@ -44,8 +42,6 @@ describe('BoardEffects', () => {
     mockTasksService = TestBed.inject(TasksService);
     mockCommentsService = TestBed.inject(CommentsService);
     store = TestBed.inject(MockStore);
-
-    // store.overrideSelector(getSelectedTask, task);
   });
 
   it('should be constructed', () => {

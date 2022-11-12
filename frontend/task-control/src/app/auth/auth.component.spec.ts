@@ -7,6 +7,7 @@ import {
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { MemoizedSelector } from '@ngrx/store';
 
 import { AppState } from '../store/app.reducer';
 import { AuthComponent } from './auth.component';
@@ -15,7 +16,6 @@ import { TextInputComponent } from '../shared/_forms/text-input/text-input.compo
 import * as fromAuth from '../auth/store/auth.reducer';
 import { getAuthError, getAuthMessage } from '../auth/store/auth.selectors';
 import * as AuthActions from '../auth/store/auth.actions';
-import { MemoizedSelector } from '@ngrx/store';
 
 describe('AuthComponent', () => {
   let fixture: ComponentFixture<AuthComponent>;
@@ -58,8 +58,7 @@ describe('AuthComponent', () => {
     spyOn(store, 'dispatch').and.callFake(() => {});
   });
 
-  it('number of rendered inputs in UI should equal to 3 if loginMode is set to false', () => {
-    // component.ngOnInit();
+  it('number of rendered inputs in UI should equal to 3 in case loginMode is set to false', () => {
     const inputElements = queryAuthForm().querySelectorAll('input');
     expect(inputElements.length).toEqual(3);
   });
@@ -107,7 +106,6 @@ describe('AuthComponent', () => {
   }));
 
   it('should change the loginMode, number of form controls and dispatch two actions', waitForAsync(() => {
-    // switchModeButton.dispatchEvent(new Event('click'));
     querySwitchModeButton().click();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -125,11 +123,10 @@ describe('AuthComponent', () => {
     store.refreshState();
     fixture.detectChanges();
     const errorParagraphContent = fixture.debugElement.query(By.css('.text-danger')).nativeElement.textContent;
-    // component.authError$.subscribe(error => expect(error).toEqual(errorMessage));
     expect(errorParagraphContent).toEqual(error);
   });
 
-  it('it should display a message if user successfully registered', () => {
+  it('should display a message if the user registered successfully', () => {
     const message = 'Profile was created successfully';
     mockAuthMessageSelector.setResult(message);
     store.refreshState();

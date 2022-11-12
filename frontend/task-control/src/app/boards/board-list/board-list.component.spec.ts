@@ -13,41 +13,11 @@ import { getBoards } from '../store/board.selectors';
 import * as BoardActions from '../store/board.actions';
 import * as ModalActions from '../../shared/modal/store/modal.actions';
 import { Board } from 'src/app/_models/board.model';
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
 import { QueryParams } from 'src/app/_models/queryParams.model';
 import { Subscription } from 'rxjs';
 import { MockBoardItemComponent } from '../mocks/mock-board-item.component';
-
-@Component({
-  selector: 'app-modal',
-  template: '',
-})
-class MockModalComponent {
-  @Input('modalHeader') modalHeader: string;
-  @Input('formInputNames') formInputNames: string[];
-  @Input('btnSubmitText') btnSubmitText: string;
-  @Input('mode') mode: string;
-  @Input('taskStatus') taskStatus: string;
-}
-
-@Component({
-  selector: 'app-filter',
-  template: '',
-})
-class MockFilterComponent {
-  @Input('selectOptions') selectOptions: { value: string; name: string }[];
-  @ViewChild('filter') filter: ElementRef;
-  @Output() sortEvent: EventEmitter<any> = new EventEmitter();
-  @Output() filterEvent: EventEmitter<string> = new EventEmitter();
-  @Output() resetEvent: EventEmitter<void> = new EventEmitter();
-}
+import { MockFilterComponent } from '../mocks/mock-filter.component';
+import { MockModalComponent } from '../mocks/mock-modal.component';
 
 describe('BoardListComponent', () => {
   let fixture: ComponentFixture<BoardListComponent>;
@@ -55,12 +25,6 @@ describe('BoardListComponent', () => {
   let store: MockStore<AppState>;
   let mockGetBoardsSelector: MemoizedSelector<fromBoards.State, Board[]>;
   let boardsService: BoardsService;
-
-  // const boards: Board[] = [
-  //   { _id: '1', name: 'Board1', description: 'descr1' },
-  //   { _id: '2', name: 'Board2', description: 'descr2' },
-  //   { _id: '3', name: 'Board3', description: 'descr3' },
-  // ];
 
   beforeEach(() => {
     TestBed.configureTestingModule({
