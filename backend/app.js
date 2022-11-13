@@ -1,10 +1,12 @@
-import express from "express";
-import bodyParser from "body-parser";
-import fs from "fs";
+import express from 'express';
+import bodyParser from 'body-parser';
+import fs from 'fs';
 
-import mongoose from "mongoose";
-import morgan from "morgan";
-import "dotenv/config";
+import mongoose from 'mongoose';
+import morgan from 'morgan';
+import 'dotenv/config';
+import { fileURLToPath } from 'url';
+import path, { dirname } from 'path';
 
 import authRoutes from './routes/auth-routes.js';
 import usersRoutes from './routes/users-routes.js';
@@ -12,10 +14,14 @@ import boardsRoutes from './routes/boards-routes.js';
 import tasksRoutes from './routes/tasks-routes.js';
 import commentsRoutes from './routes/comments-routes.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 
 app.use(bodyParser.json());
-app.use(morgan("tiny"));
+app.use(morgan('tiny'));
+app.use(express.static('public'));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -35,7 +41,10 @@ app.use('/api/boards', boardsRoutes);
 app.use('/api/tasks', tasksRoutes);
 app.use('/api/comments', commentsRoutes);
 
-// error handler middleware
+app.use((req, res, next) => {
+    res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});
+
 app.use((error, req, res, next) => {
     if (req.file) {
         fs.unlink(req.file.path, (err) => {
@@ -44,7 +53,7 @@ app.use((error, req, res, next) => {
     }
     res.status(error.code || 500);
     res.json({
-        message: error.message || "An unknown error occured.",
+        message: error.message || 'An unknown error occured.',
     });
 });
 
