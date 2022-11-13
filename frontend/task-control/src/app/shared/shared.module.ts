@@ -12,6 +12,8 @@ import { FilterComponent } from './filter/filter.component';
 import { ModalComponent } from './modal/modal.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     HandleColorChangeDirective,
     FilterPipe,
     LengthPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    DragDropModule,
     CommonModule
   ]
 })
