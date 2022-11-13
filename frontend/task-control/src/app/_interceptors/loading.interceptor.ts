@@ -6,7 +6,7 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { delay, finalize } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
@@ -20,7 +20,6 @@ export class LoadingInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.store.dispatch(LoadingActions.startLoading());
     return next.handle(request).pipe(
-      delay(1000),
       finalize(() => {
         this.store.dispatch(LoadingActions.completeLoading());
       })
