@@ -14,7 +14,7 @@ export class HandleColorChangeDirective {
   ) {}
 
   @HostListener('focusout') handleFocusOut() {
-    const colorType = this.elementRef.nativeElement.attributes.getNamedItem('ng-reflect-name').value;
+    const colorType = this.elementRef.nativeElement.id;
     this.store.dispatch(
       BoardActions.setColumnColor({
         colorType,

@@ -9,7 +9,7 @@
       value="{{ color }}"
       [(ngModel)]="color"
       appHandleColorChange
-      name="{{ transformStatus() }}">
+      id="{{transformStatus()}}">
     <div class="add-task" (click)="openModal(status)"></div>
     <div
       id="{{ createContainerId(status) }}"

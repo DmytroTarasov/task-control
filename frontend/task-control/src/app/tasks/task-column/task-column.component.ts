@@ -60,6 +60,7 @@ export class TaskColumnComponent implements OnInit, OnDestroy {
   }
 
   transformStatus() {
+    // console.log(this.status.toLowerCase().split(' ').join('_') + '_color');
     return this.status.toLowerCase().split(' ').join('_') + '_color';
   }
 

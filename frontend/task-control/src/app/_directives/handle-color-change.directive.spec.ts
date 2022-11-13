@@ -9,7 +9,7 @@ import * as BoardActions from '../boards/store/board.actions';
 
 @Component({
   template: `
-    <input type="color" ng-reflect-name="colorType1" value="#000000" appHandleColorChange>
+    <input type="color" id="colorType1" value="#000000" appHandleColorChange>
   `
 })
 class TestColorChangeComponent {}

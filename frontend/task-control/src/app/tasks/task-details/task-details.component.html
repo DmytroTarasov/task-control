@@ -3,7 +3,7 @@
   <div class="task-content">
     <div>
       <h3>Details</h3>
-      <p>Status: {{ task.status }}</p>
+      <p class="task-status">Status: {{ task.status }}</p>
       <p>Created at: {{ task.created_at | date: "medium" }}</p>
       <p>Created by: {{ task.created_by.username }}</p>
       <p>Comments count: {{ task.comments.length }}</p>
