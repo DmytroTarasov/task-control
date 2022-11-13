@@ -4,7 +4,7 @@ export const createProfile = async (req, res, next) => {
     const { email, username, password } = req.body;
 
     authService().createProfile(email, username, password)
-        .then(() => res.status(200).json({ message: 'Profile was successfully created' }))
+        .then(() => res.status(200).json({ message: 'Profile was created successfully' }))
         .catch(err => next(err));
 }
 
