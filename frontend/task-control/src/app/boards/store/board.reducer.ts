@@ -51,15 +51,19 @@ export const boardReducer = createReducer(
       ...state.selectedBoard,
       tasks: [...state.selectedBoard.tasks, task],
     };
+    const selectedBoardIndex = state.boards?.findIndex(board => board._id === selectedBoardUpdated._id);
     return {
       ...state,
-      selectedBoard: selectedBoardUpdated,
+      boards: !state.boards ? state.boards : [
+        ...state.boards.slice(0, selectedBoardIndex),
+        selectedBoardUpdated,
+        ...state.boards.slice(selectedBoardIndex + 1)
+      ],
+      selectedBoard: selectedBoardUpdated
     };
   }),
   on(BoardActions.updateBoardTask, (state, { id, newName, newStatus }) => {
-    const taskToUpdate = state.selectedBoard.tasks.find(
-      (task) => task._id === id
-    );
+    const taskToUpdate = state.selectedBoard.tasks.find((task) => task._id === id);
     const updatedTask = {
       ...taskToUpdate,
       name: newName,
@@ -71,22 +75,34 @@ export const boardReducer = createReducer(
       tasks: [
         ...state.selectedBoard.tasks.slice(0, updatedTaskIndex),
         updatedTask,
-        ...state.selectedBoard.tasks.slice(updatedTaskIndex + 1),
-      ],
+        ...state.selectedBoard.tasks.slice(updatedTaskIndex + 1)
+      ]
     };
+    const selectedBoardIndex = state.boards?.findIndex(board => board._id === selectedBoardUpdated._id);
     return {
       ...state,
-      selectedBoard: selectedBoardUpdated,
+      boards: !state.boards ? state.boards : [
+        ...state.boards.slice(0, selectedBoardIndex),
+        selectedBoardUpdated,
+        ...state.boards.slice(selectedBoardIndex + 1)
+      ],
+      selectedBoard: selectedBoardUpdated
     };
   }),
   on(BoardActions.deleteBoardTask, (state, { id }) => {
     const selectedBoardUpdated = {
       ...state.selectedBoard,
-      tasks: [...state.selectedBoard.tasks.filter((task) => task._id !== id)],
+      tasks: [...state.selectedBoard.tasks.filter((task) => task._id !== id)]
     };
+    const selectedBoardIndex = state.boards?.findIndex(board => board._id === selectedBoardUpdated._id);
     return {
       ...state,
-      selectedBoard: selectedBoardUpdated,
+      boards: !state.boards ? state.boards : [
+        ...state.boards.slice(0, selectedBoardIndex),
+        selectedBoardUpdated,
+        ...state.boards.slice(selectedBoardIndex + 1)
+      ],
+      selectedBoard: selectedBoardUpdated
     };
   }),
   on(BoardActions.archiveBoardTask, (state, { id }) => {

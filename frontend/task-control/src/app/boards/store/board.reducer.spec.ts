@@ -85,24 +85,26 @@ describe('BoardReducer', () => {
       );
       expect(newState).toEqual({
         ...state,
-        selectedBoard: { ...board, done_color: 'black' },
+        selectedBoard: { ...board, done_color: 'black' }
       });
     });
   });
 
   describe('[Boards] Add Task To Board', () => {
     it('should add task to the selected board', () => {
-      const task = { name: 'task1', status: 'done', board: '1' };
+      const task = { name: 'task2', status: 'In Progress', board: '1', archived: false };
       const newState = performAction(
         state,
         BoardActions.addTaskToBoard({ task })
       );
+      const selectedBoard = {
+        ...board,
+        tasks: [...state.selectedBoard.tasks, task]
+      };
       expect(newState).toEqual({
         ...state,
-        selectedBoard: {
-          ...board,
-          tasks: [...state.selectedBoard.tasks, task],
-        },
+        selectedBoard,
+        boards: [selectedBoard]
       });
     });
   });
@@ -114,12 +116,14 @@ describe('BoardReducer', () => {
         BoardActions.updateBoardTask({
           id: task._id,
           newName: 'newTask1',
-          newStatus: task.status,
+          newStatus: task.status
         })
       );
+      const selectedBoard = { ...board, tasks: [{ ...task, name: 'newTask1' }] };
       expect(newState).toEqual({
         ...state,
-        selectedBoard: { ...board, tasks: [{ ...task, name: 'newTask1' }] },
+        boards: [selectedBoard],
+        selectedBoard
       });
     });
   });
@@ -130,9 +134,11 @@ describe('BoardReducer', () => {
         state,
         BoardActions.deleteBoardTask({ id: task._id })
       );
+      const selectedBoard = { ...board, tasks: [] };
       expect(newState).toEqual({
         ...state,
-        selectedBoard: { ...board, tasks: [] },
+        selectedBoard,
+        boards: [selectedBoard]
       });
     });
   });
@@ -145,7 +151,7 @@ describe('BoardReducer', () => {
       );
       expect(newState).toEqual({
         ...state,
-        selectedBoard: { ...board, tasks: [{ ...task, archived: true }] },
+        selectedBoard: { ...board, tasks: [{ ...task, archived: true }] }
       });
     });
   });
