@@ -27,7 +27,6 @@ export class BoardEffects {
             });
           }),
           map((boards) => {
-            // will be automatically dispatched by ngrx/effects
             return BoardActions.setBoards({ boards });
           })
         );

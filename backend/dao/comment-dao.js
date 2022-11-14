@@ -20,7 +20,6 @@ export default () => ({
     deleteComment: (id) => new Promise(async(resolve, reject) => {
         try {
             const comment = await Comment.findById(id).populate('task');
-            console.log(comment);
             const sess = await mongoose.startSession();
             sess.startTransaction();
             await comment.remove({ session: sess });
@@ -29,7 +28,6 @@ export default () => ({
             await sess.commitTransaction();
 
         } catch (err) {
-            console.log(err);
             return reject(new HttpError('DB error occured', 500));
         }
         return resolve();

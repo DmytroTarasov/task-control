@@ -28,10 +28,6 @@ export class TaskDetailsComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromApp.AppState>) {}
 
   ngOnInit(): void {
-    // this.storeSub = this.store
-    //   .select('tasks')
-    //   .pipe(map((tasksState) => tasksState.selectedTask))
-    //   .subscribe((task) => (this.task = task));
     this.storeSub = this.store
       .pipe(select(getSelectedTask))
       .subscribe((task) => (this.task = task));
